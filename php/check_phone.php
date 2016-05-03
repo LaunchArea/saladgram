@@ -23,15 +23,19 @@ if ($phone != null) {
     } else if (mysqli_num_rows($result) == 0) {
         mysqli_free_result($result);
         $memcache = memcache_connect($memcache_host, $memcache_port);
-        // generate random number
-        // set to memcache
-        memcache_set($memcache, $phone, 1234, 0, 180);
-        memcache_close($memcache);
-        // send sms
-        $array = array();
-        $array['success'] = true;
-        $array['message'] = "Verification message sent.";
-        print(json_encode($array));
+        if (!$memcache) {
+            http_response_code(500);
+        } else {
+            // generate random number
+            // set to memcache
+            memcache_set($memcache, $phone, 1234, 0, 180);
+            memcache_close($memcache);
+            // send sms
+            $array = array();
+            $array['success'] = true;
+            $array['message'] = "Verification message sent.";
+            print(json_encode($array));
+        }
     } else {
         mysqli_free_result($result);
         $array = array();
