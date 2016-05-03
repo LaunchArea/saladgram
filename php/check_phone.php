@@ -15,21 +15,28 @@ if (mysqli_connect_errno($db_conn)) {
     return;
 }
 
-$id = $_GET['id'];
-if ($id != null) {
-    $result = mysqli_query($db_conn, "select id from users where id = '$id'");
+$phone = $_GET['phone'];
+if ($phone != null) {
+    $result = mysqli_query($db_conn, "select phone from users where phone = '$phone'");
     if (!$result) {
         http_response_code(500);
     } else if (mysqli_num_rows($result) == 0) {
         mysqli_free_result($result);
+        $memcache = memcache_connect($memcache_host, $memcache_port);
+        // generate random number
+        // set to memcache
+        memcache_set($memcache, $phone, 1234, 0, 180);
+        memcache_close($memcache);
+        // send sms
         $array = array();
         $array['success'] = true;
+        $array['message'] = "Verification message sent.";
         print(json_encode($array));
     } else {
         mysqli_free_result($result);
         $array = array();
         $array['success'] = false;
-        $array['message'] = "ID already exists.";
+        $array['message'] = "Phone number already exists.";
         print(json_encode($array));
     }
 
