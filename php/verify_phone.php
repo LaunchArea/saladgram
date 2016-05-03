@@ -23,6 +23,7 @@ if ($phone != null && $key != null) {
             $array['message'] = "Invalid verification key for $phone.";
             print(json_encode($array));
         } else {
+            memcache_delete($memcache, $phone);
             $expire = time() + 60 * 60;
             $token = array(
                 "phone" => $phone,
