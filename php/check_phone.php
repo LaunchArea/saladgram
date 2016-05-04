@@ -6,6 +6,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method != "GET") {
     http_response_code(405); // Method Not Allowed
+    return;
 }
 
 $db_conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);

@@ -7,6 +7,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 if ($method != "GET") {
     http_response_code(405); // Method Not Allowed
+    return;
 }
 
 $phone = $_GET['phone'];
