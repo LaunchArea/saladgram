@@ -15,6 +15,11 @@ if (mysqli_connect_errno($db_conn)) {
     return;
 }
 
+if (!$db_conn->set_charset("utf8")) {
+    http_response_code(500);
+    return;
+}
+
 $id = $_GET['id'];
 if ($id != null) {
     $result = mysqli_query($db_conn, "select id from users where id = '$id'");
