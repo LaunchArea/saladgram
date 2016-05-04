@@ -24,10 +24,10 @@ if ($phone != null && $key != null) {
             print(json_encode($array));
         } else {
             memcache_delete($memcache, $phone);
-            $expire = time() + 60 * 60;
+            $exp = time() + 60 * 60; // 1 hour expiration period for phone verification token
             $token = array(
                 "phone" => $phone,
-                "expire" => $expire
+                "exp" => $exp
             );
             $array = array();
             $array['success'] = true;
