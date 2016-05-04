@@ -54,6 +54,7 @@ if (!$result) {
         $array['success'] = false;
         $array['message'] = "Invalid ID or password.";
         print(json_encode($array));
+        http_response_code(401); // Unauthorized
     } else {
         $row = mysqli_fetch_array($result);
         if (password_verify($password, $row['password'])) {
@@ -71,6 +72,7 @@ if (!$result) {
             $array['success'] = false;
             $array['message'] = "Invalid ID or password.";
             print(json_encode($array));
+            http_response_code(401); // Unauthorized
         }
     }
     mysqli_free_result($result);
