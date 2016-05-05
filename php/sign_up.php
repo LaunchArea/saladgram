@@ -75,7 +75,6 @@ if (!$result) {
     $array = array();
     $array['success'] = true;
     print(json_encode($array));
-    mysqli_free_result($result);
 }
 
 mysqli_close($db_conn);

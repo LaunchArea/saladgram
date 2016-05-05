@@ -22,32 +22,8 @@ if (!$data) {
 
 $id = "";
 if (array_key_exists('id', $data) &&
-    array_key_exists('phone', $data) &&
-    array_key_exists('key', $data) &&
-    array_key_exists('password', $data)) {
-    // find password
-    $memcache = memcache_connect($memcache_host, $memcache_port);
-    if (!$memcache) {
-        http_response_code(500);
-        return;
-    }
-    $id = $data['id'];
-    $phone = $data['phone'];
-    $key = $data['key'];
-    $value = memcache_get($memcache, $id.$phone);
-    if (!$value || $value != $key) {
-        $array = array();
-        $array['success'] = false;
-        $array['message'] = "Invalid verification key for $id : $phone.";
-        print(json_encode($array));
-        http_response_code(401); // Unauthorized
-        return;
-    }
-    memcache_delete($memcache, $id.$phone);
-} else if (array_key_exists('id', $data) &&
-    array_key_exists('password', $data) &&
+    array_key_exists('addr', $data) &&
     array_key_exists('jwt', $data)) {
-    // change password
     $id = $data['id'];
     $jwt = $data['jwt'];
     try {
@@ -79,10 +55,9 @@ if (!$db_conn->set_charset("utf8")) {
     return;
 }
 
-$password = $data['password'];
-$hash = password_hash($password, PASSWORD_DEFAULT);
+$addr = $data['addr'];
 
-$query = "update users set password='$hash' where id = '$id'";
+$query = "update users set addr='$addr' where id = '$id'";
 $result = mysqli_query($db_conn, "$query");
 if (!$result) {
     $array = array();
@@ -93,7 +68,7 @@ if (!$result) {
 } else {
     $array = array();
     $array['success'] = true;
-    $array['message'] = "Password changed succesfully.";
+    $array['message'] = "Address changed succesfully.";
     print(json_encode($array));
 }
 
