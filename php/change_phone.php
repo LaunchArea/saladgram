@@ -27,6 +27,10 @@ if (array_key_exists('id', $data) &&
     array_key_exists('phone', $data) &&
     array_key_exists('key', $data)) {
 
+    $id = $data['id'];
+    $phone = $data['phone'];
+    $key = $data['key'];
+
     if ($jwt == null) {
         http_response_code(401); // Unauthorized
         return;
@@ -50,9 +54,6 @@ if (array_key_exists('id', $data) &&
         http_response_code(500);
         return;
     }
-    $id = $data['id'];
-    $phone = $data['phone'];
-    $key = $data['key'];
 
     $value = memcache_get($memcache, $phone);
     if (!$value || $value != $key) {
