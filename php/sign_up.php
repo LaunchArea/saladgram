@@ -11,6 +11,8 @@ if ($method != "POST") {
     return;
 }
 
+$jwt = $_SERVER['HTTP_JWT'];
+
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);
 
@@ -23,8 +25,7 @@ if (!array_key_exists('id', $data) ||
     !array_key_exists('phone', $data) ||
     !array_key_exists('password', $data) ||
     !array_key_exists('name', $data) ||
-    !array_key_exists('addr', $data) ||
-    !array_key_exists('jwt', $data)) {
+    !array_key_exists('addr', $data)) {
     http_response_code(400); // Bad Request
     return;
 }
@@ -35,8 +36,11 @@ $phone = $data['phone'];
 $password = $data['password'];
 $name = $data['name'];
 $addr = $data['addr'];
-$jwt = $data['jwt'];
 
+if ($jwt == null) {
+    http_response_code(401); // Unauthorized
+    return;
+}
 try {
     $decoded = JWT::decode($jwt, $jwt_secret, array('HS256'));
     if ($phone != $decoded->phone) {

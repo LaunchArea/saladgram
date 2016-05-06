@@ -11,6 +11,7 @@ if ($method != "POST") {
     return;
 }
 
+$jwt = $_SERVER['HTTP_JWT'];
 
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);
@@ -45,11 +46,13 @@ if (array_key_exists('id', $data) &&
     }
     memcache_delete($memcache, $id.$phone);
 } else if (array_key_exists('id', $data) &&
-    array_key_exists('password', $data) &&
-    array_key_exists('jwt', $data)) {
+    array_key_exists('password', $data)) {
     // change password
     $id = $data['id'];
-    $jwt = $data['jwt'];
+    if ($jwt == null) {
+        http_response_code(401); // Unauthorized
+        return;
+    }
     try {
         $decoded = JWT::decode($jwt, $jwt_secret, array('HS256'));
         if ($id != $decoded->id) {

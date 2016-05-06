@@ -11,6 +11,7 @@ if ($method != "POST") {
     return;
 }
 
+$jwt = $_SERVER['HTTP_JWT'];
 
 $body = file_get_contents("php://input");
 $data = json_decode($body, true);
@@ -24,28 +25,12 @@ $id = "";
 $phone = "";
 if (array_key_exists('id', $data) &&
     array_key_exists('phone', $data) &&
-    array_key_exists('key', $data) &&
-    array_key_exists('jwt', $data)) {
-    $memcache = memcache_connect($memcache_host, $memcache_port);
-    if (!$memcache) {
-        http_response_code(500);
-        return;
-    }
-    $id = $data['id'];
-    $phone = $data['phone'];
-    $key = $data['key'];
-    $jwt = $data['jwt'];
+    array_key_exists('key', $data)) {
 
-    $value = memcache_get($memcache, $phone);
-    if (!$value || $value != $key) {
-        $array = array();
-        $array['success'] = false;
-        $array['message'] = "Invalid verification key for $phone.";
-        print(json_encode($array));
+    if ($jwt == null) {
         http_response_code(401); // Unauthorized
         return;
     }
-    memcache_delete($memcache, $phone);
     try {
         $decoded = JWT::decode($jwt, $jwt_secret, array('HS256'));
         if ($id != $decoded->id) {
@@ -59,6 +44,26 @@ if (array_key_exists('id', $data) &&
         http_response_code(401); // Unauthorized
         return;
     }
+
+    $memcache = memcache_connect($memcache_host, $memcache_port);
+    if (!$memcache) {
+        http_response_code(500);
+        return;
+    }
+    $id = $data['id'];
+    $phone = $data['phone'];
+    $key = $data['key'];
+
+    $value = memcache_get($memcache, $phone);
+    if (!$value || $value != $key) {
+        $array = array();
+        $array['success'] = false;
+        $array['message'] = "Invalid verification key for $phone.";
+        print(json_encode($array));
+        http_response_code(401); // Unauthorized
+        return;
+    }
+    memcache_delete($memcache, $phone);
 } else {
     http_response_code(400); // Bad Request
     return;
