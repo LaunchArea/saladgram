@@ -65,15 +65,18 @@ create table salads (
 
 create table salad_items (
     item_id int not null,
+    type int not null,
     name varchar(32) not null,
     description text not null,
+    image varchar(64) not null,
     amount1 int,
     amount2 int,
     amount3 int,
     amount4 int,
     calorie int not null,
     price int not null,
-    available boolean not null
+    available boolean not null,
+    hide boolean not null
 );
 
 create table small_menus (
@@ -130,4 +133,13 @@ reward types {
     2: reward_use,
     3: reward,
     4: cancel
+}
+
+salad_item types {
+    1: bases,
+    2: vegetables,
+    3: fruits,
+    4: proteins,
+    5: others,
+    6: dressings
 }
