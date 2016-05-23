@@ -8,18 +8,126 @@ create table users (
 );
 
 create table orders (
+    order_id int not null auto_increment,
+    type int not null,
+    id varchar(32),
+    phone varchar(16),
+    addr varchar(128),
+    total_price int not null,
+    discount int not null,
+    reward_use int not null,
+    actual_price int not null,
+    payment_type int not null,
+    paid int not null,
+    time int not null,
+    status int not null,
+    primary key (order_id)
+);
+
+create table order_items (
+    order_id int not null,
+    type int not null,
+    item_id int not null,
+    salad_items text,
+    quantity int not null,
+    price int not null,
+    calorie int not null,
+    time int not null,
+    canceled boolean not null
+);
+
+create table diet (
+    id varchar(32) not null,
+    time int not null,
+    mon text,
+    tue text,
+    wed text,
+    thur text,
+    fri text
+);
+
+create table rewards (
+    id varchar(32) not null,
+    order_id int,
+    type int not null,
+    amount int not null
 );
 
 create table salads (
+    item_id int not null,
+    name varchar(32) not null,
+    description text not null,
+    salad_items text not null,
+    calorie int not null,
+    price int not null,
+    available boolean not null
 );
 
 create table salad_items (
+    item_id int not null,
+    name varchar(32) not null,
+    description text not null,
+    amount1 int,
+    amount2 int,
+    amount3 int,
+    amount4 int,
+    calorie int not null,
+    price int not null,
+    available boolean not null
 );
 
 create table small_menus (
+    item_id int not null,
+    name varchar(32) not null,
+    description text not null,
+    amount1 int,
+    amount2 int,
+    calorie int not null,
+    price int not null,
+    available boolean not null
 );
 
 create table beverages (
+    item_id int not null,
+    name varchar(32) not null,
+    description text not null,
+    amount int,
+    calorie int not null,
+    price int not null,
+    available boolean not null
 );
 
+order_item types {
+    1: salad,
+    2: small_menu,
+    3: beverage
+}
 
+order types {
+    1: pick_up,
+    2: delivery,
+    3: subscribe,
+    4: dine_in,
+    5: take_out
+}
+
+payment_type types {
+    1: card,
+    2: cash,
+    3: deliver_card,
+    4: deliver_cash,
+    5: reward
+}
+
+status types {
+    1: done,
+    2: ready,
+    3: todo
+}
+
+reward types {
+    1: event,
+    2: reward_use,
+    3: reward,
+    4: cancel
+}
