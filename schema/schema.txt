@@ -9,7 +9,7 @@ create table users (
 
 create table orders (
     order_id int not null auto_increment,
-    subscribe_id int,
+    subscription_id int,
     deliverer_id varchar(32),
     type int not null,
     id varchar(32),
@@ -28,23 +28,26 @@ create table orders (
 
 create table order_items (
     order_id int not null,
+    id varchar(32),
     type int not null,
     item_id int not null,
     salad_items text,
     quantity int not null,
     price int not null,
-    calorie int not null,
-    canceled boolean not null
+    calorie int not null
 );
 
-create table diet (
+create table subscriptions (
     id varchar(32) not null,
+    subscription_id int not null auto_increment,
     time int not null,
+    weeks int not null,
     mon text,
     tue text,
     wed text,
     thur text,
-    fri text
+    fri text,
+    primary key (subscription_id)
 );
 
 create table rewards (
@@ -63,7 +66,8 @@ create table salads (
     salad_items text not null,
     calorie int not null,
     price int not null,
-    available boolean not null
+    available boolean not null,
+    hide boolean not null
 );
 
 create table salad_items (
@@ -71,7 +75,7 @@ create table salad_items (
     type int not null,
     name varchar(32) not null,
     description text not null,
-    image varchar(64) not null,
+    thumbnail varchar(64) not null,
     amount1 int,
     amount2 int,
     amount3 int,
@@ -83,31 +87,46 @@ create table salad_items (
     hide boolean not null
 );
 
-create table small_menus (
+create table soups (
     item_id int not null,
     name varchar(32) not null,
     description text not null,
-    amount1 int,
-    amount2 int,
+    image varchar(64) not null,
+    thumbnail varchar(64) not null,
     calorie int not null,
     price int not null,
-    available boolean not null
+    available boolean not null,
+    hide boolean not null
+);
+
+create table others (
+    item_id int not null,
+    name varchar(32) not null,
+    description text not null,
+    image varchar(64) not null,
+    thumbnail varchar(64) not null,
+    calorie int not null,
+    price int not null,
+    available boolean not null,
+    hide boolean not null
 );
 
 create table beverages (
     item_id int not null,
     name varchar(32) not null,
     description text not null,
-    amount int,
+    thumbnail varchar(64) not null,
     calorie int not null,
     price int not null,
-    available boolean not null
+    available boolean not null,
+    hide boolean not null
 );
 
 order_item types {
     1: salad,
-    2: small_menu,
-    3: beverage
+    2: soups,
+    4: others,
+    3: beverages
 }
 
 order types {
@@ -130,7 +149,8 @@ status types {
     1: done,
     2: shipping,
     3: ready,
-    4: todo
+    4: todo,
+    5: canceled
 }
 
 reward types {
