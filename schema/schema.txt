@@ -55,9 +55,11 @@ create table rewards (
 );
 
 create table salads (
-    item_id int not null,
+    item_id int not null unique,
     name varchar(32) not null,
     description text not null,
+    image varchar(64) not null,
+    thumbnail varchar(64) not null,
     salad_items text not null,
     calorie int not null,
     price int not null,
@@ -65,7 +67,7 @@ create table salads (
 );
 
 create table salad_items (
-    item_id int not null,
+    item_id int not null unique,
     type int not null,
     name varchar(32) not null,
     description text not null,
@@ -74,6 +76,7 @@ create table salad_items (
     amount2 int,
     amount3 int,
     amount4 int,
+    unit varchar(16) not null,
     calorie int not null,
     price int not null,
     available boolean not null,
