@@ -9,6 +9,8 @@ create table users (
 
 create table orders (
     order_id int not null auto_increment,
+    subscribe_id,
+    deliverer id,
     type int not null,
     id varchar(32),
     phone varchar(16),
@@ -32,7 +34,6 @@ create table order_items (
     quantity int not null,
     price int not null,
     calorie int not null,
-    time int not null,
     canceled boolean not null
 );
 
@@ -124,8 +125,9 @@ payment_type types {
 
 status types {
     1: done,
-    2: ready,
-    3: todo
+    2: shipping,
+    3: ready,
+    4: todo
 }
 
 reward types {
