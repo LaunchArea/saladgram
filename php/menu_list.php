@@ -70,8 +70,15 @@ if (!$result) {
             $item['type'] = $salad_items[(int)$item['item_id']]['type'];
         }
         $array['salad_items'] = $items;
-        $array['calorie'] = (int)$row['calorie'];
-        $array['price'] = (int)$row['price'];
+        if ($row['amount']) {
+            $array['amount'] = $row['amount'];
+        }
+        if ($row['calorie']) {
+            $array['calorie'] = (int)$row['calorie'];
+        }
+        if ($row['price']) {
+            $array['price'] = (int)$row['price'];
+        }
         $array['available'] = (int)$row['available'];
         $array['hide'] = (int)$row['hide'];
         $salads[] = $array;
@@ -94,6 +101,7 @@ if (!$result) {
         $array['description'] = $row['description'];
         $array['image'] = $row['image'];
         $array['thumbnail'] = $row['thumbnail'];
+        $array['amount'] = $row['amount'];
         $array['calorie'] = (int)$row['calorie'];
         $array['price'] = (int)$row['price'];
         $array['available'] = (int)$row['available'];
@@ -118,6 +126,7 @@ if (!$result) {
         $array['description'] = $row['description'];
         $array['image'] = $row['image'];
         $array['thumbnail'] = $row['thumbnail'];
+        $array['amount'] = $row['amount'];
         $array['calorie'] = (int)$row['calorie'];
         $array['price'] = (int)$row['price'];
         $array['available'] = (int)$row['available'];
@@ -142,6 +151,7 @@ if (!$result) {
         $array['description'] = $row['description'];
         $array['image'] = $row['image'];
         $array['thumbnail'] = $row['thumbnail'];
+        $array['amount'] = $row['amount'];
         $array['calorie'] = (int)$row['calorie'];
         $array['price'] = (int)$row['price'];
         $array['available'] = (int)$row['available'];
