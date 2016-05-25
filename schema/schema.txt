@@ -21,7 +21,8 @@ create table orders (
     actual_price int not null,
     payment_type int not null,
     paid int not null,
-    time int not null,
+    order_time int not null,
+    reservation_time int not null,
     status int not null,
     primary key (order_id)
 );
@@ -64,8 +65,9 @@ create table salads (
     image varchar(64) not null,
     thumbnail varchar(64) not null,
     salad_items text not null,
-    calorie int not null,
-    price int not null,
+    amount varchar(16),
+    calorie int,
+    price int,
     available boolean not null,
     hide boolean not null
 );
@@ -94,6 +96,7 @@ create table soups (
     description text not null,
     image varchar(64) not null,
     thumbnail varchar(64) not null,
+    amount varchar(16) not null,
     calorie int not null,
     price int not null,
     available boolean not null,
@@ -106,6 +109,7 @@ create table others (
     description text not null,
     image varchar(64) not null,
     thumbnail varchar(64) not null,
+    amount varchar(16) not null,
     calorie int not null,
     price int not null,
     available boolean not null,
@@ -118,6 +122,7 @@ create table beverages (
     description text not null,
     image varchar(64) not null,
     thumbnail varchar(64) not null,
+    amount varchar(16) not null,
     calorie int not null,
     price int not null,
     available boolean not null,
@@ -144,14 +149,15 @@ payment_type types {
     2: cash,
     3: deliver_card,
     4: deliver_cash,
-    5: reward
+    5: pick_up,
+    6: reward_only
 }
 
 status types {
-    1: done,
-    2: shipping,
-    3: ready,
-    4: todo,
+    1: todo,
+    2: ready,
+    3: shipping,
+    4: done,
     5: canceled
 }
 
