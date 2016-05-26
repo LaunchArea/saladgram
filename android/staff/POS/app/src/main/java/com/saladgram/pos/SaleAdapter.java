@@ -28,7 +28,9 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SimpleViewHold
         private final TextView price;
         private final TextView takeout;
         private final TextView amount;
+
         private final RecyclerViewClickListener mListener;
+        private final TextView quantity;
 
 
         public SimpleViewHolder(View view, RecyclerViewClickListener listener) {
@@ -37,6 +39,7 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SimpleViewHold
             price = (TextView) view.findViewById(R.id.price);
             takeout = (TextView) view.findViewById(R.id.takeout);
             amount = (TextView) view.findViewById(R.id.amount);
+            quantity = (TextView) view.findViewById(R.id.quantity);
             mListener = listener;
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
@@ -79,6 +82,12 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SimpleViewHold
             holder.amount.setVisibility(View.VISIBLE);
         } else {
             holder.amount.setVisibility(View.GONE);
+        }
+        if (item.quantity > 1) {
+            holder.quantity.setText("x " + String.valueOf(item.quantity));
+            holder.quantity.setVisibility(View.VISIBLE);
+        } else {
+            holder.quantity.setVisibility(View.GONE);
         }
     }
 

@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class MenuItem {
 
 
-    enum Type {SALAD, SOUP, OTHER, BEVERAGE, NONE}
+    enum Type {SALAD, SOUP, OTHER, BEVERAGE}
 
     String name;
     int price;

@@ -8,10 +8,13 @@ public class SaleItem {
     MenuItem menuItem;
     boolean takeout = false;
     int amount = 0;
+    public int quantity = 1;
 
     public int getPrice() {
         if(amount > 0) {
             return (int) (((double)amount/100) * PRICE_PER_AMOUNT);
+        } else if (quantity > 1) {
+            return menuItem.price * quantity;
         } else {
             return menuItem.price;
         }
