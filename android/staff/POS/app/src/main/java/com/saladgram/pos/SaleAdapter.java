@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * @author Gabriele Mariotti (gabri.mariotti@gmail.com)
  */
-public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.SimpleViewHolder> {
+public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SimpleViewHolder> {
 
     private final Context mContext;
     private final RecyclerViewClickListener mListener;
@@ -26,14 +26,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.SimpleViewHold
     public static class SimpleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public final TextView name;
         private final TextView price;
-        private final View na;
         private final RecyclerViewClickListener mListener;
 
         public SimpleViewHolder(View view, RecyclerViewClickListener listener) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
             price = (TextView) view.findViewById(R.id.price);
-            na = view.findViewById(R.id.not_available);
             mListener = listener;
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
@@ -55,13 +53,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.SimpleViewHold
         }
     }
 
-    public MenuAdapter(Context context, RecyclerViewClickListener listner) {
+    public SaleAdapter(Context context, RecyclerViewClickListener listner) {
         mContext = context;
         mListener = listner;
     }
 
     public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(mContext).inflate(R.layout.menu_item, parent, false);
+        final View view = LayoutInflater.from(mContext).inflate(R.layout.sale_item, parent, false);
         return new SimpleViewHolder(view, mListener);
     }
 
@@ -70,7 +68,6 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.SimpleViewHold
         MenuItem item = mList.get(position);
         holder.name.setText(item.name);
         holder.price.setText(String.valueOf(item.price));
-        holder.na.setVisibility(!item.available ? View.VISIBLE : View.GONE);
     }
 
     @Override

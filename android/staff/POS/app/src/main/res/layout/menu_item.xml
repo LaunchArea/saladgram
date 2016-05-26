@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.saladgram.pos.SquareFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="60dp"
     android:background="@color/colorPrimaryDark"
     >
     <RelativeLayout
         android:gravity="center"
         android:background="@color/white"
-        android:layout_marginRight="1dp"
-        android:layout_marginBottom="1dp"
+        android:layout_margin="1dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
@@ -36,4 +35,4 @@
             android:text="NA"
             />
     </RelativeLayout>
-</com.saladgram.pos.SquareFrameLayout>
+</FrameLayout>
