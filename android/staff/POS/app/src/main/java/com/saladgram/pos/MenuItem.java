@@ -11,6 +11,7 @@ public class MenuItem {
     int price;
     Type type;
     public boolean available;
+    public String amount;
     HashMap<String, Object> data;
 
     boolean checkToGo = false;

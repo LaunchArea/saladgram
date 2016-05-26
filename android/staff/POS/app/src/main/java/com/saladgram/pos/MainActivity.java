@@ -35,11 +35,12 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
 
+    private static final int BUTTONS_PER_ROW = 6;
     private RecyclerView mMenuRecyclerView;
     private MenuAdapter mMenuAdapter;
     private List<MenuItem> mMenuList = new LinkedList<MenuItem>();
     private List<Integer> mSectionPositions = new LinkedList<Integer>();
-    private List<MenuItem> mSaleList = new LinkedList<MenuItem>();
+    private List<SaleItem> mSaleList = new LinkedList<SaleItem>();
     private RecyclerView mSaleRecyclerView;
     private RecyclerViewClickListener mMenuClickListener;
     private RecyclerViewClickListener mSaleClickListener;
@@ -60,21 +61,28 @@ public class MainActivity extends AppCompatActivity {
         refreshSaleAmount();
     }
 
+    void addSaleItem(SaleItem saleItem) {
+        mSaleList.add(saleItem);
+        mSaleAdapter.notifyDataSetChanged();
+        refreshSaleAmount();
+        mSaleRecyclerView.scrollToPosition(mSaleList.size()-1);
+    }
+
+
     private void initListeners() {
         mMenuClickListener = new RecyclerViewClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 MenuItem item = mMenuList.get(getItemPosition(position));
-                if (item.checkToGo) {
-
-                } else if (item.checkWeight) {
-
+                SaleItem saleItem = new SaleItem();
+                saleItem.menuItem = item;
+                if (item.checkWeight) {
+                    checkWeight(saleItem);
+                } else if (item.checkToGo) {
+                    checkToGo(saleItem);
                 } else {
-                    mSaleList.add(item);
-                    mSaleAdapter.notifyDataSetChanged();
+                    addSaleItem(saleItem);
                 }
-                refreshSaleAmount();
-                mSaleRecyclerView.scrollToPosition(mSaleList.size()-1);
             }
 
             @Override
@@ -164,7 +172,6 @@ public class MainActivity extends AppCompatActivity {
                 if(input.getText().length() > 0) {
                     mCashReceived = Integer.parseInt(input.getText().toString());
                     findViewById(R.id.complete).setEnabled(true);
-
                     refreshSaleAmount();
                 }
             }
@@ -201,6 +208,46 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
+    private void checkToGo(final SaleItem saleItem) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("드시고가세요?");
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                addSaleItem(saleItem);
+            }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                saleItem.takeout = true;
+                addSaleItem(saleItem);
+            }
+        });
+        alert.show();
+    }
+
+    private void checkWeight(final SaleItem saleItem) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("무게 입력 (단위:g)");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setRawInputType(Configuration.KEYBOARD_12KEY);
+        alert.setView(input);
+        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //Put actions for OK button here
+                if(input.getText().length() > 0) {
+                    saleItem.amount = Integer.parseInt(input.getText().toString());
+                    addSaleItem(saleItem);
+                }
+            }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+        alert.show();
+    }
+
     private void placeOrder() {
         mSaleList.clear();
         mSaleAdapter.notifyDataSetChanged();
@@ -221,8 +268,8 @@ public class MainActivity extends AppCompatActivity {
         int total = 0;
         int change = -1;
 
-        for(MenuItem each : mSaleList) {
-            subtotal += each.price;
+        for(SaleItem each : mSaleList) {
+            subtotal += each.getPrice();
         }
 
         total = (int) (subtotal * ( 1 - mDiscount/100));
@@ -291,12 +338,16 @@ public class MainActivity extends AppCompatActivity {
 
         private void buildMenuList(ArrayList<HashMap<String, Object>> list, MenuItem.Type type) {
             for(HashMap<String, Object> each : list) {
+//                if (each.containsKey("hide") && ((Double)each.get("hide")).intValue() == 1) {
+//                    continue;
+//                }
                 MenuItem item = new MenuItem();
                 item.data = each;
                 item.name = (String) each.get("name");
                 item.price = each.containsKey("price") ? ((Double)each.get("price")).intValue() : -1;
                 item.available = ((Double)each.get("available")).intValue() == 1;
                 item.type = type;
+                item.amount = (String) each.get("amount");
 
                 item.checkToGo = (type == MenuItem.Type.SALAD);
                 item.checkWeight = (item.price == -1);
@@ -310,7 +361,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Your RecyclerView
         mMenuRecyclerView = (RecyclerView) getActivity().findViewById(R.id.menu_list);
-        mMenuRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
+        mMenuRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), BUTTONS_PER_ROW));
 
         //Your RecyclerView.Adapter
         mMenuAdapter = new MenuAdapter(getActivity(), mMenuClickListener);

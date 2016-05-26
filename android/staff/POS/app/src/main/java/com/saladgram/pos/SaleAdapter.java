@@ -16,9 +16,9 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SimpleViewHold
 
     private final Context mContext;
     private final RecyclerViewClickListener mListener;
-    private List<MenuItem> mList;
+    private List<SaleItem> mList;
 
-    public void setList(List<MenuItem> list) {
+    public void setList(List<SaleItem> list) {
         this.mList = list;
     }
 
@@ -26,12 +26,17 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SimpleViewHold
     public static class SimpleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         public final TextView name;
         private final TextView price;
+        private final TextView takeout;
+        private final TextView amount;
         private final RecyclerViewClickListener mListener;
+
 
         public SimpleViewHolder(View view, RecyclerViewClickListener listener) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
             price = (TextView) view.findViewById(R.id.price);
+            takeout = (TextView) view.findViewById(R.id.takeout);
+            amount = (TextView) view.findViewById(R.id.amount);
             mListener = listener;
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
@@ -65,9 +70,16 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SimpleViewHold
 
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
-        MenuItem item = mList.get(position);
-        holder.name.setText(item.name);
-        holder.price.setText(String.valueOf(item.price));
+        SaleItem item = mList.get(position);
+        holder.name.setText(item.menuItem.name);
+        holder.price.setText(String.valueOf(item.getPrice())+"원");
+        holder.takeout.setVisibility(item.takeout?View.VISIBLE:View.GONE);
+        if (item.amount > 0) {
+            holder.amount.setText(String.valueOf(item.amount) + "g");
+            holder.amount.setVisibility(View.VISIBLE);
+        } else {
+            holder.amount.setVisibility(View.GONE);
+        }
     }
 
     @Override

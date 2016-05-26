@@ -28,12 +28,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.SimpleViewHold
         private final TextView price;
         private final View na;
         private final RecyclerViewClickListener mListener;
+        private final TextView amount;
 
         public SimpleViewHolder(View view, RecyclerViewClickListener listener) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
             price = (TextView) view.findViewById(R.id.price);
             na = view.findViewById(R.id.not_available);
+            amount = (TextView) view.findViewById(R.id.amount);
             mListener = listener;
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
@@ -69,8 +71,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.SimpleViewHold
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         MenuItem item = mList.get(position);
         holder.name.setText(item.name);
-        holder.price.setText(String.valueOf(item.price));
+        holder.price.setText(String.valueOf(item.price)+"원");
         holder.na.setVisibility(!item.available ? View.VISIBLE : View.GONE);
+        holder.amount.setText(item.amount);
     }
 
     @Override
