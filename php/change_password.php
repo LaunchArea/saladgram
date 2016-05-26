@@ -6,6 +6,10 @@ use \Firebase\JWT\ExpiredException;
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+if ($method == "OPTIONS") {
+    return;
+}
+
 if ($method != "POST") {
     http_response_code(405); // Method Not Allowed
     return;
