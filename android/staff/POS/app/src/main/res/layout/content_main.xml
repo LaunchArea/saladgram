@@ -9,27 +9,25 @@
     tools:context="com.saladgram.pos.MainActivity"
     android:visibility="gone"
     android:orientation="horizontal"
-    android:weightSum="2"
+    android:weightSum="5"
     tools:showIn="@layout/activity_main">
 
     <RelativeLayout
         android:id="@+id/left_pannel"
         android:background="@android:color/holo_red_dark"
         android:layout_width="1dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:layout_height="match_parent">
 
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/right_pannel"
-        android:background="@android:color/holo_blue_dark"
         android:layout_width="1dp"
-        android:layout_weight="1"
+        android:layout_weight="3"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/menu_list"
-            android:background="@android:color/holo_green_dark"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
