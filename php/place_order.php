@@ -79,19 +79,62 @@ if (!$db_conn->set_charset("utf8")) {
     return;
 }
 
-$result = mysqli_query($db_conn, "$query");
+if (!$db_conn->autocommit(false)) {
+    http_response_code(500);
+    return;
+}
+
+$result = mysqli_query($db_conn, $query);
 if (!$result) {
     $array = array();
     $array['success'] = false;
     $array['message'] = mysqli_error($db_conn);
     print(json_encode($array));
     http_response_code(500);
-} else {
-    $array = array();
-    $array['success'] = true;
-    $array['message'] = "Order placed succesfully.";
-    print(json_encode($array));
+    return;
 }
+
+$order_id = $db_conn->insert_id;
+$order_items = $data['order_items'];
+foreach ($order_items as &$item) {
+    $type = $item['type'];
+    $item_id = $item['item_id'];
+    $salad_items = json_encode($item['salad_items']);
+    $quantity = $item['quantity'];
+    $price = $item['price'];
+    $calorie = $item['calorie'];
+
+    $query = "insert into order_items values($order_id, '$id', $type, $item_id, ";
+    if ($type == 1) {
+        $query = $query."'$salad_items', ";
+    } else {
+        $query = $query."NULL, ";
+    }
+    $query = $query." $quantity, $price, $calorie)";
+    $result = mysqli_query($db_conn, $query);
+    if (!$result) {
+        $array = array();
+        $array['success'] = false;
+        $array['message'] = mysqli_error($db_conn);
+        print(json_encode($array));
+        http_response_code(500);
+        return;
+    }
+}
+
+if (!mysqli_commit($db_conn)) {
+    $array = array();
+    $array['success'] = false;
+    $array['message'] = mysqli_error($db_conn);
+    print(json_encode($array));
+    http_response_code(500);
+    return;
+}
+
+$array = array();
+$array['success'] = true;
+$array['message'] = "Order placed succesfully.";
+print(json_encode($array));
 
 mysqli_close($db_conn);
 
