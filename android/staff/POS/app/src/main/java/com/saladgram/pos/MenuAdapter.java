@@ -71,7 +71,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.SimpleViewHold
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         MenuItem item = mList.get(position);
         holder.name.setText(item.name);
-        holder.price.setText(String.valueOf(item.price)+"원");
+        if(item.price == -1) {
+            holder.price.setVisibility(View.GONE);
+        } else {
+            holder.price.setText(String.valueOf(item.price) + "원");
+            holder.price.setVisibility(View.VISIBLE);
+        }
         holder.na.setVisibility(!item.available ? View.VISIBLE : View.GONE);
         holder.amount.setText(item.amount);
     }

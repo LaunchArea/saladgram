@@ -177,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
         alert.setTitle("카드결제 진행");
         alert.setPositiveButton("완료", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
+                mPaymentType = PaymentType.CARD;
                 findViewById(R.id.complete).setEnabled(true);
 
                 refreshSaleAmount();
@@ -197,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Put actions for OK button here
                 if(input.getText().length() > 0) {
+                    mPaymentType = PaymentType.CASH;
                     mCashReceived = Integer.parseInt(input.getText().toString());
                     findViewById(R.id.complete).setEnabled(true);
                     refreshSaleAmount();
@@ -384,8 +386,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONObject signInJson = new JSONObject();
 
-                signInJson.put("id","real3333");
-                signInJson.put("password", "1234");
+                signInJson.put("id","saladgram");
+                signInJson.put("password", "saladgram");
                 RequestBody body = RequestBody.create(JSON, signInJson.toString());
 
                 String url = "https://saladgram.com/api/sign_in.php";
@@ -400,20 +402,23 @@ public class MainActivity extends AppCompatActivity {
                     return response.code();
                 }
                 String jwt = new JSONObject(response.body().string()).getString("jwt");
-                JSONObject orderJson = new JSONObject();
 
-                orderJson.put("type", 1);
-                orderJson.put("id", "real3333");
-                orderJson.put("total_price", mSubTotal);
-                orderJson.put("discount", (int)mDiscount);
-                orderJson.put("reward_use", mPoint);
-                orderJson.put("payment_type", mPaymentType == PaymentType.CARD ? 1 : 2);
-                orderJson.put("order_time", System.currentTimeMillis()/1000);
-                orderJson.put("reservation_time", 0);
+                HashMap<String, Object> m = new HashMap<>();
 
-                JSONArray items = new JSONArray();
+                m.put("type", 1);
+                m.put("id", "saladgram");
+                m.put("total_price", mSubTotal);
+                m.put("actual_price", mTotal);
+                m.put("discount", (int)mDiscount);
+                m.put("reward_use", mPoint);
+                m.put("payment_type", mPaymentType == PaymentType.CARD ? 1 : 2);
+                m.put("order_time", System.currentTimeMillis()/1000);
+                m.put("reservation_time", 0);
+
+                List<HashMap<String,Object>> arr = new LinkedList<>();
+
                 for(SaleItem each : mItems) {
-                    JSONObject item = new JSONObject();
+                    HashMap<String,Object> item = new HashMap<String,Object>();
                     switch(each.menuItem.type) {
                         case SALAD:
                             item.put("type", 1);
@@ -431,15 +436,16 @@ public class MainActivity extends AppCompatActivity {
                     }
                     item.put("item_id", each.menuItem.data.get("item_id"));
                     item.put("quantity", each.quantity);
-                    item.put("price",each.menuItem.data.get("price"));
-                    item.put("calories", each.menuItem.data.get("calories"));
+                    item.put("price",each.getPrice());
+                    item.put("calorie", each.menuItem.data.containsKey("calorie") ? ((Double)each.menuItem.data.get("calorie")).intValue()  * each.quantity: 0);
 
-                    items.put(item);
+                    arr.add(item);
                 }
-                orderJson.put("order_items", items);
+                m.put("order_items", arr);
 
+                JSONObject orderJson = new JSONObject(m);
                 body = RequestBody.create(JSON, orderJson.toString());
-
+                Log.d("yns", orderJson.toString(2));
                 url = "https://www.saladgram.com/api/place_order.php";
                 request = new Request.Builder()
                         .header("jwt",jwt)
