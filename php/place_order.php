@@ -66,7 +66,12 @@ if ($id) {
 } else {
     $query = $query."NULL, '$phone', ";
 }
-$query = $query."'$addr', $total_price, $discount, $reward_use, $actual_price, $payment_type, 0, $order_time, $reservation_time, 1)";
+if (addr) {
+    $query = $query."'$addr', ";
+} else {
+    $query = $query."NULL, ";
+}
+$query = $query."$total_price, $discount, $reward_use, $actual_price, $payment_type, 0, $order_time, $reservation_time, 1)";
 
 $db_conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 if (mysqli_connect_errno($db_conn)) {

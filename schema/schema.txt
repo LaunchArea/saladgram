@@ -148,10 +148,12 @@ order types {
 payment_type types {
     1: card,
     2: cash,
-    3: deliver_card,
-    4: deliver_cash,
-    5: pick_up,
-    6: reward_only
+    3: cash_receipt,
+    4: deliver_card,
+    5: deliver_cash,
+    6: deliver_cash_receipt,
+    7: pick_up,
+    8: reward_only
 }
 
 status types {
