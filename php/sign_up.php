@@ -71,7 +71,7 @@ if (!$db_conn->set_charset("utf8")) {
 }
 
 $hash = password_hash($password, PASSWORD_DEFAULT);
-$query = "insert into users values('$id', '$phone', '$hash', '$name', '$addr')";
+$query = "insert into users values('$id', '$phone', '$hash', '$name', '$addr', 0)";
 $result = mysqli_query($db_conn, "$query");
 if (!$result) {
     $array = array();
