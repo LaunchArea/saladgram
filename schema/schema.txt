@@ -12,7 +12,7 @@ create table orders (
     order_id int not null auto_increment,
     subscription_id int,
     deliverer_id varchar(32),
-    type int not null,
+    order_type int not null,
     id varchar(32),
     phone varchar(16),
     addr varchar(128),
@@ -31,7 +31,7 @@ create table orders (
 create table order_items (
     order_id int not null,
     id varchar(32),
-    type int not null,
+    order_item_type int not null,
     item_id int not null,
     salad_items text,
     quantity int not null,
@@ -55,7 +55,7 @@ create table subscriptions (
 create table rewards (
     id varchar(32) not null,
     order_id int,
-    type int not null,
+    reward_type int not null,
     amount int not null
 );
 
@@ -75,7 +75,7 @@ create table salads (
 
 create table salad_items (
     item_id int not null unique,
-    type int not null,
+    salad_item_type int not null,
     name varchar(32) not null,
     description text not null,
     image varchar(64) not null,

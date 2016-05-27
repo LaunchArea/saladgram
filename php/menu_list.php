@@ -33,7 +33,7 @@ if (!$result) {
     while ($row = mysqli_fetch_array($result)) {
         $array = array();
         $array['item_id'] = (int)$row['item_id'];
-        $array['type'] = (int)$row['type'];
+        $array['salad_item_type'] = (int)$row['salad_item_type'];
         $array['name'] = $row['name'];
         $array['description'] = $row['description'];
         $array['image'] = $row['image'];
@@ -71,7 +71,7 @@ if (!$result) {
             $item['name'] = $salad_items[(int)$item['item_id']]['name'];
             $amount_type = 'amount'.$item['amount_type'];
             $item['amount'] = $salad_items[(int)$item['item_id']][$amount_type].$salad_items[(int)$item['item_id']]['unit'];
-            $item['type'] = $salad_items[(int)$item['item_id']]['type'];
+            $item['salad_item_type'] = $salad_items[(int)$item['item_id']]['salad_item_type'];
         }
         $array['salad_items'] = $items;
         if ($row['amount']) {

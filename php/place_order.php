@@ -48,7 +48,7 @@ if (array_key_exists('id', $data)) {
     return;
 }
 
-$type = $data['type'];
+$order_type = $data['order_type'];
 $id = $data['id'];
 $phone = $data['phone'];
 $addr = $data['addr'];
@@ -60,7 +60,7 @@ $payment_type = $data['payment_type'];
 $order_time = $data['order_time'];
 $reservation_time = $data['reservation_time'];
 
-$query = "insert into orders values(NULL, NULL, NULL, $type, ";
+$query = "insert into orders values(NULL, NULL, NULL, $order_type, ";
 if ($id) {
     $query = $query."'$id', NULL, ";
 } else {
@@ -102,15 +102,15 @@ if (!$result) {
 $order_id = $db_conn->insert_id;
 $order_items = $data['order_items'];
 foreach ($order_items as &$item) {
-    $type = $item['type'];
+    $order_item_type = $item['order_item_type'];
     $item_id = $item['item_id'];
     $salad_items = json_encode($item['salad_items']);
     $quantity = $item['quantity'];
     $price = $item['price'];
     $calorie = $item['calorie'];
 
-    $query = "insert into order_items values($order_id, '$id', $type, $item_id, ";
-    if ($type == 1) {
+    $query = "insert into order_items values($order_id, '$id', $order_item_type, $item_id, ";
+    if ($order_item_type == 1) {
         $query = $query."'$salad_items', ";
     } else {
         $query = $query."NULL, ";
