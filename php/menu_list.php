@@ -29,6 +29,7 @@ $salad_items = array();
 $result = mysqli_query($db_conn, "select * from salad_items");
 if (!$result) {
     http_response_code(500);
+    return;
 } else if (mysqli_num_rows($result) != 0) {
     while ($row = mysqli_fetch_array($result)) {
         $array = array();
@@ -58,6 +59,7 @@ $salads = array();
 $result = mysqli_query($db_conn, "select * from salads");
 if (!$result) {
     http_response_code(500);
+    return;
 } else if (mysqli_num_rows($result) != 0) {
     while ($row = mysqli_fetch_array($result)) {
         $array = array();
@@ -97,6 +99,7 @@ $soups = array();
 $result = mysqli_query($db_conn, "select * from soups");
 if (!$result) {
     http_response_code(500);
+    return;
 } else if (mysqli_num_rows($result) != 0) {
     while ($row = mysqli_fetch_array($result)) {
         $array = array();
@@ -122,6 +125,7 @@ $others = array();
 $result = mysqli_query($db_conn, "select * from others");
 if (!$result) {
     http_response_code(500);
+    return;
 } else if (mysqli_num_rows($result) != 0) {
     while ($row = mysqli_fetch_array($result)) {
         $array = array();
@@ -147,6 +151,7 @@ $beverages = array();
 $result = mysqli_query($db_conn, "select * from beverages");
 if (!$result) {
     http_response_code(500);
+    return;
 } else if (mysqli_num_rows($result) != 0) {
     while ($row = mysqli_fetch_array($result)) {
         $array = array();
