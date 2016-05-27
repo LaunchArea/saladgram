@@ -5,6 +5,10 @@ use \Firebase\JWT\JWT;
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+if ($method == "OPTIONS") {
+    return;
+}
+
 if ($method != "GET") {
     http_response_code(405); // Method Not Allowed
     return;
