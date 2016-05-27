@@ -66,7 +66,7 @@ if ($id) {
 } else {
     $query = $query."NULL, '$phone', ";
 }
-if (addr) {
+if ($addr) {
     $query = $query."'$addr', ";
 } else {
     $query = $query."NULL, ";
