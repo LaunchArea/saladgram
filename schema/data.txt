@@ -71,3 +71,6 @@ insert into others values(3, '고구마', '당근브로콜리...', 'www.saladgra
 insert into beverages values(1, '코카 콜라', '코크', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '355ml', 100, 1000, 1, 0);
 insert into beverages values(2, '사이다', '코크', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '355ml', 100, 1000, 1, 0);
 insert into beverages values(3, '레몬에이드', '코크', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '350ml', 100, 1000, 1, 0);
+
+# holidays
+insert into holidays values('2016-08-15');
