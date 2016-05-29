@@ -50,6 +50,7 @@ if (array_key_exists('id', $data)) {
 
 $subscription = array();
 $subscription['id'] = $data['id'];
+$subscription['addr'] = $data['addr'];
 $subscription['start_time'] = $data['start_time'];
 $subscription['weeks'] = $data['weeks'];
 $subscription['mon'] = $data['mon'];
