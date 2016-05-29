@@ -42,7 +42,7 @@ create table order_items (
 create table subscriptions (
     id varchar(32) not null,
     subscription_id int not null auto_increment,
-    time int not null,
+    start_time int not null,
     weeks int not null,
     mon text,
     tue text,
