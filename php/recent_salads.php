@@ -84,7 +84,7 @@ if (!$result) {
     return;
 }
 
-$query = "select max(reservation_time) as a, order_item_type, item_id, salad_items, quantity, price, calorie ";
+$query = "select max(reservation_time) as a, order_item_type, item_id, salad_items, price, calorie ";
 $query = $query."from order_items join orders on order_items.order_id = orders.order_id ";
 $query = $query."where order_item_type = 1 and item_id != 9 and order_items.id = '$id' ";
 $query = $query."group by salad_items order by a desc";
@@ -110,7 +110,6 @@ while ($row = mysqli_fetch_array($result)) {
         $item['salad_item_type'] = $salad_items[(int)$item['item_id']]['salad_item_type'];
     }
     $array['salad_items'] = $items;
-    $array['quantity'] = (int)$row['quantity'];
     $array['price'] = (int)$row['price'];
     $array['calorie'] = (int)$row['calorie'];
     $response[] = $array;
