@@ -130,6 +130,10 @@ create table beverages (
     hide boolean not null
 );
 
+create table holidays (
+    date varchar(32) not null
+);
+
 order_item types {
     1: salad,
     2: soups,
