@@ -54,29 +54,40 @@ if (!$db_conn->set_charset("utf8")) {
     return;
 }
 
-$result = mysqli_query($db_conn, "select * from users where id = '$id'");
+$response = array();
+$result = mysqli_query($db_conn, "select reward from users where id = '$id'");
 if (!$result) {
     http_response_code(500);
+    return;
 } else if (mysqli_num_rows($result) != 0) {
     $row = mysqli_fetch_array($result);
-    $array = array();
-    $array['success'] = true;
-    $array['user_info']['id'] = $row['id'];
-    $array['user_info']['phone'] = $row['phone'];
-    $array['user_info']['name'] = $row['name'];
-    $array['user_info']['addr'] = $row['addr'];
-    $array['user_info']['reward'] = $row['reward'];
-    print(json_encode($array, JSON_UNESCAPED_UNICODE));
+    $response['reward'] = (int)$row['reward'];
     mysqli_free_result($result);
 } else {
-    $array = array();
-    $array['success'] = false;
-    $array['message'] = "No such user.";
-    print(json_encode($array));
-    mysqli_free_result($result);
+    http_response_code(500);
+    return;
 }
 
-
+$response['rewards'] = [];
+$result = mysqli_query($db_conn, "select * from rewards where id = '$id' order by time desc");
+if (!$result) {
+    http_response_code(500);
+    return;
+}
+while ($row = mysqli_fetch_array($result)) {
+    $array = array();
+    $array['id'] = $row['id'];
+    $array['time'] = (int)$row['time'];
+    if ($row['order_id']) {
+        $array['order_id'] = (int)$row['order_id'];
+    }
+    $array['reward_type'] = (int)$row['reward_type'];
+    $array['description'] = $row['description'];
+    $array['amount'] = (int)$row['amount'];
+    $response['rewards'][] = $array;
+}
+print(json_encode($response, JSON_UNESCAPED_UNICODE));
+mysqli_free_result($result);
 mysqli_close($db_conn);
 
 ?>
