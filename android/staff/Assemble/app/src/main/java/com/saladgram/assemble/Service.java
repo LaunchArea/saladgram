@@ -38,13 +38,15 @@ public class Service {
     static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     public static final String ACTION_FETCH_FAILED = "com.saladgram.assemble.action.fetch.failed";
+    public static final String ACTION_FETCH_DONE = "com.saladgram.assemble.action.fetch.done";
+
     static ScheduledFuture<?> delayFuture;
     static ScheduledThreadPoolExecutor sch = (ScheduledThreadPoolExecutor)
             Executors.newScheduledThreadPool(1);
     private static long jwtTime = 0;
     private static String jwt;
     private static Context mContext;
-    private static List<Order> orderList = new LinkedList<>();
+    public static List<Order> orderList = new LinkedList<>();
 
     public synchronized static void start(Context context){
         mContext = context;
@@ -110,6 +112,7 @@ public class Service {
                 }
                 orderList.add(order);
             }
+            LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_FETCH_DONE));
         } else {
             reportError("fetch response "+response.code());
         }

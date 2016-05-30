@@ -8,4 +8,50 @@
     tools:context="com.saladgram.assemble.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <TextView
+        android:id="@+id/total_orders"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        />
+
+    <TextView
+        android:id="@+id/currunt_order"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignBottom="@+id/total_orders"
+        android:layout_toRightOf="@id/total_orders"
+        />
+    <Button
+        android:id="@+id/ready_button"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="READY"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/total_orders"
+        />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_list"
+            android:scrollbars="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/total_orders"
+            android:layout_alignRight="@+id/total_orders"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/item_list"
+            android:scrollbars="vertical"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/total_orders"
+            android:layout_above="@+id/ready_button"
+            android:layout_below="@id/currunt_order"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
 </RelativeLayout>
