@@ -9,14 +9,40 @@ public class SaleItem {
     boolean takeout = false;
     int amount = 0;
     public int quantity = 1;
+    public int amount_type = 0;
 
-    public int getPrice() {
-        if(amount > 0) {
-            return (int) (((double)amount/100) * PRICE_PER_AMOUNT);
-        } else if (quantity > 1) {
-            return menuItem.price * quantity;
+    public int getPricePerEach() {
+        if(menuItem.type == MenuItem.Type.SOUP) {
+            return ((amount * menuItem.price) / 100);
         } else {
-            return menuItem.price;
+            if (amount > 0) {
+                return (int) (((double) amount / 100) * PRICE_PER_AMOUNT);
+            } else {
+                return menuItem.price;
+            }
+        }
+    }
+
+    public int getTotalPrice() {
+        return getPricePerEach() * quantity;
+    }
+
+    public boolean isSameKind(SaleItem that) {
+        if(this.menuItem.hashCode() == that.menuItem.hashCode()) {
+            if(that.menuItem.type == MenuItem.Type.SOUP) {
+                return this.amount_type == that.amount_type;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public int getCaloriePerEach() {
+        int calorie = ((Double) menuItem.data.get("calorie")).intValue();
+        if (menuItem.type == MenuItem.Type.SOUP) {
+            return (calorie * amount) / 100;
+        } else {
+            return calorie;
         }
     }
 }

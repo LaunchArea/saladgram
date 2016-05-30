@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             boolean quantityIncreased = false;
             for(SaleItem each : mSaleList) {
-                if(each.menuItem.data.hashCode() == saleItem.menuItem.data.hashCode()) {
+                if(each.isSameKind(saleItem)) {
                     each.quantity++;
                     quantityIncreased = true;
                     break;
@@ -106,6 +106,8 @@ public class MainActivity extends AppCompatActivity {
                     checkWeight(saleItem);
                 } else if (item.checkToGo) {
                     checkToGo(saleItem);
+                } else if (item.checkSize) {
+                    checkSize(saleItem);
                 } else {
                     addSaleItem(saleItem);
                 }
@@ -302,6 +304,26 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
+    private void checkSize(final SaleItem saleItem) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("스프크기");
+        alert.setPositiveButton("Small", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                saleItem.amount_type = 1;
+                saleItem.amount = saleItem.menuItem.getAmount(1);
+                addSaleItem(saleItem);
+            }
+        });
+        alert.setNegativeButton("Large", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                saleItem.amount_type = 2;
+                saleItem.amount = saleItem.menuItem.getAmount(2);
+                addSaleItem(saleItem);
+            }
+        });
+        alert.show();
+    }
+
     private void placeOrder() {
         PlaceOrderTask task = new PlaceOrderTask(getActivity(), mSaleList) {
             @Override
@@ -337,7 +359,7 @@ public class MainActivity extends AppCompatActivity {
         int change = -1;
 
         for(SaleItem each : mSaleList) {
-            mSubTotal += each.getPrice();
+            mSubTotal += each.getTotalPrice();
         }
 
         mTotal = (int) (mSubTotal * ( 1 - mDiscount/100));
@@ -405,7 +427,7 @@ public class MainActivity extends AppCompatActivity {
 
                 HashMap<String, Object> m = new HashMap<>();
 
-                m.put("type", 1);
+                m.put("order_type", 1);
                 m.put("id", "saladgram");
                 m.put("total_price", mSubTotal);
                 m.put("actual_price", mTotal);
@@ -421,23 +443,24 @@ public class MainActivity extends AppCompatActivity {
                     HashMap<String,Object> item = new HashMap<String,Object>();
                     switch(each.menuItem.type) {
                         case SALAD:
-                            item.put("type", 1);
+                            item.put("order_item_type", 1);
                             item.put("salad_items", each.menuItem.data.get("salad_items"));
                             break;
                         case SOUP:
-                            item.put("type",2);
+                            item.put("order_item_type",2);
+                            item.put("amount_type", each.amount_type);
                             break;
                         case OTHER:
-                            item.put("type",3);
+                            item.put("order_item_type",3);
                             break;
                         case BEVERAGE:
-                            item.put("type",4);
+                            item.put("order_item_type",4);
                             break;
                     }
                     item.put("item_id", each.menuItem.data.get("item_id"));
                     item.put("quantity", each.quantity);
-                    item.put("price",each.getPrice());
-                    item.put("calorie", each.menuItem.data.containsKey("calorie") ? ((Double)each.menuItem.data.get("calorie")).intValue()  * each.quantity: 0);
+                    item.put("price",each.getPricePerEach());
+                    item.put("calorie", each.getCaloriePerEach());
 
                     arr.add(item);
                 }
@@ -523,6 +546,7 @@ public class MainActivity extends AppCompatActivity {
                 item.amount = (String) each.get("amount");
 
                 item.checkToGo = (type == MenuItem.Type.SALAD);
+                item.checkSize = (type == MenuItem.Type.SOUP);
                 item.checkWeight = (item.price == -1);
                 mMenuList.add(item);
             }

@@ -75,7 +75,7 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SimpleViewHold
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         SaleItem item = mList.get(position);
         holder.name.setText(item.menuItem.name);
-        holder.price.setText(String.valueOf(item.getPrice())+"원");
+        holder.price.setText(String.valueOf(item.getTotalPrice())+"원");
         holder.takeout.setVisibility(item.takeout?View.VISIBLE:View.GONE);
         if (item.amount > 0) {
             holder.amount.setText(String.valueOf(item.amount) + "g");
