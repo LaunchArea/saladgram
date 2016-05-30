@@ -1,73 +1,73 @@
 # salads
 
-insert into salads values(1, '다이어트 샐러드', '닭과슴살과..', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
-insert into salads values(2, '치킨 시져', '닭과슴살과..', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
-insert into salads values(3, '두부 베이비', '닭과슴살과..', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
-insert into salads values(4, '과일 리코타', '닭과슴살과..', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
-insert into salads values(5, '연어 샐러드', '닭과슴살과..', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
-insert into salads values(6, '콩 샐러드', '닭과슴살과..', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
-insert into salads values(7, '버섯 샐러드', '닭과슴살과.. ','www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
-insert into salads values(8, '나만의 샐러드', '닭과슴살과..', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '[]', NULL, NULL, NULL, 1, 0);
-insert into salads values(9, '셀프 서비스', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '[]', NULL, NULL, NULL, 1, 1);
+insert into salads values(0, '다이어트 샐러드', '닭과슴살과..', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
+insert into salads values(1, '치킨 시져', '닭과슴살과..', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
+insert into salads values(2, '두부 베이비', '닭과슴살과..', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
+insert into salads values(3, '과일 리코타', '닭과슴살과..', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
+insert into salads values(4, '연어 샐러드', '닭과슴살과..', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
+insert into salads values(5, '콩 샐러드', '닭과슴살과..', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
+insert into salads values(6, '버섯 샐러드', '닭과슴살과.. ','www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '[{"item_id":1,"amount_type":2},{"item_id":5,"amount_type":1},{"item_id":19,"amount_type":3},{"item_id":28,"amount_type":1},{"item_id":34,"amount_type":2}]', '250g', 450, 5600, 1, 0);
+insert into salads values(7, '나만의 샐러드', '닭과슴살과..', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '[]', NULL, NULL, NULL, 1, 0);
+insert into salads values(8, '셀프 서비스', '', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '[]', NULL, NULL, NULL, 1, 1);
 
 
 
 # salad_items
 
-insert into salad_items values(1, 1, '믹스드 그린', '재료 등 설명', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(2, 1, '양상추', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 1);
-insert into salad_items values(3, 1, '로메인', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(4, 1, '어린잎', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(5, 2, '방울토마토', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(6, 2, '양파', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(7, 2, '파프리카', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(8, 2, '래디쉬', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(9, 2, '당근', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(10, 2, '브로콜리', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(11, 2, '올리브', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(12, 2, '오이', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 1);
-insert into salad_items values(13, 2, '아스파라거스', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 1);
-insert into salad_items values(14, 3, '청포도', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(15, 3, '자몽', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(16, 3, '오렌지', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(17, 4, '그릴드 치킨', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(18, 4, '스팀드 치킨', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(19, 4, '훈제 연어', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(20, 4, '구운 버섯', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(21, 4, '구운 두부', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(22, 4, '병아리콩', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(23, 4, '렌틸콩', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(24, 4, '삶은 달걀', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 1, 2, 3, 4, '개', 100, 600, 1, 0);
-insert into salad_items values(25, 5, '체다 치즈', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(26, 5, '파마산 치즈', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(27, 5, '리코타 치즈', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(28, 5, '베이컨', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(29, 5, '크루통', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(30, 5, '아몬드', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(31, 5, '호두', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 1);
-insert into salad_items values(32, 6, '드레싱1', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(33, 6, '드레싱2', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(34, 6, '드레싱3', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(35, 6, '드레싱4', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(36, 6, '드레싱5', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(37, 6, '드레싱6', '', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(0, 1, '믹스드 그린', '재료 등 설명', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(1, 1, '양상추', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 1);
+insert into salad_items values(2, 1, '로메인', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(3, 1, '어린잎', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(4, 2, '방울토마토', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(5, 2, '양파', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(6, 2, '파프리카', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(7, 2, '래디쉬', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(8, 2, '당근', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(9, 2, '브로콜리', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(10, 2, '올리브', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(11, 2, '오이', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 1);
+insert into salad_items values(12, 2, '아스파라거스', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 1);
+insert into salad_items values(13, 3, '청포도', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(14, 3, '자몽', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(15, 3, '오렌지', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(16, 4, '그릴드 치킨', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(17, 4, '스팀드 치킨', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(18, 4, '훈제 연어', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(19, 4, '구운 버섯', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(20, 4, '구운 두부', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(21, 4, '병아리콩', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(22, 4, '렌틸콩', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(23, 4, '삶은 달걀', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 1, 2, 3, 4, '개', 100, 600, 1, 0);
+insert into salad_items values(24, 5, '체다 치즈', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(25, 5, '파마산 치즈', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(26, 5, '리코타 치즈', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(27, 5, '베이컨', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(28, 5, '크루통', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(29, 5, '아몬드', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(30, 5, '호두', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 1);
+insert into salad_items values(31, 6, '드레싱1', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(32, 6, '드레싱2', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(33, 6, '드레싱3', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(34, 6, '드레싱4', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(35, 6, '드레싱5', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
+insert into salad_items values(36, 6, '드레싱6', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
 
 
 
 # soups
-insert into soups values(1, '양송이 스프', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 150, 200, 'ml', 100, 2000, 1, 0);
-insert into soups values(2, '토마토 채소 스프', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 150, 200, 'ml', 100, 2000, 1, 0);
-insert into soups values(3, '브로콜리 치즈 스프', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 150, 200, 'ml', 100, 2000, 1, 0);
+insert into soups values(0, '양송이 스프', '양송이 크림', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', 150, 200, 'ml', 100, 2000, 1, 0);
+insert into soups values(1, '토마토 채소 스프', '양송이 크림', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', 150, 200, 'ml', 100, 2000, 1, 0);
+insert into soups values(2, '브로콜리 치즈 스프', '양송이 크림', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', 150, 200, 'ml', 100, 2000, 1, 0);
 
 # others
-insert into others values(1, '더운 야채', '당근브로콜리...', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '100g', 100, 2500, 1, 0);
-insert into others values(2, '현미밥', '당근브로콜리...', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '100g', 100, 2500, 1, 0);
-insert into others values(3, '고구마', '당근브로콜리...', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '100g', 100, 2500, 1, 0);
+insert into others values(0, '더운 야채', '당근브로콜리...', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 100, 2500, 1, 0);
+insert into others values(1, '현미밥', '당근브로콜리...', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 100, 2500, 1, 0);
+insert into others values(2, '고구마', '당근브로콜리...', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 100, 2500, 1, 0);
 
 # beverages
-insert into beverages values(1, '코카 콜라', '코크', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '355ml', 100, 1000, 1, 0);
-insert into beverages values(2, '사이다', '코크', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '355ml', 100, 1000, 1, 0);
-insert into beverages values(3, '레몬에이드', '코크', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '350ml', 100, 1000, 1, 0);
+insert into beverages values(0, '코카 콜라', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '355ml', 100, 1000, 1, 0);
+insert into beverages values(1, '사이다', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '355ml', 100, 1000, 1, 0);
+insert into beverages values(2, '레몬에이드', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '350ml', 100, 1000, 1, 0);
 
 # holidays
 insert into holidays values('2016-08-15');
