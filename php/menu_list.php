@@ -108,7 +108,10 @@ if (!$result) {
         $array['description'] = $row['description'];
         $array['image'] = $row['image'];
         $array['thumbnail'] = $row['thumbnail'];
-        $array['amount'] = $row['amount'];
+        $array['amount1'] = (int)$row['amount1'];
+        $array['amount2'] = (int)$row['amount2'];
+        $array['unit'] = $row['unit'];
+        $array['calorie'] = (int)$row['calorie'];
         $array['calorie'] = (int)$row['calorie'];
         $array['price'] = (int)$row['price'];
         $array['available'] = (int)$row['available'];

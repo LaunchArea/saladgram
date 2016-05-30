@@ -84,6 +84,127 @@ if (!$result) {
     return;
 }
 
+$salads = array();
+$result = mysqli_query($db_conn, "select * from salads");
+if (!$result) {
+    http_response_code(500);
+    return;
+} else if (mysqli_num_rows($result) != 0) {
+    while ($row = mysqli_fetch_array($result)) {
+        $array = array();
+        $array['item_id'] = (int)$row['item_id'];
+        $array['name'] = $row['name'];
+        $array['description'] = $row['description'];
+        $array['image'] = $row['image'];
+        $array['thumbnail'] = $row['thumbnail'];
+        $items = json_decode($row['salad_items'], true);
+        foreach ($items as &$item) {
+            $item['name'] = $salad_items[(int)$item['item_id']]['name'];
+            $amount_type = 'amount'.$item['amount_type'];
+            $item['amount'] = $salad_items[(int)$item['item_id']][$amount_type].$salad_items[(int)$item['item_id']]['unit'];
+            $item['salad_item_type'] = $salad_items[(int)$item['item_id']]['salad_item_type'];
+        }
+        $array['salad_items'] = $items;
+        if ($row['amount']) {
+            $array['amount'] = $row['amount'];
+        }
+        if ($row['calorie']) {
+            $array['calorie'] = (int)$row['calorie'];
+        }
+        if ($row['price']) {
+            $array['price'] = (int)$row['price'];
+        }
+        $array['available'] = (int)$row['available'];
+        $array['hide'] = (int)$row['hide'];
+        $salads[] = $array;
+    }
+    mysqli_free_result($result);
+} else {
+    http_response_code(500);
+    return;
+}
+
+$soups = array();
+$result = mysqli_query($db_conn, "select * from soups");
+if (!$result) {
+    http_response_code(500);
+    return;
+} else if (mysqli_num_rows($result) != 0) {
+    while ($row = mysqli_fetch_array($result)) {
+        $array = array();
+        $array['item_id'] = (int)$row['item_id'];
+        $array['name'] = $row['name'];
+        $array['description'] = $row['description'];
+        $array['image'] = $row['image'];
+        $array['thumbnail'] = $row['thumbnail'];
+        $array['amount1'] = (int)$row['amount1'];
+        $array['amount2'] = (int)$row['amount2'];
+        $array['unit'] = $row['unit'];
+        $array['calorie'] = (int)$row['calorie'];
+        $array['calorie'] = (int)$row['calorie'];
+        $array['price'] = (int)$row['price'];
+        $array['available'] = (int)$row['available'];
+        $array['hide'] = (int)$row['hide'];
+        $soups[] = $array;
+    }
+    mysqli_free_result($result);
+} else {
+    http_response_code(500);
+    return;
+}
+
+$others = array();
+$result = mysqli_query($db_conn, "select * from others");
+if (!$result) {
+    http_response_code(500);
+    return;
+} else if (mysqli_num_rows($result) != 0) {
+    while ($row = mysqli_fetch_array($result)) {
+        $array = array();
+        $array['item_id'] = (int)$row['item_id'];
+        $array['name'] = $row['name'];
+        $array['description'] = $row['description'];
+        $array['image'] = $row['image'];
+        $array['thumbnail'] = $row['thumbnail'];
+        $array['amount'] = $row['amount'];
+        $array['calorie'] = (int)$row['calorie'];
+        $array['price'] = (int)$row['price'];
+        $array['available'] = (int)$row['available'];
+        $array['hide'] = (int)$row['hide'];
+        $others[] = $array;
+    }
+    mysqli_free_result($result);
+} else {
+    http_response_code(500);
+    return;
+}
+
+$beverages = array();
+$result = mysqli_query($db_conn, "select * from beverages");
+if (!$result) {
+    http_response_code(500);
+    return;
+} else if (mysqli_num_rows($result) != 0) {
+    while ($row = mysqli_fetch_array($result)) {
+        $array = array();
+        $array['item_id'] = (int)$row['item_id'];
+        $array['name'] = $row['name'];
+        $array['description'] = $row['description'];
+        $array['image'] = $row['image'];
+        $array['thumbnail'] = $row['thumbnail'];
+        $array['amount'] = $row['amount'];
+        $array['calorie'] = (int)$row['calorie'];
+        $array['price'] = (int)$row['price'];
+        $array['available'] = (int)$row['available'];
+        $array['hide'] = (int)$row['hide'];
+        $beverages[] = $array;
+    }
+    mysqli_free_result($result);
+} else {
+    http_response_code(500);
+    return;
+}
+
 $query = "select * from orders as a join order_items as b on a.order_id = b.order_id ";
 if ($id == "saladgram") {
     $query= $query."";
@@ -129,6 +250,7 @@ if (!$result) {
         $array['order_item_type'] = (int)$row['order_item_type'];
         $array['item_id'] = (int)$row['item_id'];
         if ($array['order_item_type'] == 1) {
+            $array['name'] = $salads[$array['item_id']]['name'];
             $items = json_decode($row['salad_items'], true);
             foreach ($items as &$item) {
                 $item['name'] = $salad_items[(int)$item['item_id']]['name'];
@@ -137,6 +259,15 @@ if (!$result) {
                 $item['salad_item_type'] = $salad_items[(int)$item['item_id']]['salad_item_type'];
             }
             $array['salad_items'] = $items;
+        } else if ($array['order_item_type'] == 2) {
+            $array['name'] = $soups[$array['item_id']]['name'];
+            $amount_type = 'amount'.$item['amount_type'];
+            $array['amount_type'] = (int)$row['amount_type'];
+            $array['amount'] = $soups[$array['item_id']][$amount_type].$soups[$array['item_id']]['unit'];
+        } else if ($array['order_item_type'] == 3) {
+            $array['name'] = $others[$array['item_id']]['name'];
+        } else if ($array['order_item_type'] == 4) {
+            $array['name'] = $beverages[$array['item_id']]['name'];
         }
         $array['quantity'] = (int)$row['quantity'];
         $array['price'] = (int)$row['price'];

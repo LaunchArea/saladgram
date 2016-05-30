@@ -105,6 +105,7 @@ foreach ($order_items as &$item) {
     $order_item_type = $item['order_item_type'];
     $item_id = $item['item_id'];
     $salad_items = json_encode($item['salad_items']);
+    $amount_type = $item['amount_type'];
     $quantity = $item['quantity'];
     $price = $item['price'];
     $calorie = $item['calorie'];
@@ -115,6 +116,12 @@ foreach ($order_items as &$item) {
     } else {
         $query = $query."NULL, ";
     }
+    if ($order_item_type == 2) {
+        $query = $query."$amount_type, ";
+    } else {
+        $query = $query."NULL, ";
+    }
+
     $query = $query." $quantity, $price, $calorie)";
     $result = mysqli_query($db_conn, $query);
     if (!$result) {
