@@ -74,6 +74,7 @@ if (!$result) {
             $amount_type = 'amount'.$item['amount_type'];
             $item['amount'] = $salad_items[(int)$item['item_id']][$amount_type].$salad_items[(int)$item['item_id']]['unit'];
             $item['salad_item_type'] = $salad_items[(int)$item['item_id']]['salad_item_type'];
+            $item['image'] = $salad_items[(int)$item['item_id']]['image'];
         }
         $array['salad_items'] = $items;
         if ($row['amount']) {
