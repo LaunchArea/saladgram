@@ -162,7 +162,8 @@ payment_type types {
     5: deliver_cash,
     6: deliver_cash_receipt,
     7: pick_up,
-    8: reward_only
+    8: inipay,
+    9: reward_only
 }
 
 status types {

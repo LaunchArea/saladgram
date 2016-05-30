@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL & ~E_NOTICE);
 
 require 'common.php';
 use \Firebase\JWT\JWT;
@@ -74,7 +75,7 @@ if (!$subscription['fri']) {
     unset($subscription['fri']);
 }
 
-$start_day = (int)date("D", $subscription['start_time']);
+$start_day = (int)date("w", $subscription['start_time']);
 $mon_time = 0;
 $tue_time = 0;
 $wed_time = 0;
@@ -103,52 +104,6 @@ for ($i = 0; $i < 7; $i++) {
     }
 }
 
-$orders = array();
-for ($i = 0; $i < $subscription['weeks']; $i++) {
-    $array = array();
-    $array['order_type'] = 3;
-    $array['id'] = $subscription['id'];
-    $array['addr'] = $subscription['addr'];
-    $array['order_time'] = time();
-    $array['status'] = 1;
-    if ($subscription['mon'] != []) {
-        $array['total_price'] = $subscription['mon']['total_price'];
-        $array['order_items'] = $subscription['mon']['order_items'];
-        $array['reservation_time'] = $mon_time;
-        $mon_time = $mon_time + 86400 * 7;
-        $orders[] = $array;
-    }
-    if ($subscription['tue'] != []) {
-        $array['total_price'] = $subscription['tue']['total_price'];
-        $array['order_items'] = $subscription['tue']['order_items'];
-        $array['reservation_time'] = $tue_time;
-        $tue_time = $tue_time + 86400 * 7;
-        $orders[] = $array;
-    }
-    if ($subscription['wed'] != []) {
-        $array['total_price'] = $subscription['wed']['total_price'];
-        $array['order_items'] = $subscription['wed']['order_items'];
-        $array['reservation_time'] = $wed_time;
-        $wed_time = $wed_time + 86400 * 7;
-        $orders[] = $array;
-    }
-    if ($subscription['thur'] != []) {
-        $array['total_price'] = $subscription['thur']['total_price'];
-        $array['order_items'] = $subscription['thur']['order_items'];
-        $array['reservation_time'] = $thur_time;
-        $thur_time = $thur_time + 86400 * 7;
-        $orders[] = $array;
-    }
-    if ($subscription['fri'] != []) {
-        $array['total_price'] = $subscription['fri']['total_price'];
-        $array['order_items'] = $subscription['fri']['order_items'];
-        $array['reservation_time'] = $fri_time;
-        $fri_time = $fri_time + 86400 * 7;
-        $orders[] = $array;
-    }
-}
-
-
 $db_conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 
 if (mysqli_connect_errno($db_conn)) {
@@ -161,6 +116,11 @@ if (!$db_conn->set_charset("utf8")) {
     return;
 }
 
+if (!$db_conn->autocommit(false)) {
+    http_response_code(500);
+    return;
+}
+
 $holidays = array();
 $result = mysqli_query($db_conn, "select * from holidays");
 if (!$result) {
@@ -169,6 +129,209 @@ if (!$result) {
 }
 while ($row = mysqli_fetch_array($result)) {
     $holidays[] = $row['date'];
+}
+
+$total_price = 0;
+$orders = array();
+for ($i = 0; $i < $subscription['weeks']; $i++) {
+    $array = array();
+    if ($subscription['mon']) {
+        if (in_array(date("Y-m-d", $mon_time), $holidays)) {
+            $array2 = array();
+            $array2['reservation_time'] = $mon_time;
+            $array2['holiday'] = 1;
+            $orders[] = $array2;
+            $mon_time = $mon_time + 86400 * 7;
+        } else {
+            $array['total_price'] = $subscription['mon']['total_price'];
+            $total_price = $total_price + $array['total_price'];
+            $array['order_items'] = $subscription['mon']['order_items'];
+            $array['reservation_time'] = $mon_time;
+            $mon_time = $mon_time + 86400 * 7;
+            $orders[] = $array;
+        }
+    }
+    if ($subscription['tue']) {
+        if (in_array(date("Y-m-d", $tue_time), $holidays)) {
+            $array2 = array();
+            $array2['reservation_time'] = $tue_time;
+            $array2['holiday'] = 1;
+            $orders[] = $array2;
+            $tue_time = $tue_time + 86400 * 7;
+        } else {
+            $array['total_price'] = $subscription['tue']['total_price'];
+            $total_price = $total_price + $array['total_price'];
+            $array['order_items'] = $subscription['tue']['order_items'];
+            $array['reservation_time'] = $tue_time;
+            $tue_time = $tue_time + 86400 * 7;
+            $orders[] = $array;
+        }
+    }
+    if ($subscription['wed']) {
+        if (in_array(date("Y-m-d", $wed_time), $holidays)) {
+            $array2 = array();
+            $array2['reservation_time'] = $wed_time;
+            $array2['holiday'] = 1;
+            $orders[] = $array2;
+            $wed_time = $wed_time + 86400 * 7;
+        } else {
+            $array['total_price'] = $subscription['wed']['total_price'];
+            $total_price = $total_price + $array['total_price'];
+            $array['order_items'] = $subscription['wed']['order_items'];
+            $array['reservation_time'] = $wed_time;
+            $wed_time = $wed_time + 86400 * 7;
+            $orders[] = $array;
+        }
+    }
+    if ($subscription['thur']) {
+        if (in_array(date("Y-m-d", $thur_time), $holidays)) {
+            $array2 = array();
+            $array2['reservation_time'] = $thur_time;
+            $array2['holiday'] = 1;
+            $orders[] = $array2;
+            $thur_time = $thur_time + 86400 * 7;
+        } else {
+            $array['total_price'] = $subscription['thur']['total_price'];
+            $total_price = $total_price + $array['total_price'];
+            $array['order_items'] = $subscription['thur']['order_items'];
+            $array['reservation_time'] = $thur_time;
+            $thur_time = $thur_time + 86400 * 7;
+            $orders[] = $array;
+        }
+    }
+    if ($subscription['fri']) {
+        if (in_array(date("Y-m-d", $fri_time), $holidays)) {
+            $array2 = array();
+            $array2['reservation_time'] = $fri_time;
+            $array2['holiday'] = 1;
+            $orders[] = $array2;
+            $fri_time = $fri_time + 86400 * 7;
+        } else {
+            $array['total_price'] = $subscription['fri']['total_price'];
+            $total_price = $total_price + $array['total_price'];
+            $array['order_items'] = $subscription['fri']['order_items'];
+            $array['reservation_time'] = $fri_time;
+            $fri_time = $fri_time + 86400 * 7;
+            $orders[] = $array;
+        }
+    }
+}
+$subscription['total_price'] = $total_price;
+$discount = 0;
+if ($total_price < 20000) {
+    $discount = 5;
+} else if ($total_price < 50000) {
+    $discount = 10;
+} else if ($total_price < 100000) {
+    $discount = 12;
+} else {
+    $discount = 15;
+}
+$subscription['discount'] = $discount;
+$subscription['actual_price'] = $total_price * (100 - $discount) / 100;
+
+
+
+$query = "insert into subscriptions values('".$subscription['id']."', NULL, ".$subscription['start_time'].", ".$subscription['weeks'].", ";
+if ($data['mon']) {
+    $query = $query."'".json_encode($data['mon'], JSON_UNESCAPED_UNICODE)."', ";
+} else {
+    $query = $query."NULL, ";
+}
+if ($data['tue']) {
+    $query = $query."'".json_encode($data['tue'], JSON_UNESCAPED_UNICODE)."', ";
+} else {
+    $query = $query."NULL, ";
+}
+if ($data['wed']) {
+    $query = $query."'".json_encode($data['wed'], JSON_UNESCAPED_UNICODE)."', ";
+} else {
+    $query = $query."NULL, ";
+}
+if ($data['thur']) {
+    $query = $query."'".json_encode($data['thur'], JSON_UNESCAPED_UNICODE)."', ";
+} else {
+    $query = $query."NULL, ";
+}
+if ($data['fri']) {
+    $query = $query."'".json_encode($data['fri'], JSON_UNESCAPED_UNICODE)."')";
+} else {
+    $query = $query."NULL)";
+}
+
+$result = mysqli_query($db_conn, $query);
+if (!$result) {
+    $array = array();
+    $array['success'] = false;
+    $array['message'] = mysqli_error($db_conn);
+    print(json_encode($array));
+    http_response_code(500);
+    return;
+}
+
+$order_time = time();
+$subscription_id = $db_conn->insert_id;
+foreach ($orders as &$order) {
+    if ($order['holiday'] == 1){
+        continue;
+    }
+    $actual_price = $order['total_price'] * (100 - $discount) / 100;
+    $query = "insert into orders values(NULL, $subscription_id, NULL, 3, '".$subscription['id']."', NULL, '".$subscription['addr']."', ";
+    $query = $query.$order['total_price'].", $discount, 0, $actual_price, 8, $actual_price, $order_time, ".$order['reservation_time'].", 1)";
+
+    $result = mysqli_query($db_conn, $query);
+    if (!$result) {
+        $array = array();
+        $array['success'] = false;
+        $array['message'] = mysqli_error($db_conn);
+        print(json_encode($array));
+        http_response_code(500);
+        return;
+    }
+    $order_id = $db_conn->insert_id;
+    foreach ($order['order_items'] as &$item) {
+        $order_item_type = $item['order_item_type'];
+        $item_id = $item['item_id'];
+        $salad_items = json_encode($item['salad_items']);
+        $amount_type = $item['amount_type'];
+        $quantity = $item['quantity'];
+        $price = $item['price'];
+        $calorie = $item['calorie'];
+
+        $query = "insert into order_items values($order_id, '".$subscription['id']."', $order_item_type, $item_id, ";
+        if ($order_item_type == 1) {
+            $query = $query."'$salad_items', ";
+        } else {
+            $query = $query."NULL, ";
+        }
+        if ($order_item_type == 2) {
+            $query = $query."$amount_type, ";
+        } else {
+            $query = $query."NULL, ";
+        }
+
+        $query = $query." $quantity, $price, $calorie)";
+
+        $result = mysqli_query($db_conn, $query);
+        if (!$result) {
+            $array = array();
+            $array['success'] = false;
+            $array['message'] = mysqli_error($db_conn);
+            print(json_encode($array));
+            http_response_code(500);
+            return;
+        }
+    }
+}
+
+
+if (!mysqli_commit($db_conn)) {
+    $array = array();
+    $array['success'] = false;
+    $array['message'] = mysqli_error($db_conn);
+    print(json_encode($array));
+    http_response_code(500);
+    return;
 }
 
 $response = array();
