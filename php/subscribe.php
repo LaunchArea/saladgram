@@ -232,7 +232,8 @@ $subscription['actual_price'] = $total_price * (100 - $discount) / 100;
 
 
 
-$query = "insert into subscriptions values('".$subscription['id']."', NULL, ".$subscription['start_time'].", ".$subscription['weeks'].", ";
+$order_time = time();
+$query = "insert into subscriptions values('".$subscription['id']."', NULL, $order_time, ".$subscription['start_time'].", ".$subscription['weeks'].", ";
 if ($data['mon']) {
     $query = $query."'".json_encode($data['mon'], JSON_UNESCAPED_UNICODE)."', ";
 } else {
@@ -254,10 +255,11 @@ if ($data['thur']) {
     $query = $query."NULL, ";
 }
 if ($data['fri']) {
-    $query = $query."'".json_encode($data['fri'], JSON_UNESCAPED_UNICODE)."')";
+    $query = $query."'".json_encode($data['fri'], JSON_UNESCAPED_UNICODE)."', ";
 } else {
-    $query = $query."NULL)";
+    $query = $query."NULL, ";
 }
+$query = $query.$subscription['total_price'].", ".$subscription['discount'].", 0, ".$subscription['actual_price'].", 8, ".$subscription['actual_price'].")";
 
 $result = mysqli_query($db_conn, $query);
 if (!$result) {
@@ -269,7 +271,6 @@ if (!$result) {
     return;
 }
 
-$order_time = time();
 $subscription_id = $db_conn->insert_id;
 foreach ($orders as &$order) {
     if ($order['holiday'] == 1){
