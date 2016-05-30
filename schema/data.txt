@@ -55,12 +55,9 @@ insert into salad_items values(37, 6, '드레싱6', '', 'www.saladgram.com/image
 
 
 # soups
-insert into soups values(1, '양송이 스프(S)', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '150ml', 100, 2000, 1, 0);
-insert into soups values(2, '양송이 스프(L)', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '250ml', 150, 3000, 1, 0);
-insert into soups values(3, '토마토 야채(S)', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '150ml', 100, 2000, 1, 0);
-insert into soups values(4, '토마토 야채(L)', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '250ml', 150, 3000, 1, 0);
-insert into soups values(5, '브로콜리 치즈(S)', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '150ml', 100, 2000, 1, 0);
-insert into soups values(6, '브로콜리 치즈(L)', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '250ml', 150, 3000, 1, 0);
+insert into soups values(1, '양송이 스프', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 150, 200, 'ml', 100, 2000, 1, 0);
+insert into soups values(2, '토마토 채소 스프', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 150, 200, 'ml', 100, 2000, 1, 0);
+insert into soups values(3, '브로콜리 치즈 스프', '양송이 크림', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', 150, 200, 'ml', 100, 2000, 1, 0);
 
 # others
 insert into others values(1, '더운 야채', '당근브로콜리...', 'www.saladgram.com/images/a.png', 'www.saladgram.com/images/a.png', '100g', 100, 2500, 1, 0);
