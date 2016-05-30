@@ -142,8 +142,8 @@ create table holidays (
 order_item types {
     1: salad,
     2: soups,
-    4: others,
-    3: beverages
+    3: others,
+    4: beverages
 }
 
 order types {
