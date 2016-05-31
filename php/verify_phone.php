@@ -21,7 +21,7 @@ if ($phone != null && $key != null) {
     if (!$memcache) {
         http_response_code(500);
     } else {
-        $value = memcache_get($memcache, $phone);
+        $value = memcache_get($memcache, "check_phone".$phone);
         if (!$value || $value != $key) {
             $array = array();
             $array['success'] = false;

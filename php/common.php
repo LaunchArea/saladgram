@@ -11,6 +11,8 @@ $memcache_host = '127.0.0.1';
 $memcache_port = 11211;
 
 $jwt_secret = "saladgram";
+$sms_key = 'NCS574D847E3A2C6';
+$sms_secret = 'A1A9D1742F2E9B6E0A02E297F183204E';
 
 function menu_list($db_conn) {
     // TODO : caching
