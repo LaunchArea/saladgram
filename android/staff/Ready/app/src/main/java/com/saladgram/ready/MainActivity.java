@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout typeTabLayout;
     private Button btnShipping;
     private Button btnReset;
-    private Order.Type mSelectedType;
+    private Order.OrderType mSelectedOrderType;
     private String mSelectedAddr;
     private String[] addrList = {"All", "한화", "푸르지오", "아이파크"};
     private List<String> typeList = new LinkedList<>();
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initConstants() {
         typeList.add("All");
-        Order.Type[] values = Order.Type.values();
+        Order.OrderType[] values = Order.OrderType.values();
         for (int i = 0; i < values.length; i++) {
             typeList.add(values[i].name());
         }
@@ -167,9 +167,9 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 String name = (String) tab.getTag();
                 if (name == "All") {
-                    mSelectedType = null;
+                    mSelectedOrderType = null;
                 } else {
-                    mSelectedType = Order.Type.valueOf(name);
+                    mSelectedOrderType = Order.OrderType.valueOf(name);
                 }
                 refreshUI();
             }
@@ -217,28 +217,28 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (mSelectedAddr == null) {
-                if (mSelectedType == null) {
+                if (mSelectedOrderType == null) {
                     filteredList.add(order);
                 } else {
-                    if (order.type == mSelectedType) {
+                    if (order.orderType == mSelectedOrderType) {
                         filteredList.add(order);
                     }
                 }
-                String name = order.type.name();
+                String name = order.orderType.name();
                 if(!mTypeCounter.containsKey(name)) {
                     mTypeCounter.put(name,0);
                 }
                 mTypeCounter.put(name,mTypeCounter.get(name) + 1);
             } else {
                 if (order.addr != null && order.addr.contains(mSelectedAddr)) {
-                    if (mSelectedType == null) {
+                    if (mSelectedOrderType == null) {
                         filteredList.add(order);
                     } else {
-                        if (order.type == mSelectedType) {
+                        if (order.orderType == mSelectedOrderType) {
                             filteredList.add(order);
                         }
                     }
-                    String name = order.type.name();
+                    String name = order.orderType.name();
                     if(!mTypeCounter.containsKey(name)) {
                         mTypeCounter.put(name,0);
                     }
@@ -264,12 +264,12 @@ public class MainActivity extends AppCompatActivity {
         for(int i = 0; i < addrTabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = addrTabLayout.getTabAt(i);
             String key = addrList[i];
-            tab.setText(key + (mAddrCounter.containsKey(key) ? " " + mAddrCounter.get(key): ""));
+            tab.setText(key + (mAddrCounter.containsKey(key) ? "\n" + mAddrCounter.get(key): ""));
         }
         for(int i = 0; i < typeTabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = typeTabLayout.getTabAt(i);
             String key = typeList.get(i);
-            tab.setText(key + (mTypeCounter.containsKey(key) ? " " + mTypeCounter.get(key) : ""));
+            tab.setText(key + (mTypeCounter.containsKey(key) ? "\n" + mTypeCounter.get(key): ""));
         }
     }
 
