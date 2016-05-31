@@ -54,6 +54,36 @@ if (!$db_conn->set_charset("utf8")) {
     return;
 }
 
+$salad_items = array();
+$result = mysqli_query($db_conn, "select * from salad_items");
+if (!$result) {
+    http_response_code(500);
+    return;
+} else if (mysqli_num_rows($result) != 0) {
+    while ($row = mysqli_fetch_array($result)) {
+        $array = array();
+        $array['item_id'] = (int)$row['item_id'];
+        $array['salad_item_type'] = (int)$row['salad_item_type'];
+        $array['name'] = $row['name'];
+        $array['description'] = $row['description'];
+        $array['image'] = $row['image'];
+        $array['amount1'] = (int)$row['amount1'];
+        $array['amount2'] = (int)$row['amount2'];
+        $array['amount3'] = (int)$row['amount3'];
+        $array['amount4'] = (int)$row['amount4'];
+        $array['unit'] = $row['unit'];
+        $array['calorie'] = (int)$row['calorie'];
+        $array['price'] = (int)$row['price'];
+        $array['available'] = (int)$row['available'];
+        $array['hide'] = (int)$row['hide'];
+        $salad_items[] = $array;
+    }
+    mysqli_free_result($result);
+} else {
+    http_response_code(500);
+    return;
+}
+
 $query = "select *, a.total_price as atotal_price, a.discount as adiscount, a.reward_use as areward_use, a.actual_price as aactual_price, a.paid as apaid ";
 $query = $query."from subscriptions as a join orders as b on a.subscription_id = b.subscription_id ";
 $query = $query."where a.id = '$id' order by a.subscription_id desc, b.reservation_time desc";
@@ -104,8 +134,8 @@ while ($row = mysqli_fetch_array($result)) {
     $array = array();
     $array['order_id'] = (int)$row['order_id'];
     $array['order_type'] = (int)$row['order_type'];
-    $array['id'] = $row['b.id'];
-    $array['addr'] = $row['b.addr'];
+    $array['id'] = $row['id'];
+    $array['addr'] = $row['addr'];
     $array['total_price'] = (int)$row['total_price'];
     $array['discount'] = (int)$row['discount'];
     $array['reward_use'] = (int)$row['reward_use'];
@@ -115,6 +145,26 @@ while ($row = mysqli_fetch_array($result)) {
     $array['order_time'] = (int)$row['order_time'];
     $array['reservation_time'] = (int)$row['reservation_time'];
     $array['status'] = (int)$row['status'];
+    switch((int)date("w", $array['reservation_time'])) {
+    case 1:
+        $array['order_items'] = $subscription['mon']['order_items'];
+        break;
+    case 2:
+        $array['order_items'] = $subscription['tue']['order_items'];
+        break;
+    case 3:
+        $array['order_items'] = $subscription['wed']['order_items'];
+        break;
+    case 4:
+        $array['order_items'] = $subscription['thur']['order_items'];
+        break;
+    case 5:
+        $array['order_items'] = $subscription['fri']['order_items'];
+        break;
+    default:
+        break;
+    }
+
     $subscription['orders'][] = $array;
 }
 if ($subscription) {
