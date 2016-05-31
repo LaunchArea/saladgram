@@ -110,6 +110,8 @@ while ($row = mysqli_fetch_array($result)) {
         $item['salad_item_type'] = $salad_items[(int)$item['item_id']]['salad_item_type'];
         $item['image'] = $salad_items[(int)$item['item_id']]['image'];
         $item['unit'] = $salad_items[(int)$item['item_id']]['unit'];
+        $item['price'] = $salad_items[(int)$item['item_id']]['price'];
+        $item['calorie'] = $salad_items[(int)$item['item_id']]['calorie'];
     }
     $array['salad_items'] = $items;
     $array['price'] = (int)$row['price'];

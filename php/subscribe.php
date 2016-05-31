@@ -376,6 +376,8 @@ function tag_items(&$array) {
                 $item['salad_item_type'] = $salad_items[(int)$item['item_id']]['salad_item_type'];
                 $item['image'] = $salad_items[(int)$item['item_id']]['image'];
                 $item['unit'] = $salad_items[(int)$item['item_id']]['unit'];
+                $item['price'] = $salad_items[(int)$item['item_id']]['price'];
+                $item['calorie'] = $salad_items[(int)$item['item_id']]['calorie'];
             }
         } else if ($order_item['order_item_type'] == 2) {
             $order_item['name'] = $soups[$order_item['item_id']]['name'];
