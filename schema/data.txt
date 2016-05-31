@@ -15,7 +15,7 @@ insert into salads values(8, '셀프 서비스', '', 'www.saladgram.com/images/s
 # salad_items
 
 insert into salad_items values(0, 1, '믹스드 그린', '재료 등 설명', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
-insert into salad_items values(1, 1, '양상추', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 1);
+insert into salad_items values(1, 1, '양상추', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
 insert into salad_items values(2, 1, '로메인', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
 insert into salad_items values(3, 1, '어린잎', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
 insert into salad_items values(4, 2, '방울토마토', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 0);
