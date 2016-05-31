@@ -80,12 +80,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
         return new SimpleViewHolder(view, mListener);
     }
 
-    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm", Locale.KOREA);
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.KOREA);
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         Order item = mList.get(position);
         holder.id.setText("" + item.id);
-        holder.type.setText(item.type.name());
+        holder.type.setText(item.type.name().toLowerCase());
         holder.time.setText(sdf.format(item.order_time));
         holder.items.setText(item.getOrderItemSummary());
         if(mSelectedId == item.id) {

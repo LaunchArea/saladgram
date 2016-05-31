@@ -31,7 +31,7 @@ public class OrderItem {
 
     enum Type {SALAD, SOUP, OTHERS, BEVERAGES}
     int id;
-    String amount = null;
+    String amount;
     String name;
     Type type;
     int quantity;

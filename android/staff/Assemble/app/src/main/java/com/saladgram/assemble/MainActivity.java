@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
         if (mSelectedOrder != null) {
             mOrderItemAdapter.setList(mSelectedOrder.orderItems);
             mOrderItemAdapter.notifyDataSetChanged();
-            tvSelectedOrderId.setText(""+mSelectedOrder.id);
+            tvSelectedOrderId.setText(""+mSelectedOrder.id + " " + mSelectedOrder.type.name());
         }
 
         int[] arr = new int[4];
@@ -174,7 +174,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void postReady() {
-
+        for(Order order : mOrderList) {
+            if(order.id > mSelectedId) {
+                mSelectedId = order.id;
+                break;
+            }
+        }
+        refreshUI();
     }
 
 }

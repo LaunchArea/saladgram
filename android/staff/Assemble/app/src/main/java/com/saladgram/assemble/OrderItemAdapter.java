@@ -28,12 +28,24 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private final RecyclerViewClickListener mListener;
-        private final TextView tv;
+        private final TextView name;
+        private final TextView type;
+        private final TextView detail1;
+        private final TextView quantity;
+        private final TextView detail2;
+        private final TextView detail3;
 
 
         public SimpleViewHolder(View view, RecyclerViewClickListener listener) {
             super(view);
-            tv = (TextView) view.findViewById(R.id.tv);
+            name = (TextView) view.findViewById(R.id.name);
+            type = (TextView) view.findViewById(R.id.type);
+
+            detail1 = (TextView) view.findViewById(R.id.detail1);
+            detail2 = (TextView) view.findViewById(R.id.detail2);
+            detail3 = (TextView) view.findViewById(R.id.detail3);
+
+            quantity = (TextView) view.findViewById(R.id.quantity);
             mListener = listener;
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
@@ -68,8 +80,40 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         OrderItem item = mList.get(position);
-        holder.tv.setText("" + item.id);
-    }
+        holder.name.setText(item.name);
+        holder.type.setText(item.type.name().toLowerCase());
+        holder.quantity.setText("x " + item.quantity);
+
+        holder.detail2.setText("");
+        holder.detail3.setText("");
+            switch(item.type) {
+                case SALAD:
+                    String[] details = new String[3];
+                    for(int i = 0; i < details.length; i++) {
+                        details[i] = "";
+                    }
+                    for(SaladItem each : item.saladItems) {
+                        details[0] += (each.name + "\n");
+                        details[1] += ("" + each.amount + "\n");
+                        details[2] += (each.type.toString().substring(0,1) + "\n");
+                    }
+                    for(int i = 0; i < details.length; i++) {
+                        details[i] = details[i].substring(0, details[i].length()-1);
+                    }
+                    holder.detail1.setText(details[0]);
+                    holder.detail2.setText(details[1]);
+                    holder.detail3.setText(details[2]);
+                    break;
+                case SOUP:
+                case OTHERS:
+                    holder.detail1.setText(item.amount != null ? item.amount : "");
+                    break;
+                case BEVERAGES:
+                    holder.detail1.setText("");
+                    break;
+            }
+        }
+
 
     @Override
     public int getItemCount() {
