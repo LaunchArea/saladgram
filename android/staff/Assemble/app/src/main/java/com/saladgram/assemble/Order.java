@@ -14,6 +14,7 @@ import java.util.List;
 public class Order {
 
     public JSONObject json;
+    private String orderItemSummary = null;
 
     public Order(JSONObject each) throws JSONException {
         this.json = each;
@@ -35,6 +36,31 @@ public class Order {
             case 4: status = Status.DONE; break;
             case 5: status = Status.CANCELED; break;
         }
+    }
+
+    public String getOrderItemSummary() {
+        if (orderItemSummary == null) {
+            int[] arr = new int[4];
+            for (OrderItem item : orderItems) {
+                arr[item.type.ordinal()]++;
+            }
+            StringBuffer buf = new StringBuffer();
+            for (int i =0; i < arr.length; i++) {
+                int cnt = arr[i];
+                if (cnt > 0) {
+                    String text = "";
+                    switch(i) {
+                        case 0: text = "샐"; break;
+                        case 1: text = "스"; break;
+                        case 2: text = "아"; break;
+                        case 3: text = "음"; break;
+                    }
+                    buf.append(text + cnt + " ");
+                }
+            }
+            orderItemSummary = buf.toString();
+        }
+        return orderItemSummary;
     }
 
     enum Type {PICK_UP, DELIVERY, SUBSCRIBE, DINE_IN, TAKE_OUT}

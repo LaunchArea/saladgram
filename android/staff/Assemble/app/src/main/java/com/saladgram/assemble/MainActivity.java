@@ -5,21 +5,17 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -36,8 +32,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-    private TextView tvTotalOrders;
-    private TextView tvCurruntOrder;
+    private TextView tvOrderSummary;
     private RecyclerView lvOrders;
     private RecyclerView lvItems;
     private Button btnReady;
@@ -51,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private int mSelectedId;
 
     private Order mSelectedOrder;
+    private TextView tvSelectedOrderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +63,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        tvTotalOrders = (TextView) findViewById(R.id.total_orders);
-        tvCurruntOrder = (TextView) findViewById(R.id.currunt_order);
+        tvOrderSummary = (TextView) findViewById(R.id.orderSummary);
         lvOrders = (RecyclerView) findViewById(R.id.order_list);
         lvItems = (RecyclerView) findViewById(R.id.item_list);
         btnReady = (Button) findViewById(R.id.ready_button);
+        tvSelectedOrderId = (TextView) findViewById(R.id.selected_order_id);
     }
 
     private void initControl() {
@@ -153,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        tvTotalOrders.setText("" + mOrderList.size());
         mOrderAdapter.setSelectedId(mSelectedId);
         mOrderAdapter.setList(mOrderList);
         mOrderAdapter.notifyDataSetChanged();
@@ -161,7 +156,21 @@ public class MainActivity extends AppCompatActivity {
         if (mSelectedOrder != null) {
             mOrderItemAdapter.setList(mSelectedOrder.orderItems);
             mOrderItemAdapter.notifyDataSetChanged();
+            tvSelectedOrderId.setText(""+mSelectedOrder.id);
         }
+
+        int[] arr = new int[4];
+        for (Order order : mOrderList) {
+            for (OrderItem item: order.orderItems) {
+                arr[item.type.ordinal()]++;
+            }
+        }
+        tvOrderSummary.setText("총주문:" + mOrderList.size()
+                + " 샐러드:"+arr[0]
+                + " 스프:" +arr[1]
+                + " 그외:"+arr[2]
+                + " 음료:"+arr[3]
+        );
     }
 
     private void postReady() {

@@ -1,15 +1,16 @@
 package com.saladgram.assemble;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by yns on 5/31/16.
@@ -34,12 +35,20 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private final RecyclerViewClickListener mListener;
-        private final TextView tv;
+        private final TextView id;
+        private final TextView type;
+        private final TextView time;
+        private final TextView items;
+        private final View bg;
 
 
         public SimpleViewHolder(View view, RecyclerViewClickListener listener) {
             super(view);
-            tv = (TextView) view.findViewById(R.id.tv);
+            bg = view.findViewById(R.id.bg);
+            id = (TextView) view.findViewById(R.id.id);
+            type = (TextView) view.findViewById(R.id.type);
+            time = (TextView) view.findViewById(R.id.time);
+            items = (TextView) view.findViewById(R.id.items);
             mListener = listener;
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
@@ -71,10 +80,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
         return new SimpleViewHolder(view, mListener);
     }
 
+    SimpleDateFormat sdf = new SimpleDateFormat("MM-dd HH:mm", Locale.KOREA);
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         Order item = mList.get(position);
-        holder.tv.setText("" + item.id + (mSelectedId == item.id ? " v" : ""));
+        holder.id.setText("" + item.id);
+        holder.type.setText(item.type.name());
+        holder.time.setText(sdf.format(item.order_time));
+        holder.items.setText(item.getOrderItemSummary());
+        if(mSelectedId == item.id) {
+            holder.bg.setBackgroundResource(android.R.color.darker_gray);
+        } else {
+            holder.bg.setBackgroundResource(android.R.color.white);
+        }
     }
 
     @Override
