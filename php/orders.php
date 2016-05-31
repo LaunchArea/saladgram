@@ -67,7 +67,7 @@ $beverages = $menu_list['beverages'];
 
 $query = "select * from orders as a join order_items as b on a.order_id = b.order_id ";
 if ($id == "saladgram") {
-    $query= $query."";
+    $query= $query."order by reservation_time asc";
 } else {
     $query = $query."where a.id = '$id' and a.order_type != 3 order by a.order_id desc";
 }
