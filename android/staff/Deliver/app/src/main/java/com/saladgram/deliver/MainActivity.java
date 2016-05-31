@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
+    private String mDelivererId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,25 @@ public class MainActivity extends AppCompatActivity {
         IntentFilter filter = new IntentFilter();
         filter.addAction(Service.ACTION_FETCH_FAILED);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
+
+        checkDeliverId();
+    }
+
+    private void checkDeliverId() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("deliverer_id");
+        final EditText input = new EditText(this);
+        alert.setView(input);
+        alert.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if(input.getText().length() > 0) {
+                    mDelivererId = input.getText().toString();
+                    mSwipeRefreshLayout.setEnabled(true);
+                    refreshUI();
+                }
+            }
+        });
+        alert.show();
     }
 
     @Override
@@ -68,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         lvOrders = (RecyclerView) findViewById(R.id.order_list);
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mSwipeRefreshLayout.setEnabled(false);
     }
 
     private void initControl() {
@@ -108,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void postDone(Order order) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(mDelivererId);
         builder.setMessage("" + order.id);
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
