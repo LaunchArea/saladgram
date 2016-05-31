@@ -2,8 +2,10 @@ package com.saladgram.ready;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
@@ -11,8 +13,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -42,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private List<Order> mOrderList;
     private HashSet<Integer> mSelectedItems = new HashSet<>();
+    private HashSet<String> mDeliverers = new HashSet<>(); //deliverer_id
 
     private TabLayout addrTabLayout;
     private TabLayout typeTabLayout;
@@ -53,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
     private List<String> typeList = new LinkedList<>();
     private Map<String, Integer> mAddrCounter = new HashMap<>();
     private Map<String, Integer> mTypeCounter = new HashMap<>();
+    private Button btnDeliverer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         lvOrders = (RecyclerView) findViewById(R.id.order_list);
         btnShipping = (Button) findViewById(R.id.shipping_button);
         btnReset = (Button) findViewById(R.id.reset_button);
+        btnDeliverer = (Button) findViewById(R.id.deliverer_add_button);
     }
 
     private void initControl() {
@@ -111,6 +119,12 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 mSelectedItems.clear();
                 refreshUI();
+            }
+        });
+        btnDeliverer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addDeliverer();
             }
         });
 
@@ -187,6 +201,25 @@ public class MainActivity extends AppCompatActivity {
 
         mOrderAdapter = new OrderAdapter(this,mOrderClickListener);
         lvOrders.setAdapter(mOrderAdapter);
+    }
+
+    private void addDeliverer() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("배달자 추가");
+        final EditText input = new EditText(this);
+        alert.setView(input);
+        alert.setPositiveButton("저장", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if(input.getText().length() > 0) {
+                    mDeliverers.add(input.getText().toString());
+                }
+            }
+        });
+        alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+            }
+        });
+        alert.show();
     }
 
     private Context getActivity() {
@@ -274,8 +307,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void postShipping() {
-        mSelectedItems.clear();
-        refreshUI();
+        if(mDeliverers.size() == 0) {
+            addDeliverer();
+            return;
+        }
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+        builderSingle.setTitle("배달자 선택");
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.select_dialog_singlechoice);
+        for (String each : mDeliverers) {
+            arrayAdapter.add(each);
+        }
+
+        builderSingle.setNegativeButton(
+                "배달자 불필요",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        mSelectedItems.clear();
+                        refreshUI();
+                    }
+                });
+
+        builderSingle.setAdapter(
+                arrayAdapter,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String strName = arrayAdapter.getItem(which);
+                        Toast.makeText(getActivity(),"SHIP " + mSelectedItems.size() + " by " + strName,Toast.LENGTH_SHORT).show();
+                        mSelectedItems.clear();
+                        refreshUI();
+                    }
+                });
+        builderSingle.show();
     }
 
 }

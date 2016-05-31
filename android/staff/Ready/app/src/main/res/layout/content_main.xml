@@ -29,27 +29,37 @@
             app:tabGravity="fill" />
 
     </LinearLayout>
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/control_layout"
-        android:orientation="horizontal"
         >
         <Button
             android:id="@+id/reset_button"
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:text="X"
+            android:layout_alignParentLeft="true"
+            />
+
+
+        <Button
+            android:id="@+id/deliverer_add_button"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:text="+"
             />
         <Button
             android:id="@+id/shipping_button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/deliverer_add_button"
+            android:layout_toRightOf="@id/reset_button"
             android:text="SHIP"
             />
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
         <android.support.v7.widget.RecyclerView
