@@ -49,6 +49,34 @@ if (array_key_exists('id', $data)) {
     return;
 }
 
+$db_conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
+
+if (mysqli_connect_errno($db_conn)) {
+    http_response_code(500);
+    return;
+}
+
+if (!$db_conn->set_charset("utf8")) {
+    http_response_code(500);
+    return;
+}
+
+if (!$db_conn->autocommit(false)) {
+    http_response_code(500);
+    return;
+}
+
+$menu_list = menu_list($db_conn);
+if ($menu_list == []) {
+    http_response_code(500);
+    return;
+}
+$salads = $menu_list['salads'];
+$salad_items = $menu_list['salad_items'];
+$others = $menu_list['others'];
+$soups = $menu_list['soups'];
+$beverages = $menu_list['beverages'];
+
 $subscription = array();
 $subscription['id'] = $data['id'];
 $subscription['addr'] = $data['addr'];
@@ -57,22 +85,32 @@ $subscription['weeks'] = $data['weeks'];
 $subscription['mon'] = $data['mon'];
 if (!$subscription['mon']) {
     unset($subscription['mon']);
+} else {
+    tag_items($subscription['mon']);
 }
 $subscription['tue'] = $data['tue'];
 if (!$subscription['tue']) {
     unset($subscription['tue']);
+} else {
+    tag_items($subscription['tue']);
 }
 $subscription['wed'] = $data['wed'];
 if (!$subscription['wed']) {
     unset($subscription['wed']);
+} else {
+    tag_items($subscription['wed']);
 }
 $subscription['thur'] = $data['thur'];
 if (!$subscription['thur']) {
     unset($subscription['thur']);
+} else {
+    tag_items($subscription['thur']);
 }
 $subscription['fri'] = $data['fri'];
 if (!$subscription['fri']) {
     unset($subscription['fri']);
+} else {
+    tag_items($subscription['fri']);
 }
 
 $start_day = (int)date("w", $subscription['start_time']);
@@ -102,23 +140,6 @@ for ($i = 0; $i < 7; $i++) {
     default:
         break;
     }
-}
-
-$db_conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
-
-if (mysqli_connect_errno($db_conn)) {
-    http_response_code(500);
-    return;
-}
-
-if (!$db_conn->set_charset("utf8")) {
-    http_response_code(500);
-    return;
-}
-
-if (!$db_conn->autocommit(false)) {
-    http_response_code(500);
-    return;
 }
 
 $holidays = array();
@@ -342,3 +363,30 @@ $response['orders'] = $orders;
 print(json_encode($response, JSON_UNESCAPED_UNICODE));
 
 mysqli_close($db_conn);
+
+function tag_items(&$array) {
+    global $salads, $salad_items, $soups, $others, $beverages;
+    foreach($array['order_items'] as &$order_item) {
+        if ($order_item['order_item_type'] == 1) {
+            $order_item['name'] = $salads[$order_item['item_id']]['name'];
+            foreach ($order_item['salad_items'] as &$item) {
+                $item['name'] = $salad_items[(int)$item['item_id']]['name'];
+                $amount_type = 'amount'.$item['amount_type'];
+                $item['amount'] = $salad_items[(int)$item['item_id']][$amount_type];
+                $item['salad_item_type'] = $salad_items[(int)$item['item_id']]['salad_item_type'];
+                $item['image'] = $salad_items[(int)$item['item_id']]['image'];
+                $item['unit'] = $salad_items[(int)$item['item_id']]['unit'];
+            }
+        } else if ($order_item['order_item_type'] == 2) {
+            $order_item['name'] = $soups[$order_item['item_id']]['name'];
+            $amount_type = 'amount'.$order_item['amount_type'];
+            $order_item['amount'] = $soups[$order_item['item_id']][$amount_type].$soups[$order_item['item_id']]['unit'];
+        } else if ($order_item['order_item_type'] == 3) {
+            $order_item['name'] = $others[$order_item['item_id']]['name'];
+        } else if ($order_item['order_item_type'] == 4) {
+            $order_item['name'] = $beverages[$order_item['item_id']]['name'];
+        }
+    }
+}
+
+?>
