@@ -16,7 +16,7 @@
         android:layout_height="64dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:weightSum="5"
+        android:weightSum="6"
         >
         <Button
             android:id="@+id/pay_card"
@@ -45,6 +45,13 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="포인트"
+            />
+        <Button
+            android:id="@+id/togo"
+            android:layout_width="1dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="TOGO?"
             />
         <Button
             android:id="@+id/complete"

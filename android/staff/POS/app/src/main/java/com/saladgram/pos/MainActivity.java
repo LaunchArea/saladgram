@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private int mPoint = 0;
     private int mSubTotal;
     private int mTotal;
+    private boolean mToGo = false;
 
     enum PaymentType {CARD, CASH}
     private PaymentType mPaymentType;
@@ -104,8 +105,6 @@ public class MainActivity extends AppCompatActivity {
                 saleItem.menuItem = item;
                 if (item.checkWeight) {
                     checkWeight(saleItem);
-                } else if (item.checkToGo) {
-                    checkToGo(saleItem);
                 } else if (item.checkSize) {
                     checkSize(saleItem);
                 } else {
@@ -170,6 +169,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 placeOrder();
+            }
+        });
+        findViewById(R.id.togo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mToGo = !mToGo;
+                refreshSaleAmount();
             }
         });
     }
@@ -263,24 +269,6 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
-
-    private void checkToGo(final SaleItem saleItem) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("드시고가세요?");
-        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                addSaleItem(saleItem);
-            }
-        });
-        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                saleItem.takeout = true;
-                addSaleItem(saleItem);
-            }
-        });
-        alert.show();
-    }
-
     private void checkWeight(final SaleItem saleItem) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("무게 입력 (단위:g)");
@@ -338,6 +326,7 @@ public class MainActivity extends AppCompatActivity {
                     mDiscount = 5;
                     mPoint = 0;
                     mPaymentType = null;
+                    mToGo = true;
                     refreshSaleAmount();
                 } else {
                     Toast.makeText(getActivity(),""+result,Toast.LENGTH_SHORT).show();
@@ -352,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.pay_cash).setEnabled(mSaleList.size()>0);
         findViewById(R.id.set_discount).setEnabled(mSaleList.size()>0);
         findViewById(R.id.set_point).setEnabled(mSaleList.size()>0);
+        findViewById(R.id.togo).setEnabled(mSaleList.size()>0);
 
 
         mSubTotal = 0;
@@ -372,6 +362,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.total)).setText(String.valueOf(mTotal) + "원");
         ((TextView)findViewById(R.id.cash_received)).setText(String.valueOf(mCashReceived) + "원");
         ((TextView)findViewById(R.id.change)).setText(String.valueOf(change) + "원");
+        ((TextView)findViewById(R.id.togo)).setText(mToGo?"togo? O" : "TOGO? X");
 
     }
 
@@ -427,7 +418,7 @@ public class MainActivity extends AppCompatActivity {
 
                 HashMap<String, Object> m = new HashMap<>();
 
-                m.put("order_type", 1);
+                m.put("order_type", mToGo ? 5 : 4);
                 m.put("id", "saladgram");
                 m.put("total_price", mSubTotal);
                 m.put("actual_price", mTotal);
@@ -545,7 +536,6 @@ public class MainActivity extends AppCompatActivity {
                 item.type = type;
                 item.amount = (String) each.get("amount");
 
-                item.checkToGo = (type == MenuItem.Type.SALAD);
                 item.checkSize = (type == MenuItem.Type.SOUP);
                 item.checkWeight = (item.price == -1);
                 mMenuList.add(item);

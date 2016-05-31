@@ -19,7 +19,6 @@ public class MenuItem {
     public String amount;
     HashMap<String, Object> data;
 
-    boolean checkToGo = false;
     boolean checkWeight = false;
     boolean checkSize = false;
 }
