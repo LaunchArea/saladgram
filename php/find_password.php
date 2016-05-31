@@ -1,6 +1,8 @@
 <?php
+error_reporting(E_ALL & ~E_NOTICE);
 
 require 'common.php';
+require 'coolsms.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 
@@ -38,10 +40,21 @@ if ($id != null && $phone != null) {
             http_response_code(500);
         } else {
             // generate random number
-            // set to memcache
-            memcache_set($memcache, $id.$phone, 1234, 0, 180);
-            memcache_close($memcache);
             // send sms
+            // set to memcache
+            $key = rand(100000, 999999);
+            $rest = new coolsms($sms_key, $sms_secret);
+            $options->to = $phone;
+            $options->from = "01020851601";
+            $options->text = "샐러드그램 인증 번호는 [".$key."] 입니다.";
+            $result = $rest->send($options)->getResult();
+            if ($result->result_code != '00') {
+                http_response_code(500);
+                memcache_close($memcache);
+                return;
+            }
+            memcache_set($memcache, $id.$phone, $key, 0, 180);
+            memcache_close($memcache);
             $array = array();
             $array['success'] = true;
             $array['message'] = "Verification message sent.";

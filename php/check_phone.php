@@ -43,6 +43,7 @@ if ($phone != null) {
             http_response_code(500);
         } else {
             // generate random number
+            // send sms
             // set to memcache
             $key = rand(100000, 999999);
             $rest = new coolsms($sms_key, $sms_secret);
@@ -57,7 +58,6 @@ if ($phone != null) {
             }
             memcache_set($memcache, "check_phone".$phone, $key, 0, 180);
             memcache_close($memcache);
-            // send sms
             $array = array();
             $array['success'] = true;
             $array['message'] = "Verification message sent.";
