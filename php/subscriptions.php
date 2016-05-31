@@ -54,35 +54,16 @@ if (!$db_conn->set_charset("utf8")) {
     return;
 }
 
-$salad_items = array();
-$result = mysqli_query($db_conn, "select * from salad_items");
-if (!$result) {
-    http_response_code(500);
-    return;
-} else if (mysqli_num_rows($result) != 0) {
-    while ($row = mysqli_fetch_array($result)) {
-        $array = array();
-        $array['item_id'] = (int)$row['item_id'];
-        $array['salad_item_type'] = (int)$row['salad_item_type'];
-        $array['name'] = $row['name'];
-        $array['description'] = $row['description'];
-        $array['image'] = $row['image'];
-        $array['amount1'] = (int)$row['amount1'];
-        $array['amount2'] = (int)$row['amount2'];
-        $array['amount3'] = (int)$row['amount3'];
-        $array['amount4'] = (int)$row['amount4'];
-        $array['unit'] = $row['unit'];
-        $array['calorie'] = (int)$row['calorie'];
-        $array['price'] = (int)$row['price'];
-        $array['available'] = (int)$row['available'];
-        $array['hide'] = (int)$row['hide'];
-        $salad_items[] = $array;
-    }
-    mysqli_free_result($result);
-} else {
+$menu_list = menu_list($db_conn);
+if ($menu_list == []) {
     http_response_code(500);
     return;
 }
+$salads = $menu_list['salads'];
+$salad_items = $menu_list['salad_items'];
+$others = $menu_list['others'];
+$soups = $menu_list['soups'];
+$beverages = $menu_list['beverages'];
 
 $query = "select *, a.total_price as atotal_price, a.discount as adiscount, a.reward_use as areward_use, a.actual_price as aactual_price, a.paid as apaid ";
 $query = $query."from subscriptions as a join orders as b on a.subscription_id = b.subscription_id ";
@@ -110,19 +91,29 @@ while ($row = mysqli_fetch_array($result)) {
         $subscription['start_time'] = (int)$row['start_time'];
         $subscription['weeks'] = (int)$row['weeks'];
         if ($row['mon']) {
-            $subscription['mon'] = json_decode($row['mon'], true);
+            $meal = json_decode($row['mon'], true);
+            tag_items($meal);
+            $subscription['mon'] = $meal;
         }
         if ($row['tue']) {
-            $subscription['tue'] = json_decode($row['tue'], true);
+            $meal = json_decode($row['tue'], true);
+            tag_items($meal);
+            $subscription['tue'] = $meal;
         }
         if ($row['wed']) {
-            $subscription['wed'] = json_decode($row['wed'], true);
+            $meal = json_decode($row['wed'], true);
+            tag_items($meal);
+            $subscription['wed'] = $meal;
         }
         if ($row['thur']) {
-            $subscription['thur'] = json_decode($row['thur'], true);
+            $meal = json_decode($row['thur'], true);
+            tag_items($meal);
+            $subscription['thur'] = $meal;
         }
         if ($row['fri']) {
-            $subscription['fri'] = json_decode($row['fri'], true);
+            $meal = json_decode($row['fri'], true);
+            tag_items($meal);
+            $subscription['fri'] = $meal;
         }
         $subscription['total_price'] = (int)$row['atotal_price'];
         $subscription['discount'] = (int)$row['adiscount'];
@@ -174,4 +165,28 @@ print(json_encode($subscriptions, JSON_UNESCAPED_UNICODE));
 
 mysqli_close($db_conn);
 
+function tag_items(&$array) {
+    global $salads, $salad_items, $soups, $others, $beverages;
+    foreach($array['order_items'] as &$order_item) {
+        if ($order_item['order_item_type'] == 1) {
+            $order_item['name'] = $salads[$order_item['item_id']]['name'];
+            foreach ($order_item['salad_items'] as &$item) {
+                $item['name'] = $salad_items[(int)$item['item_id']]['name'];
+                $amount_type = 'amount'.$item['amount_type'];
+                $item['amount'] = $salad_items[(int)$item['item_id']][$amount_type];
+                $item['salad_item_type'] = $salad_items[(int)$item['item_id']]['salad_item_type'];
+                $item['image'] = $salad_items[(int)$item['item_id']]['image'];
+                $item['unit'] = $salad_items[(int)$item['item_id']]['unit'];
+            }
+        } else if ($order_item['order_item_type'] == 2) {
+            $order_item['name'] = $soups[$order_item['item_id']]['name'];
+            $amount_type = 'amount'.$order_item['amount_type'];
+            $order_item['amount'] = $soups[$order_item['item_id']][$amount_type].$soups[$order_item['item_id']]['unit'];
+        } else if ($order_item['order_item_type'] == 3) {
+            $order_item['name'] = $others[$order_item['item_id']]['name'];
+        } else if ($order_item['order_item_type'] == 4) {
+            $order_item['name'] = $beverages[$order_item['item_id']]['name'];
+        }
+    }
+}
 ?>
