@@ -72,9 +72,10 @@ if (!$result) {
         foreach ($items as &$item) {
             $item['name'] = $salad_items[(int)$item['item_id']]['name'];
             $amount_type = 'amount'.$item['amount_type'];
-            $item['amount'] = $salad_items[(int)$item['item_id']][$amount_type].$salad_items[(int)$item['item_id']]['unit'];
+            $item['amount'] = $salad_items[(int)$item['item_id']][$amount_type];
             $item['salad_item_type'] = $salad_items[(int)$item['item_id']]['salad_item_type'];
             $item['image'] = $salad_items[(int)$item['item_id']]['image'];
+            $item['unit'] = $salad_items[(int)$item['item_id']]['unit'];
         }
         $array['salad_items'] = $items;
         if ($row['amount']) {
