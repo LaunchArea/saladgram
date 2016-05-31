@@ -13,7 +13,10 @@ import java.util.List;
  */
 public class Order {
 
+    public JSONObject json;
+
     public Order(JSONObject each) throws JSONException {
+        this.json = each;
         id = each.getInt("order_id");
         order_time = new Date(each.getLong("order_time") * 1000);
 
@@ -42,4 +45,5 @@ public class Order {
     Date order_time;
     Status status;
     List<OrderItem> orderItems = new LinkedList<>();
+
 }

@@ -11,7 +11,10 @@ import java.util.List;
  * Created by yns on 5/31/16.
  */
 public class OrderItem {
+    public final JSONObject json;
+
     public OrderItem(JSONObject item) throws JSONException {
+        json = item;
         id = item.getInt("item_id");
         name = item.getString("name");
         quantity = item.getInt("quantity");
