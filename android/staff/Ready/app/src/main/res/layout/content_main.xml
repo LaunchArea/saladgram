@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.saladgram.ready.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <LinearLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        >
+        <android.support.design.widget.TabLayout
+            android:id="@+id/addr_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill" />
+        <android.support.design.widget.TabLayout
+            android:id="@+id/type_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabGravity="fill" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/control_layout"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/reset_button"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:text="X"
+            />
+        <Button
+            android:id="@+id/shipping_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="SHIP"
+            />
+
+    </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_list"
+            android:background="@android:color/darker_gray"
+            android:scrollbars="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/tab_layout"
+            android:layout_above="@+id/control_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+</RelativeLayout>
