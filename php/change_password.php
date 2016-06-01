@@ -90,7 +90,7 @@ $password = $data['password'];
 $hash = password_hash($password, PASSWORD_DEFAULT);
 
 $query = "update users set password='$hash' where id = '$id'";
-$result = mysqli_query($db_conn, "$query");
+$result = mysqli_query($db_conn, $query);
 if (!$result) {
     $array = array();
     $array['success'] = false;

@@ -86,7 +86,7 @@ if (!$db_conn->set_charset("utf8")) {
 }
 
 $query = "update users set phone = '$phone' where id = '$id'";
-$result = mysqli_query($db_conn, "$query");
+$result = mysqli_query($db_conn, $query);
 if (!$result) {
     $array = array();
     $array['success'] = false;
