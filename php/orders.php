@@ -70,7 +70,8 @@ $query = "select * from orders as a join order_items as b on a.order_id = b.orde
 if ($id == "saladgram") {
     $query= $query."order by reservation_time asc";
 } else {
-    $query = $query."where a.id = '$id' and a.order_type != ".Types::ORDER_SUBSCRIBE." order by a.order_id desc";
+    $query = $query."where a.id = '$id' and (a.order_type == ".Types::ORDER_PICK_UP." or a.order_type == ".Types::ORDER_DELIVERY.") ";
+    $query = $query."order by a.order_id desc";
 }
 
 $orders = array();
@@ -106,6 +107,9 @@ if (!$result) {
             $order['order_time'] = (int)$row['order_time'];
             $order['reservation_time'] = (int)$row['reservation_time'];
             $order['status'] = (int)$row['status'];
+            if ($row['deliverer_id']) {
+                $order['deliverer_id'] = $row['deliverer_id'];
+            }
         }
         $array = array();
         $array['order_item_type'] = (int)$row['order_item_type'];
