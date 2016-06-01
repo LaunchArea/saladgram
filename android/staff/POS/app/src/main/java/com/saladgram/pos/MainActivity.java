@@ -26,7 +26,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private int mSubTotal;
     private int mTotal;
     private boolean mToGo = false;
+    private String mMirrorIP;
 
     enum PaymentType {CARD, CASH}
     private PaymentType mPaymentType;
@@ -178,6 +184,27 @@ public class MainActivity extends AppCompatActivity {
                 refreshSaleAmount();
             }
         });
+        findViewById(R.id.mirror).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mirrorSetup();
+            }
+        });
+    }
+
+    private void mirrorSetup() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("mirror ip");
+        final EditText input = new EditText(this);
+        alert.setView(input);
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if(input.getText().length() > 0) {
+                    mMirrorIP = input.getText().toString();
+                }
+            }
+        });
+        alert.show();
     }
 
     private void acceptCard() {
@@ -364,6 +391,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.change)).setText(String.valueOf(change) + "원");
         ((TextView)findViewById(R.id.togo)).setText(mToGo?"togo? O" : "TOGO? X");
 
+        sendToMirror();
     }
 
     public Activity getActivity() {
@@ -584,5 +612,59 @@ public class MainActivity extends AppCompatActivity {
 
         //Apply this adapter to the RecyclerView
         mMenuRecyclerView.setAdapter(mSectionedAdapter);
+    }
+
+    private void sendToMirror() {
+        if (mMirrorIP == null) {
+            return;
+        }
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("mCashReceived", mCashReceived);
+        map.put("mDiscount", mDiscount);
+        map.put("mPoint", mPoint);
+        map.put("mSubTotal", mSubTotal);
+        map.put("mTotal", mTotal);
+
+        ArrayList<HashMap<String,Object>> arr = new ArrayList<>();
+        for (SaleItem each : mSaleList) {
+            HashMap<String, Object> m = new HashMap<String, Object>();
+            m.put("name", each.menuItem.name);
+            m.put("price", each.getTotalPrice());
+            m.put("takeout", each.takeout);
+            m.put("amount", each.amount);
+            m.put("quantity", each.quantity);
+            arr.add(m);
+        }
+        map.put("saleMirrorItemList", arr);
+
+        final String message = new JSONObject(map).toString();
+        AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    InetAddress serverAddr = InetAddress.getByName(mMirrorIP);
+                    Socket socket = new Socket(serverAddr, 6000);
+                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+                    out.println(message);
+                    out.close();
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean succ) {
+                super.onPostExecute(succ);
+                if (!succ) {
+                    Toast.makeText(getActivity(), "Mirror failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        task.execute();
     }
 }
