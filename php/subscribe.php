@@ -332,7 +332,7 @@ foreach ($orders as &$order) {
             $query = $query."NULL, ";
         }
 
-        $query = $query." $quantity, $price, $calorie)";
+        $query = $query." $quantity, $price, $calorie, ".Types::PACKAGE_TAKE_OUT.")";
 
         $result = mysqli_query($db_conn, $query);
         if (!$result) {

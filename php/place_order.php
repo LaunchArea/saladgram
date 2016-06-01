@@ -71,7 +71,8 @@ if ($addr) {
 } else {
     $query = $query."NULL, ";
 }
-$query = $query."$total_price, $discount, $reward_use, $actual_price, $payment_type, 0, $order_time, $reservation_time, 1)";
+$paid = 0;
+$query = $query."$total_price, $discount, $reward_use, $actual_price, $payment_type, $paid, $order_time, $reservation_time, ".Types::STATUS_TODO.")";
 
 $db_conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 if (mysqli_connect_errno($db_conn)) {
@@ -111,18 +112,19 @@ foreach ($order_items as &$item) {
     $calorie = $item['calorie'];
 
     $query = "insert into order_items values($order_id, '$id', $order_item_type, $item_id, ";
-    if ($order_item_type == 1) {
+    if ($order_item_type == Types::ORDER_ITEM_SALAD) {
         $query = $query."'$salad_items', ";
     } else {
         $query = $query."NULL, ";
     }
-    if ($order_item_type == 2) {
+    if ($order_item_type == Types::ORDER_ITEM_SOUP) {
         $query = $query."$amount_type, ";
     } else {
         $query = $query."NULL, ";
     }
 
-    $query = $query." $quantity, $price, $calorie)";
+    $package = Types::PACKAGE_TAKE_OUT;
+    $query = $query." $quantity, $price, $calorie, $package)";
     $result = mysqli_query($db_conn, $query);
     if (!$result) {
         $array = array();
