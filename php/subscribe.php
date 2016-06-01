@@ -299,7 +299,7 @@ foreach ($orders as &$order) {
     }
     $actual_price = $order['total_price'] * (100 - $discount) / 100;
     $query = "insert into orders values(NULL, $subscription_id, NULL, 3, '".$subscription['id']."', NULL, '".$subscription['addr']."', ";
-    $query = $query.$order['total_price'].", $discount, 0, $actual_price, 8, $actual_price, $order_time, ".$order['reservation_time'].", 1)";
+    $query = $query.$order['total_price'].", $discount, 0, $actual_price, 8, $actual_price, $order_time, ".$order['reservation_time'].", ".Types::STATUS_TODO.")";
 
     $result = mysqli_query($db_conn, $query);
     if (!$result) {
@@ -321,12 +321,12 @@ foreach ($orders as &$order) {
         $calorie = $item['calorie'];
 
         $query = "insert into order_items values($order_id, '".$subscription['id']."', $order_item_type, $item_id, ";
-        if ($order_item_type == 1) {
+        if ($order_item_type == Types::ORDER_ITEM_SALAD) {
             $query = $query."'$salad_items', ";
         } else {
             $query = $query."NULL, ";
         }
-        if ($order_item_type == 2) {
+        if ($order_item_type == Types::ORDER_ITEM_SOUP) {
             $query = $query."$amount_type, ";
         } else {
             $query = $query."NULL, ";
@@ -367,7 +367,7 @@ mysqli_close($db_conn);
 function tag_items(&$array) {
     global $salads, $salad_items, $soups, $others, $beverages;
     foreach($array['order_items'] as &$order_item) {
-        if ($order_item['order_item_type'] == 1) {
+        if ($order_item['order_item_type'] == Types::ORDER_ITEM_SALAD) {
             $order_item['name'] = $salads[$order_item['item_id']]['name'];
             foreach ($order_item['salad_items'] as &$item) {
                 $item['name'] = $salad_items[(int)$item['item_id']]['name'];
@@ -379,13 +379,13 @@ function tag_items(&$array) {
                 $item['price'] = $salad_items[(int)$item['item_id']]['price'];
                 $item['calorie'] = $salad_items[(int)$item['item_id']]['calorie'];
             }
-        } else if ($order_item['order_item_type'] == 2) {
+        } else if ($order_item['order_item_type'] == Types::ORDER_ITEM_SOUP) {
             $order_item['name'] = $soups[$order_item['item_id']]['name'];
             $amount_type = 'amount'.$order_item['amount_type'];
             $order_item['amount'] = $soups[$order_item['item_id']][$amount_type].$soups[$order_item['item_id']]['unit'];
-        } else if ($order_item['order_item_type'] == 3) {
+        } else if ($order_item['order_item_type'] == Types::ORDER_ITEM_OTHER) {
             $order_item['name'] = $others[$order_item['item_id']]['name'];
-        } else if ($order_item['order_item_type'] == 4) {
+        } else if ($order_item['order_item_type'] == Types::ORDER_ITEM_BEVERAGE) {
             $order_item['name'] = $beverages[$order_item['item_id']]['name'];
         }
     }
