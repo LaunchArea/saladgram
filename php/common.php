@@ -14,6 +14,53 @@ $jwt_secret = "saladgram";
 $sms_key = 'NCS574D847E3A2C6';
 $sms_secret = 'A1A9D1742F2E9B6E0A02E297F183204E';
 
+abstract class Types {
+    const ORDER_ITEM_SALAD = 1;
+    const ORDER_ITEM_SOUP = 2;
+    const ORDER_ITEM_OTHER = 3;
+    const ORDER_ITEM_BEVERAGE = 4;
+    const ORDER_ITEM_SELF_SALAD = 5;
+    const ORDER_ITEM_SELF_SOUP = 6;
+
+    const ORDER_PICK_UP = 1;
+    const ORDER_DELIVERY = 2;
+    const ORDER_SUBSCRIBE = 3;
+    const ORDER_DINE_IN = 4;
+    const ORDER_TAKE_OUT = 5;
+
+    const PAYMENT_CARD = 1;
+    const PAYMENT_CASH = 2;
+    const PAYMENT_CASH_RECEIPT = 3;
+    const PAYMENT_DELIVERY_CARD = 4;
+    const PAYMENT_DELIVERY_CASH = 5;
+    const PAYMENT_DELIVERY_CASH_RECEIPT = 6;
+    const PAYMENT_INIPAY = 7;
+    const PAYMENT_AT_PICK_UP = 8;
+    const PAYMENT_AT_DELIVERY = 9;
+    const PAYMENT_REWARD_ONLY = 10;
+
+    const STATUS_TODO = 1;
+    const STATUS_READY = 2;
+    const STATUS_SHIPPING = 3;
+    const STATUS_DONE = 4;
+    const STATUS_CANCELED = 5;
+
+    const REWARD_EVENT = 1;
+    const REWARD_USE = 2;
+    const REWARD_REWARD = 3;
+    const REWARD_CANCEL = 4;
+
+    const SALAD_ITEM_BASE = 1;
+    const SALAD_ITEM_VEGETABLE = 2;
+    const SALAD_ITEM_FRUIT = 3;
+    const SALAD_ITEM_PROTEIN = 4;
+    const SALAD_ITEM_OTHER = 5;
+    const SALAD_ITEM_DRESSING = 6;
+
+    const PACKAGE_TAKE_OUT = 1;
+    const PACKAGE_DINE_IN = 2;
+}
+
 function menu_list($db_conn) {
     // TODO : caching
     $salad_items = array();

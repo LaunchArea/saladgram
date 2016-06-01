@@ -37,7 +37,8 @@ create table order_items (
     amount_type int,
     quantity int not null,
     price int not null,
-    calorie int not null
+    calorie int not null,
+    package_type int not null
 );
 
 create table subscriptions (
@@ -150,7 +151,9 @@ order_item types {
     1: salad,
     2: soups,
     3: others,
-    4: beverages
+    4: beverages,
+    5: self_salad,
+    6: self_soup
 }
 
 order types {
@@ -165,12 +168,13 @@ payment_type types {
     1: card,
     2: cash,
     3: cash_receipt,
-    4: deliver_card,
-    5: deliver_cash,
-    6: deliver_cash_receipt,
-    7: pick_up,
-    8: inipay,
-    9: reward_only
+    4: delivery_card,
+    5: delivery_cash,
+    6: delivery_cash_receipt,
+    7: inipay,
+    8: at_pick_up,
+    9: at_delivery,
+    10: reward_only
 }
 
 status types {
@@ -195,4 +199,9 @@ salad_item types {
     4: proteins,
     5: others,
     6: dressings
+}
+
+package_types {
+    1: take_out,
+    2: dine_in
 }
