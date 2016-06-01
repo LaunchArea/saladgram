@@ -69,7 +69,7 @@ $query = "select * from orders as a join order_items as b on a.order_id = b.orde
 if ($id == "saladgram") {
     $query= $query."order by reservation_time asc";
 } else {
-    $query = $query."where a.id = '$id' and a.order_type != 3 order by a.order_id desc";
+    $query = $query."where a.id = '$id' and a.order_type != ".Types::ORDER_SUBSCRIBE." order by a.order_id desc";
 }
 
 $orders = array();
@@ -109,7 +109,7 @@ if (!$result) {
         $array = array();
         $array['order_item_type'] = (int)$row['order_item_type'];
         $array['item_id'] = (int)$row['item_id'];
-        if ($array['order_item_type'] == 1) {
+        if ($array['order_item_type'] == Types::ORDER_ITEM_SALAD) {
             $array['name'] = $salads[$array['item_id']]['name'];
             $items = json_decode($row['salad_items'], true);
             foreach ($items as &$item) {
@@ -123,19 +123,20 @@ if (!$result) {
                 $item['calorie'] = $salad_items[(int)$item['item_id']]['calorie'];
             }
             $array['salad_items'] = $items;
-        } else if ($array['order_item_type'] == 2) {
+        } else if ($array['order_item_type'] == Types::ORDER_ITEM_SOUP) {
             $array['name'] = $soups[$array['item_id']]['name'];
             $amount_type = 'amount'.$item['amount_type'];
             $array['amount_type'] = (int)$row['amount_type'];
             $array['amount'] = $soups[$array['item_id']][$amount_type].$soups[$array['item_id']]['unit'];
-        } else if ($array['order_item_type'] == 3) {
+        } else if ($array['order_item_type'] == Types::ORDER_ITEM_OTHER) {
             $array['name'] = $others[$array['item_id']]['name'];
-        } else if ($array['order_item_type'] == 4) {
+        } else if ($array['order_item_type'] == Types::ORDER_ITEM_BEVERAGE) {
             $array['name'] = $beverages[$array['item_id']]['name'];
         }
         $array['quantity'] = (int)$row['quantity'];
         $array['price'] = (int)$row['price'];
         $array['calorie'] = (int)$row['calorie'];
+        $array['package_type'] = (int)$row['package_type'];
 
         $order['order_items'][] = $array;
     }

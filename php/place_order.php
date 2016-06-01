@@ -57,7 +57,7 @@ $discount = $data['discount'];
 $reward_use = $data['reward_use'];
 $actual_price = $data['actual_price'];
 $payment_type = $data['payment_type'];
-$order_time = $data['order_time'];
+$order_time = time();
 $reservation_time = $data['reservation_time'];
 
 $query = "insert into orders values(NULL, NULL, NULL, $order_type, ";
@@ -71,7 +71,13 @@ if ($addr) {
 } else {
     $query = $query."NULL, ";
 }
+
 $paid = 0;
+if ($payment_type == Types::PAYMENT_CARD || $payment_type == Types::PAYMENT_CASH || $payment_type == Types::PAYMENT_CASH_RECEIPT) {
+    $paid = ($actual_price / 100) * 100;
+}
+// TODO : inipay
+
 $query = $query."$total_price, $discount, $reward_use, $actual_price, $payment_type, $paid, $order_time, $reservation_time, ".Types::STATUS_TODO.")";
 
 $db_conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
@@ -110,6 +116,11 @@ foreach ($order_items as &$item) {
     $quantity = $item['quantity'];
     $price = $item['price'];
     $calorie = $item['calorie'];
+    $package_type = Types::PACKAGE_TAKE_OUT;
+    if ($order_type == Types::ORDER_DINE_IN) {
+        $package_type = Types::PACKAGE_DINE_IN;
+    }
+    $package_type = $item['package_type'] ? $item['package_type'] : $package_type;
 
     $query = "insert into order_items values($order_id, '$id', $order_item_type, $item_id, ";
     if ($order_item_type == Types::ORDER_ITEM_SALAD) {
@@ -123,8 +134,7 @@ foreach ($order_items as &$item) {
         $query = $query."NULL, ";
     }
 
-    $package = Types::PACKAGE_TAKE_OUT;
-    $query = $query." $quantity, $price, $calorie, $package)";
+    $query = $query." $quantity, $price, $calorie, $package_type)";
     $result = mysqli_query($db_conn, $query);
     if (!$result) {
         $array = array();
