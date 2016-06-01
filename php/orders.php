@@ -68,7 +68,46 @@ $beverages = $menu_list['beverages'];
 
 $query = "select * from orders as a join order_items as b on a.order_id = b.order_id ";
 if ($id == "saladgram") {
-    $query= $query."order by reservation_time asc";
+    $where = 0;
+    if ($_GET['deliverer_id']) {
+        $query = $query."where deliverer_id = '".$_GET['deliverer_id']."' ";
+        $where = 1;
+    }
+    if ($_GET['order_type']) {
+        if ($where) {
+            $query = $query."and order_type = ".$_GET['order_type']." ";
+        } else {
+            $query = $query."where order_type = ".$_GET['order_type']." ";
+        }
+        $where = 1;
+    }
+    if ($_GET['addr']) {
+        if ($where) {
+            $query = $query."and addr like '".$_GET['addr']."%' ";
+        } else {
+            $query = $query."where addr like '".$_GET['addr']."%' ";
+        }
+        $where = 1;
+    }
+    if ($_GET['status']) {
+        if ($where) {
+            $query = $query."and status = ".$_GET['status']." ";
+        } else {
+            $query = $query."where status = ".$_GET['status']." ";
+        }
+        $where = 1;
+    }
+    if ($_GET['reservation_time']) {
+        $time = time() + ($_GET['reservation_time'] * 3600);
+        if ($where) {
+            $query = $query."and reservation_time < $time ";
+        } else {
+            $query = $query."where reservation_time < $time ";
+        }
+        $where = 1;
+    }
+
+    $query = $query."order by reservation_time asc";
 } else {
     $query = $query."where a.id = '$id' and (a.order_type == ".Types::ORDER_PICK_UP." or a.order_type == ".Types::ORDER_DELIVERY.") ";
     $query = $query."order by a.order_id desc";

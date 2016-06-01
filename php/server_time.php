@@ -17,7 +17,4 @@ $array = array();
 $array['server_time'] = time();
 print(json_encode($array));
 
-
-mysqli_close($db_conn);
-
 ?>
