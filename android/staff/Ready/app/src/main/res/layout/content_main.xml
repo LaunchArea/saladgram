@@ -11,27 +11,21 @@
     <LinearLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:orientation="vertical"
         android:layout_alignParentTop="true"
         >
         <android.support.design.widget.TabLayout
-            android:id="@+id/addr_tabs"
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabMode="fixed"
-            app:tabGravity="fill" />
-        <android.support.design.widget.TabLayout
-            android:id="@+id/type_tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             app:tabMode="fixed"
             app:tabGravity="fill" />
 
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="80dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/control_layout"
         >
