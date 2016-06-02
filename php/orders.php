@@ -176,6 +176,12 @@ if (!$result) {
             $array['name'] = $others[$array['item_id']]['name'];
         } else if ($array['order_item_type'] == Types::ORDER_ITEM_BEVERAGE) {
             $array['name'] = $beverages[$array['item_id']]['name'];
+        } else if ($array['order_item_type'] == Types::ORDER_ITEM_SELF_SALAD) {
+            $array['name'] = '-';
+            $array['amount'] = '?';
+        } else if ($array['order_item_type'] == Types::ORDER_ITEM_SELF_SOUP) {
+            $array['name'] = '-';
+            $array['amount'] = '?';
         }
         $array['quantity'] = (int)$row['quantity'];
         $array['price'] = (int)$row['price'];
