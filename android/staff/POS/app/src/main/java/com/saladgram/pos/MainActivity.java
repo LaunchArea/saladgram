@@ -62,11 +62,10 @@ public class MainActivity extends AppCompatActivity {
     private int mPoint = 0;
     private int mSubTotal;
     private int mTotal;
-    private boolean mToGo = false;
+    private boolean mToGo = true;
     private String mMirrorIP;
 
-    enum PaymentType {CARD, CASH}
-    private PaymentType mPaymentType;
+    private Order.PaymentType mPaymentType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,6 +183,7 @@ public class MainActivity extends AppCompatActivity {
                 refreshSaleAmount();
             }
         });
+        findViewById(R.id.togo).setVisibility(View.GONE);
         findViewById(R.id.mirror).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
         alert.setTitle("카드결제 진행");
         alert.setPositiveButton("완료", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                mPaymentType = PaymentType.CARD;
+                mPaymentType = Order.PaymentType.CARD;
                 findViewById(R.id.complete).setEnabled(true);
 
                 refreshSaleAmount();
@@ -229,20 +229,26 @@ public class MainActivity extends AppCompatActivity {
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         input.setRawInputType(Configuration.KEYBOARD_12KEY);
         alert.setView(input);
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("현금", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Put actions for OK button here
                 if(input.getText().length() > 0) {
-                    mPaymentType = PaymentType.CASH;
+                    mPaymentType = Order.PaymentType.CASH;
                     mCashReceived = Integer.parseInt(input.getText().toString());
                     findViewById(R.id.complete).setEnabled(true);
                     refreshSaleAmount();
                 }
             }
         });
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton("현금영수증", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                //Put actions for CANCEL button here, or leave in blank
+                //Put actions for OK button here
+                if(input.getText().length() > 0) {
+                    mPaymentType = Order.PaymentType.CASH_RECEIPT;
+                    mCashReceived = Integer.parseInt(input.getText().toString());
+                    findViewById(R.id.complete).setEnabled(true);
+                    refreshSaleAmount();
+                }
             }
         });
         alert.show();
@@ -446,13 +452,14 @@ public class MainActivity extends AppCompatActivity {
 
                 HashMap<String, Object> m = new HashMap<>();
 
-                m.put("order_type", mToGo ? 5 : 4);
+//                m.put("order_type", mToGo ? 5 : 4);
+                m.put("order_type", Order.OrderType.TAKE_OUT.ordinal() + 1);
                 m.put("id", "saladgram");
                 m.put("total_price", mSubTotal);
                 m.put("actual_price", mTotal);
                 m.put("discount", (int)mDiscount);
                 m.put("reward_use", mPoint);
-                m.put("payment_type", mPaymentType == PaymentType.CARD ? 1 : 2);
+                m.put("payment_type", mPaymentType.ordinal() + 1);
                 m.put("order_time", System.currentTimeMillis()/1000);
                 m.put("reservation_time", 0);
 
