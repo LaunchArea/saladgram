@@ -16,7 +16,7 @@
         android:layout_height="64dp"
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
-        android:weightSum="7"
+        android:weightSum="6"
         >
         <Button
             android:id="@+id/mirror"

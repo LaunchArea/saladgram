@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 public class MenuItem {
 
-
     public int getAmount(int amount_type) {
         String key = "amount" + amount_type;
         return ((Double)data.get(key)).intValue();
@@ -20,5 +19,6 @@ public class MenuItem {
     public HashMap<String, Object> data;
 
     public boolean checkWeight = false;
+    public boolean checkToGo = false;
     public boolean checkSize = false;
 }

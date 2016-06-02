@@ -37,12 +37,14 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
         private final TextView quantity;
         private final TextView detail2;
         private final TextView detail3;
+        private final TextView package_type;
 
 
         public SimpleViewHolder(View view, RecyclerViewClickListener listener) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
             type = (TextView) view.findViewById(R.id.type);
+            package_type = (TextView) view.findViewById(R.id.package_type);
 
             detail1 = (TextView) view.findViewById(R.id.detail1);
             detail2 = (TextView) view.findViewById(R.id.detail2);
@@ -86,6 +88,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
         holder.name.setText(item.name);
         holder.type.setText(item.type.name().toLowerCase());
         holder.quantity.setText("x " + item.quantity);
+        holder.package_type.setVisibility(item.packageType == OrderItem.PackageType.DINE_IN ? View.VISIBLE : View.GONE);
 
         holder.detail2.setText("");
         holder.detail3.setText("");

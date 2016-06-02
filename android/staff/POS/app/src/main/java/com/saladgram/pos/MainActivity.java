@@ -110,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
                 saleItem.menuItem = item;
                 if (item.checkWeight) {
                     checkWeight(saleItem);
+                } else if (item.checkToGo) {
+                    checkToGo(saleItem);
                 } else if (item.checkSize) {
                     checkSize(saleItem);
                 } else {
@@ -302,6 +304,24 @@ public class MainActivity extends AppCompatActivity {
         alert.show();
     }
 
+    private void checkToGo(final SaleItem saleItem) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("드시고가세요?");
+        alert.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                saleItem.takeout = false;
+                addSaleItem(saleItem);
+            }
+        });
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                saleItem.takeout = true;
+                addSaleItem(saleItem);
+            }
+        });
+        alert.show();
+    }
+
     private void checkWeight(final SaleItem saleItem) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setTitle("무게 입력 (단위:g)");
@@ -471,6 +491,7 @@ public class MainActivity extends AppCompatActivity {
                         case SALAD:
                             item.put("order_item_type", 1);
                             item.put("salad_items", each.menuItem.data.get("salad_items"));
+                            item.put("package_type", each.takeout ? OrderItem.PackageType.TAKE_OUT.ordinal() + 1 : OrderItem.PackageType.DINE_IN.ordinal() + 1);
                             break;
                         case SOUP:
                             item.put("order_item_type",2);
@@ -572,6 +593,7 @@ public class MainActivity extends AppCompatActivity {
                 item.amount = (String) each.get("amount");
 
                 item.checkSize = (type == MenuItem.Type.SOUP);
+                item.checkToGo = (type == MenuItem.Type.SALAD);
                 item.checkWeight = (item.price == -1);
                 mMenuList.add(item);
             }
