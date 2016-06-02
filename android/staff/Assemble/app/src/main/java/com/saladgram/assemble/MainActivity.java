@@ -1,10 +1,16 @@
 package com.saladgram.assemble;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -42,9 +48,16 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(context, intent.getStringExtra("reason"), Toast.LENGTH_SHORT).show();
             } else if (intent.getAction() == Service.ACTION_FETCH_DONE) {
                 refreshUI();
+                int now = Service.orderList.size();
+                if (previousCount != -1 && previousCount < now) {
+                    doNotification();
+                }
+                previousCount = now;
             }
         }
     };
+
+    private int previousCount = -1;
     private TextView tvOrderSummary;
     private RecyclerView lvOrders;
     private RecyclerView lvItems;
@@ -283,5 +296,26 @@ public class MainActivity extends AppCompatActivity {
             }
             return -1;
         }
+    }
+
+
+    private void doNotification() {
+            Notification.Builder builder = new Notification.Builder(this);
+
+            // 작은 아이콘 이미지.
+            builder.setSmallIcon(R.mipmap.ic_launcher);
+
+            // 알림 출력 시간.
+            builder.setWhen(System.currentTimeMillis());
+            builder.setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_LIGHTS);
+            builder.setAutoCancel(true);
+
+            // 우선순위.
+            builder.setPriority(Notification.PRIORITY_MAX);
+
+            // 고유ID로 알림을 생성.
+            NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            nm.notify(123456, builder.build());
+
     }
 }
