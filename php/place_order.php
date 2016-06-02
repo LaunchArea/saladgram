@@ -44,6 +44,24 @@ if (array_key_exists('id', $data)) {
         http_response_code(401); // Unauthorized
         return;
     }
+} else if (array_key_exists('phone', $data)) {
+    if ($jwt == null) {
+        http_response_code(401); // Unauthorized
+        return;
+    }
+    try {
+        $decoded = JWT::decode($jwt, $jwt_secret, array('HS256'));
+        if ($data['phone'] != $decoded->phone) {
+            http_response_code(401); // Unauthorized
+            return;
+        }
+    } catch (ExpiredException $e1) {
+        http_response_code(440); // Login Timeout
+        return;
+    } catch (Exception $e2) {
+        http_response_code(401); // Unauthorized
+        return;
+    }
 } else {
     http_response_code(400); // Bad Request
     return;
