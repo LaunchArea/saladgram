@@ -1,10 +1,9 @@
-package com.saladgram.assemble;
+package com.saladgram.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,13 +19,15 @@ public class Order {
         this.json = each;
         id = each.getInt("order_id");
         order_time = new Date(each.getLong("order_time") * 1000);
+        reservation_time = new Date(each.getLong("reservation_time") * 1000);
+        addr = each.optString("addr", null);
 
         switch (each.getInt("order_type")) {
-            case 1: type = Type.PICK_UP; break;
-            case 2: type = Type.DELIVERY; break;
-            case 3: type = Type.SUBSCRIBE; break;
-            case 4: type = Type.DINE_IN; break;
-            case 5: type = Type.TAKE_OUT; break;
+            case 1: orderType = OrderType.PICK_UP; break;
+            case 2: orderType = OrderType.DELIVERY; break;
+            case 3: orderType = OrderType.SUBSCRIBE; break;
+            case 4: orderType = OrderType.DINE_IN; break;
+            case 5: orderType = OrderType.TAKE_OUT; break;
         }
 
         switch (each.getInt("status")) {
@@ -36,6 +37,8 @@ public class Order {
             case 4: status = Status.DONE; break;
             case 5: status = Status.CANCELED; break;
         }
+
+        paymentType = PaymentType.values()[each.getInt("payment_type")-1];
     }
 
     public String getOrderItemSummary() {
@@ -63,13 +66,27 @@ public class Order {
         return orderItemSummary;
     }
 
-    enum Type {PICK_UP, DELIVERY, SUBSCRIBE, DINE_IN, TAKE_OUT}
-    enum Status {TODO, READY, SHIPPING, DONE, CANCELED}
+    public enum OrderType {PICK_UP, DELIVERY, SUBSCRIBE, DINE_IN, TAKE_OUT}
+    public enum Status {TODO, READY, SHIPPING, DONE, CANCELED}
+    public enum PaymentType {
+        CARD,
+        CASH,
+        CASH_RECEIPT,
+        DELIVER_CARD,
+        DELIVER_CASH,
+        DELIVER_CASH_RECEIPT,
+        AT_PICK_UP,
+        AT_DELIVERY,
+        REWARD_ONLY
+    }
 
-    int id;
-    Type type;
-    Date order_time;
-    Status status;
-    List<OrderItem> orderItems = new LinkedList<>();
+    public int id;
+    public OrderType orderType;
+    public PaymentType paymentType;
+    public Date order_time;
+    public Date reservation_time;
+    public Status status;
+    public String addr;
+    public List<OrderItem> orderItems = new LinkedList<>();
 
 }

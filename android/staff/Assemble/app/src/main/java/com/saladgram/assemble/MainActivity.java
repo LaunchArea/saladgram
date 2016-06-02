@@ -15,6 +15,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.saladgram.model.Order;
+import com.saladgram.model.OrderItem;
+
 import org.json.JSONException;
 
 import java.util.LinkedList;
@@ -156,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
         if (mSelectedOrder != null) {
             mOrderItemAdapter.setList(mSelectedOrder.orderItems);
             mOrderItemAdapter.notifyDataSetChanged();
-            tvSelectedOrderId.setText(""+mSelectedOrder.id + " " + mSelectedOrder.type.name());
+            tvSelectedOrderId.setText(""+mSelectedOrder.id + " " + mSelectedOrder.orderType.name());
         }
 
         int[] arr = new int[4];

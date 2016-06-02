@@ -1,4 +1,4 @@
-package com.saladgram.posmirror;
+package com.saladgram.model;
 
 /**
  * Created by yns on 5/27/16.

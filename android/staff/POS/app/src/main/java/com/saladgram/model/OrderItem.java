@@ -1,9 +1,8 @@
-package com.saladgram.assemble;
+package com.saladgram.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,15 +25,20 @@ public class OrderItem {
             case 2: type = Type.SOUP; break;
             case 3: type = Type.OTHERS; break;
             case 4: type = Type.BEVERAGES; break;
+            case 5: type = Type.SELF_SALAD; break;
+            case 6: type = Type.SELF_SOUP; break;
         }
+        packageType = PackageType.values()[item.getInt("package_type")-1];
     }
 
-    enum Type {SALAD, SOUP, OTHERS, BEVERAGES}
-    int id;
-    String amount;
-    String name;
-    Type type;
-    int quantity;
+    public enum Type {SALAD, SOUP, OTHERS, BEVERAGES, SELF_SALAD, SELF_SOUP}
+    public enum PackageType {TAKE_OUT, DINE_IN}
+    public int id;
+    public String amount;
+    public String name;
+    public Type type;
+    public int quantity;
+    public PackageType packageType;
 
-    List<SaladItem> saladItems = new LinkedList<>();
+    public List<SaladItem> saladItems = new LinkedList<>();
 }

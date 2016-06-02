@@ -1,13 +1,13 @@
-package com.saladgram.pos;
+package com.saladgram.model;
 
 /**
  * Created by yns on 5/27/16.
  */
 public class SaleItem {
     static final int PRICE_PER_AMOUNT = 2500;
-    MenuItem menuItem;
-    boolean takeout = false;
-    int amount = 0;
+    public MenuItem menuItem;
+    public boolean takeout = false;
+    public int amount = 0;
     public int quantity = 1;
     public int amount_type = 0;
 

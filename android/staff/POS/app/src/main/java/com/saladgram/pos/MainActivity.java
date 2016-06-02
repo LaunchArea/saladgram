@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -21,8 +20,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.saladgram.model.*;
+import com.saladgram.model.MenuItem;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int BUTTONS_PER_ROW = 6;
     private RecyclerView mMenuRecyclerView;
     private MenuAdapter mMenuAdapter;
-    private List<MenuItem> mMenuList = new LinkedList<MenuItem>();
+    private List<com.saladgram.model.MenuItem> mMenuList = new LinkedList<>();
     private List<Integer> mSectionPositions = new LinkedList<Integer>();
     private List<SaleItem> mSaleList = new LinkedList<SaleItem>();
     private RecyclerView mSaleRecyclerView;
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         mMenuClickListener = new RecyclerViewClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                MenuItem item = mMenuList.get(getItemPosition(position));
+                com.saladgram.model.MenuItem item = mMenuList.get(getItemPosition(position));
                 SaleItem saleItem = new SaleItem();
                 saleItem.menuItem = item;
                 if (item.checkWeight) {

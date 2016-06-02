@@ -1,4 +1,4 @@
-package com.saladgram.ready;
+package com.saladgram.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -66,17 +66,27 @@ public class Order {
         return orderItemSummary;
     }
 
-    enum OrderType {PICK_UP, DELIVERY, SUBSCRIBE, DINE_IN, TAKE_OUT}
-    enum Status {TODO, READY, SHIPPING, DONE, CANCELED}
-    enum PaymentType {CARD, CASH, CASH_RECEIPT, DELIVER_CARD, DELIVER_CASH, DELIVER_CASH_RECEIPT, PICK_UP, INIPAY, REWARD_ONLY}
+    public enum OrderType {PICK_UP, DELIVERY, SUBSCRIBE, DINE_IN, TAKE_OUT}
+    public enum Status {TODO, READY, SHIPPING, DONE, CANCELED}
+    public enum PaymentType {
+        CARD,
+        CASH,
+        CASH_RECEIPT,
+        DELIVER_CARD,
+        DELIVER_CASH,
+        DELIVER_CASH_RECEIPT,
+        AT_PICK_UP,
+        AT_DELIVERY,
+        REWARD_ONLY
+    }
 
-    int id;
-    OrderType orderType;
-    PaymentType paymentType;
-    Date order_time;
-    Date reservation_time;
-    Status status;
-    String addr;
-    List<OrderItem> orderItems = new LinkedList<>();
+    public int id;
+    public OrderType orderType;
+    public PaymentType paymentType;
+    public Date order_time;
+    public Date reservation_time;
+    public Status status;
+    public String addr;
+    public List<OrderItem> orderItems = new LinkedList<>();
 
 }

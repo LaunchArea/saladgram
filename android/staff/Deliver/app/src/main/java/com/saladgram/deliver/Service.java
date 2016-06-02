@@ -5,6 +5,10 @@ import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.saladgram.model.Order;
+import com.saladgram.model.OrderItem;
+import com.saladgram.model.SaladItem;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

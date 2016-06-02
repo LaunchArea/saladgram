@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.saladgram.model.Order;
+
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
@@ -85,7 +87,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         Order item = mList.get(position);
         holder.id.setText("" + item.id);
-        holder.type.setText(item.type.name().toLowerCase());
+        holder.type.setText(item.orderType.name().toLowerCase());
         holder.time.setText(sdf.format(item.order_time));
         holder.items.setText(item.getOrderItemSummary());
         if(mSelectedId == item.id) {

@@ -10,6 +10,8 @@ import android.view.*;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.saladgram.model.SaleMirrorItem;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

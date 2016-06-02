@@ -4,20 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.saladgram.model.Order;
+import com.saladgram.model.OrderItem;
+import com.saladgram.model.SaladItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executors;

@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.saladgram.model.MenuItem;
+
 import java.util.List;
 
 /**

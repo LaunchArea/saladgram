@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.saladgram.model.OrderItem;
+import com.saladgram.model.SaladItem;
+
 import java.util.LinkedList;
 import java.util.List;
 

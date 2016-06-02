@@ -1,4 +1,4 @@
-package com.saladgram.ready;
+package com.saladgram.model;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,9 +21,9 @@ public class SaladItem {
         }
     }
 
-    enum Type {BASE, VEGETABLES, FRUITS, PROTEINS, OTHERS, DRESSINGS}
-    int id;
-    String name;
-    Type type;
-    String amount;
+    public enum Type {BASE, VEGETABLES, FRUITS, PROTEINS, OTHERS, DRESSINGS}
+    public int id;
+    public String name;
+    public Type type;
+    public String amount;
 }
