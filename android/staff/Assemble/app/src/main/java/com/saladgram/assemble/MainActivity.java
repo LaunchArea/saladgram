@@ -192,11 +192,10 @@ public class MainActivity extends AppCompatActivity {
             protected void onPostExecute(Integer code) {
                 super.onPostExecute(code);
                 if(code == 200) {
-                    for(Order order : mOrderList) {
-                        if(order.id > mSelectedId) {
-                            mSelectedId = order.id;
-                            break;
-                        }
+                    if (mOrderList.size() > 0) {
+                        mSelectedId = mOrderList.get(0).id;
+                    } else {
+                        mSelectedId = -1;
                     }
                     refreshUI();
                 } else {
