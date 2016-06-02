@@ -112,6 +112,8 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
                     break;
                 case SOUP:
                 case OTHERS:
+                case SELF_SALAD:
+                case SELF_SOUP:
                     holder.detail1.setText(item.amount != null ? item.amount : "");
                     break;
                 case BEVERAGES:

@@ -48,7 +48,7 @@ import okhttp3.Response;
 public class MainActivity extends AppCompatActivity {
 
 
-    private static final int BUTTONS_PER_ROW = 6;
+    private static final int BUTTONS_PER_ROW = 4;
     private RecyclerView mMenuRecyclerView;
     private MenuAdapter mMenuAdapter;
     private List<com.saladgram.model.MenuItem> mMenuList = new LinkedList<>();
@@ -67,6 +67,12 @@ public class MainActivity extends AppCompatActivity {
     private String mMirrorIP;
 
     private Order.PaymentType mPaymentType;
+    private View.OnClickListener mSelfClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onClickSelf(v);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -193,6 +199,39 @@ public class MainActivity extends AppCompatActivity {
                 mirrorSetup();
             }
         });
+        findViewById(R.id.self_salad).setOnClickListener(mSelfClickListener);
+        findViewById(R.id.self_soup).setOnClickListener(mSelfClickListener);
+    }
+
+    private void onClickSelf(View v) {
+        HashMap<String, Object> data = new HashMap<String, Object>();
+        MenuItem.Type type;
+        if (v.getId() == R.id.self_salad) {
+            data.put("name", "샐러드바");
+            data.put("price", new Double(-1));
+            type = MenuItem.Type.SELF_SALAD;
+        } else {
+            data.put("name", "스프");
+            data.put("price", new Double(2000));
+            type = MenuItem.Type.SELF_SOUP;
+        }
+        data.put("calorie", new Double(0));
+        data.put("item_id", new Double(0));
+        MenuItem item = new MenuItem();
+        item.data = data;
+        item.name = (String) data.get("name");
+        item.price = ((Double)data.get("price")).intValue();
+        item.available = true;
+        item.type = type;
+        item.amount = "";
+        item.checkWeight = true;
+        item.checkSize = false;
+        item.checkToGo = false;
+
+        SaleItem saleItem = new SaleItem();
+        saleItem.menuItem = item;
+
+        checkWeight(saleItem);
     }
 
     private void mirrorSetup() {
@@ -330,17 +369,23 @@ public class MainActivity extends AppCompatActivity {
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         input.setRawInputType(Configuration.KEYBOARD_12KEY);
         alert.setView(input);
-        alert.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("Takeout", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Put actions for OK button here
                 if(input.getText().length() > 0) {
                     saleItem.amount = Integer.parseInt(input.getText().toString());
+                    saleItem.takeout = true;
                     addSaleItem(saleItem);
                 }
             }
         });
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton("Dine in", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
+                if(input.getText().length() > 0) {
+                    saleItem.amount = Integer.parseInt(input.getText().toString());
+                    saleItem.takeout = false;
+                    addSaleItem(saleItem);
+                }
             }
         });
         alert.show();
@@ -530,6 +575,14 @@ public class MainActivity extends AppCompatActivity {
                         case BEVERAGE:
                             item.put("order_item_type",4);
                             break;
+                        case SELF_SALAD:
+                            item.put("order_item_type",5);
+                            item.put("package_type", each.takeout ? OrderItem.PackageType.TAKE_OUT.ordinal() + 1 : OrderItem.PackageType.DINE_IN.ordinal() + 1);
+                            break;
+                        case SELF_SOUP:
+                            item.put("order_item_type",6);
+                            item.put("package_type", each.takeout ? OrderItem.PackageType.TAKE_OUT.ordinal() + 1 : OrderItem.PackageType.DINE_IN.ordinal() + 1);
+                            break;
                     }
                     item.put("item_id", ((Double)each.menuItem.data.get("item_id")).intValue());
                     item.put("quantity", each.quantity);
@@ -539,6 +592,20 @@ public class MainActivity extends AppCompatActivity {
                     arr.add(item);
                 }
                 m.put("order_items", arr);
+                boolean allSelf = true;
+                for(SaleItem each : mItems) {
+                    switch(each.menuItem.type) {
+                        case SELF_SALAD:
+                        case SELF_SOUP:
+                            break;
+                        default:
+                            allSelf = false;
+                            break;
+                    }
+                }
+                if(allSelf) {
+                    m.put("status", Order.Status.DONE.ordinal() + 1);
+                }
 
                 JSONObject orderJson = new JSONObject(m);
                 body = RequestBody.create(JSON, orderJson.toString());
@@ -621,8 +688,9 @@ public class MainActivity extends AppCompatActivity {
 
                 item.checkSize = (type == MenuItem.Type.SOUP);
                 item.checkToGo = (type == MenuItem.Type.SALAD);
-                item.checkWeight = (item.price == -1);
-                mMenuList.add(item);
+                if (item.price != -1) {
+                    mMenuList.add(item);
+                }
             }
         }
     }

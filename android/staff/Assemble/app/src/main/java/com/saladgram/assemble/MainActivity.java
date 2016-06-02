@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             tvSelectedOrderId.setText(""+mSelectedOrder.id + " " + mSelectedOrder.orderType.name());
         }
 
-        int[] arr = new int[4];
+        int[] arr = new int[6];
         for (Order order : mOrderList) {
             for (OrderItem item: order.orderItems) {
                 arr[item.type.ordinal()]++;

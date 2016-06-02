@@ -12,7 +12,7 @@ public class SaleItem {
     public int amount_type = 0;
 
     public int getPricePerEach() {
-        if(menuItem.type == MenuItem.Type.SOUP) {
+        if(menuItem.type == MenuItem.Type.SOUP || menuItem.type == MenuItem.Type.SELF_SOUP) {
             return ((amount * menuItem.price) / 100);
         } else {
             if (amount > 0) {

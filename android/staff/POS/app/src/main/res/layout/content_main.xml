@@ -220,4 +220,28 @@
 
         </RelativeLayout>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        >
+        <Button
+            android:id="@+id/self_salad"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_margin="12dp"
+            android:text="샐러드"
+            android:background="@color/colorAccent"
+            />
+        <Button
+            android:id="@+id/self_soup"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_margin="12dp"
+            android:text="스프"
+            android:background="@color/colorAccent"
+            />
+    </LinearLayout>
 </RelativeLayout>

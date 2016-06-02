@@ -43,7 +43,7 @@ public class Order {
 
     public String getOrderItemSummary() {
         if (orderItemSummary == null) {
-            int[] arr = new int[4];
+            int[] arr = new int[6];
             for (OrderItem item : orderItems) {
                 arr[item.type.ordinal()]++;
             }

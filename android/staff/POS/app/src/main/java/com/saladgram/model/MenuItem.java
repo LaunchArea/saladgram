@@ -9,7 +9,7 @@ public class MenuItem {
         return ((Double)data.get(key)).intValue();
     }
 
-    public enum Type {SALAD, SOUP, OTHER, BEVERAGE}
+    public enum Type {SALAD, SOUP, OTHER, BEVERAGE, SELF_SALAD, SELF_SOUP}
 
     public String name;
     public int price;
