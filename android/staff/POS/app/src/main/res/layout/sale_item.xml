@@ -30,10 +30,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/takeout"
-            android:text="(takeout)"
-            android:layout_marginLeft="8dp"
+            android:text="T"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/name"
+            android:textColor="@color/colorPrimary"
             />
         <TextView
             android:layout_width="wrap_content"

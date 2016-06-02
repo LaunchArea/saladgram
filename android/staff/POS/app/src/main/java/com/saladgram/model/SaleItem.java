@@ -30,7 +30,7 @@ public class SaleItem {
     public boolean isSameKind(SaleItem that) {
         if(this.menuItem.hashCode() == that.menuItem.hashCode()) {
             if(that.menuItem.type == MenuItem.Type.SOUP) {
-                return this.amount_type == that.amount_type;
+                return this.amount_type == that.amount_type && this.takeout == that.takeout;
             }
             return true;
         }

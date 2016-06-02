@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
 import android.view.*;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -346,23 +347,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkSize(final SaleItem saleItem) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("스프크기");
-        alert.setPositiveButton("Small", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                saleItem.amount_type = 1;
-                saleItem.amount = saleItem.menuItem.getAmount(1);
-                addSaleItem(saleItem);
-            }
-        });
-        alert.setNegativeButton("Large", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                saleItem.amount_type = 2;
-                saleItem.amount = saleItem.menuItem.getAmount(2);
-                addSaleItem(saleItem);
-            }
-        });
-        alert.show();
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+        builderSingle.setTitle("스프 크기 및 TOGO");
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.select_dialog_singlechoice);
+            arrayAdapter.add("small / togo");
+            arrayAdapter.add("small / dine_in");
+            arrayAdapter.add("large / togo");
+            arrayAdapter.add("large / dine_in");
+
+        builderSingle.setAdapter(
+                arrayAdapter,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch(which) {
+                            case 0:
+                                saleItem.amount_type = 1;
+                                saleItem.amount = saleItem.menuItem.getAmount(1);
+                                saleItem.takeout = true;
+                                break;
+                            case 1:
+                                saleItem.amount_type = 1;
+                                saleItem.amount = saleItem.menuItem.getAmount(1);
+                                saleItem.takeout = false;
+                                break;
+                            case 2:
+                                saleItem.amount_type = 2;
+                                saleItem.amount = saleItem.menuItem.getAmount(2);
+                                saleItem.takeout = true;
+                                break;
+                            case 3:
+                                saleItem.amount_type = 2;
+                                saleItem.amount = saleItem.menuItem.getAmount(2);
+                                saleItem.takeout = false;
+                                break;
+                        }
+                        addSaleItem(saleItem);
+                    }
+                });
+        builderSingle.show();
     }
 
     private void placeOrder() {
@@ -496,6 +522,7 @@ public class MainActivity extends AppCompatActivity {
                         case SOUP:
                             item.put("order_item_type",2);
                             item.put("amount_type", each.amount_type);
+                            item.put("package_type", each.takeout ? OrderItem.PackageType.TAKE_OUT.ordinal() + 1 : OrderItem.PackageType.DINE_IN.ordinal() + 1);
                             break;
                         case OTHER:
                             item.put("order_item_type",3);
@@ -504,7 +531,7 @@ public class MainActivity extends AppCompatActivity {
                             item.put("order_item_type",4);
                             break;
                     }
-                    item.put("item_id", each.menuItem.data.get("item_id"));
+                    item.put("item_id", ((Double)each.menuItem.data.get("item_id")).intValue());
                     item.put("quantity", each.quantity);
                     item.put("price",each.getPricePerEach());
                     item.put("calorie", each.getCaloriePerEach());
