@@ -4,16 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.saladgram.model.Order;
 import com.saladgram.model.OrderItem;
 import com.saladgram.model.SaladItem;
+import com.saladgram.model.SaleItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -44,7 +47,7 @@ public class Service {
     private static Context mContext;
     public static List<Order> orderList = new LinkedList<>();
 
-    public synchronized static void start(Context context){
+    public synchronized static void start(Context context) {
         mContext = context;
         if (delayFuture == null) {
 
@@ -52,8 +55,8 @@ public class Service {
                 @Override
                 public void run() {
                     try {
-                        if(getJWT() != null) {
-                            fetch();
+                        if (getJWT() != null) {
+                            update();
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -69,21 +72,23 @@ public class Service {
         }
     }
 
+    public synchronized static void update() throws IOException, JSONException {
+        fetch("https://www.saladgram.com/api/orders.php?id=saladgram&status=1&reservation_time=3");
+    }
+
     public synchronized static void stop() {
-        if(delayFuture != null) {
+        if (delayFuture != null) {
             delayFuture.cancel(false);
             delayFuture = null;
         }
     }
 
-    private static void fetch() throws IOException, JSONException {
+    private static void fetch(String url) throws IOException, JSONException {
         OkHttpClient client = new OkHttpClient();
 
-
-        String url = "https://www.saladgram.com/api/orders.php?id=saladgram";
         Request request = new Request.Builder()
                 .url(url)
-                .header("jwt",jwt)
+                .header("jwt", jwt)
                 .build();
 
         Response response = client.newCall(request).execute();
@@ -110,7 +115,7 @@ public class Service {
             }
             LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent(ACTION_FETCH_DONE));
         } else {
-            reportError("fetch response "+response.code());
+            reportError("fetch response " + response.code());
         }
     }
 
@@ -123,9 +128,9 @@ public class Service {
     private static String getJWT() throws IOException {
 
         long now = SystemClock.elapsedRealtime();
-        if (jwtTime + 60*1000 < now) {
+        if (jwtTime + 60 * 1000 < now) {
             jwt = signIn();
-            if(jwt != null) {
+            if (jwt != null) {
                 jwtTime = now;
             }
         }
@@ -137,7 +142,7 @@ public class Service {
         JSONObject signInJson = new JSONObject();
 
         try {
-            signInJson.put("id","saladgram");
+            signInJson.put("id", "saladgram");
             signInJson.put("password", "saladgram");
             RequestBody body = RequestBody.create(JSON, signInJson.toString());
 
