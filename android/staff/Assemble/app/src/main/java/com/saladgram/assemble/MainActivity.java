@@ -184,10 +184,16 @@ public class MainActivity extends AppCompatActivity {
                 + " 그외:"+arr[2]
                 + " 음료:"+arr[3]
         );
+
+        if (mSelectedOrder != null && (mSelectedOrder.orderType == Order.OrderType.DINE_IN || mSelectedOrder.orderType == Order.OrderType.TAKE_OUT)) {
+            btnReady.setText("DONE");
+        } else {
+            btnReady.setText("READY");
+        }
     }
 
     private void postReady() {
-        UpdateStatusTask task = new UpdateStatusTask(getActivity(), mSelectedId) {
+        UpdateStatusTask task = new UpdateStatusTask(getActivity(), mSelectedOrder) {
             @Override
             protected void onPostExecute(Integer code) {
                 super.onPostExecute(code);
@@ -208,11 +214,11 @@ public class MainActivity extends AppCompatActivity {
     class UpdateStatusTask extends ProgressAsyncTask<Void, Void, Integer> {
         final MediaType JSON
                 = MediaType.parse("application/json; charset=utf-8");
-        private final int mId;
+        private final Order mOrder;
 
-        public UpdateStatusTask(Context context, int id) {
+        public UpdateStatusTask(Context context, Order order) {
             super(context);
-            this.mId = id;
+            this.mOrder = order;
         }
 
         @Override
@@ -241,8 +247,12 @@ public class MainActivity extends AppCompatActivity {
 
                 HashMap<String, Object> m = new HashMap<>();
 
-                m.put("order_id", mId);
-                m.put("status", Order.Status.READY.ordinal() + 1);
+                m.put("order_id", mOrder.id);
+                if (mOrder.orderType == Order.OrderType.DINE_IN || mOrder.orderType == Order.OrderType.TAKE_OUT) {
+                    m.put("status", Order.Status.DONE.ordinal() + 1);
+                } else {
+                    m.put("status", Order.Status.READY.ordinal() + 1);
+                }
 
                 JSONObject json = new JSONObject(m);
                 body = RequestBody.create(JSON, json.toString());
