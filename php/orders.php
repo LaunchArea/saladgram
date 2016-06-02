@@ -169,7 +169,7 @@ if (!$result) {
             $array['salad_items'] = $items;
         } else if ($array['order_item_type'] == Types::ORDER_ITEM_SOUP) {
             $array['name'] = $soups[$array['item_id']]['name'];
-            $amount_type = 'amount'.$item['amount_type'];
+            $amount_type = 'amount'.$row['amount_type'];
             $array['amount_type'] = (int)$row['amount_type'];
             $array['amount'] = $soups[$array['item_id']][$amount_type].$soups[$array['item_id']]['unit'];
         } else if ($array['order_item_type'] == Types::ORDER_ITEM_OTHER) {
