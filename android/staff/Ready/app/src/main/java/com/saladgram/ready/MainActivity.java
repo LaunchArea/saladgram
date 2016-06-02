@@ -6,12 +6,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.IntegerRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,12 +23,20 @@ import android.widget.Toast;
 import com.saladgram.model.Order;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -327,8 +337,16 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        mSelectedItems.clear();
-                        refreshUI();
+                        ShippingTask task = new ShippingTask(getActivity(), null, mSelectedItems) {
+                            @Override
+                            protected void onPostExecute(Integer integer) {
+                                super.onPostExecute(integer);
+                                Toast.makeText(getActivity(),"DONE " + mSelectedItems.size(),Toast.LENGTH_SHORT).show();
+                                mSelectedItems.clear();
+                                refreshUI();
+                            }
+                        };
+                        task.execute();
                     }
                 });
 
@@ -337,13 +355,102 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        String strName = arrayAdapter.getItem(which);
-                        Toast.makeText(getActivity(),"SHIP " + mSelectedItems.size() + " by " + strName,Toast.LENGTH_SHORT).show();
-                        mSelectedItems.clear();
-                        refreshUI();
+                        final String strName = arrayAdapter.getItem(which);
+                        ShippingTask task = new ShippingTask(getActivity(), strName, mSelectedItems) {
+                            @Override
+                            protected void onPostExecute(Integer integer) {
+                                super.onPostExecute(integer);
+                                mSelectedItems.clear();
+                                Toast.makeText(getActivity(),"SHIP " + mSelectedItems.size() + " by " + strName,Toast.LENGTH_SHORT).show();
+                                refreshUI();
+                            }
+                        };
+                        task.execute();
                     }
                 });
         builderSingle.show();
     }
+    class ShippingTask extends ProgressAsyncTask<Void, Void, Integer> {
+        final MediaType JSON
+                = MediaType.parse("application/json; charset=utf-8");
+        private final String mDeliverId;
+        private final HashSet<Integer> mIDs;
 
+        public ShippingTask(Context context, String deliverId, HashSet<Integer> ids) {
+            super(context);
+            this.mDeliverId = deliverId;
+            this.mIDs = new HashSet<Integer>(ids);
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            OkHttpClient client = new OkHttpClient();
+
+            try {
+                JSONObject signInJson = new JSONObject();
+
+                signInJson.put("id", "saladgram");
+                signInJson.put("password", "saladgram");
+                RequestBody body = RequestBody.create(JSON, signInJson.toString());
+
+                String url = "https://saladgram.com/api/sign_in.php";
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(body)
+                        .build();
+
+                Response response = null;
+                response = client.newCall(request).execute();
+                if (response.code() != 200) {
+                    return response.code();
+                }
+                String jwt = new JSONObject(response.body().string()).getString("jwt");
+
+                HashMap<String, Object> m = new HashMap<>();
+                for(Integer id : mIDs) {
+                    m.clear();
+                    m.put("order_id", id);
+
+                    if (mDeliverId != null) {
+                        m.put("status", Order.Status.SHIPPING.ordinal() + 1);
+                        m.put("deliverer_id", mDeliverId);
+                    } else {
+                        m.put("status", Order.Status.DONE.ordinal() + 1);
+                    }
+
+                    JSONObject json = new JSONObject(m);
+                    body = RequestBody.create(JSON, json.toString());
+                    Log.d("yns", json.toString(2));
+                    url = "https://www.saladgram.com/api/update_order.php";
+                    request = new Request.Builder()
+                            .header("jwt", jwt)
+                            .url(url)
+                            .post(body)
+                            .build();
+
+                    response = client.newCall(request).execute();
+                    Log.d("yns", response.body().string());
+
+                    if (response.code() != 200) {
+                        Toast.makeText(getActivity(), "!!!! Failed to update [Order:" + id +"] ("+response.code()+")!!!!!\n", Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                try {
+                    Service.update();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(getActivity(), e.getMessage() + " at order refresh", Toast.LENGTH_SHORT).show();
+                }
+
+                return 200;
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return -1;
+        }
+    }
 }
