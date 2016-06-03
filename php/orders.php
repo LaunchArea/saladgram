@@ -109,7 +109,7 @@ if ($id == "saladgram") {
 
     $query = $query."order by reservation_time asc";
 } else {
-    $query = $query."where a.id = '$id' and (a.order_type == ".Types::ORDER_PICK_UP." or a.order_type == ".Types::ORDER_DELIVERY.") ";
+    $query = $query."where a.id = '$id' and (a.order_type = ".Types::ORDER_PICK_UP." or a.order_type = ".Types::ORDER_DELIVERY.") ";
     $query = $query."order by a.order_id desc";
 }
 
