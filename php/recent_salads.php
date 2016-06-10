@@ -84,6 +84,7 @@ while ($row = mysqli_fetch_array($result)) {
     $array['order_item_type'] = (int)$row['order_item_type'];
     $array['item_id'] = (int)$row['item_id'];
     $array['name'] = $salads[(int)$row['item_id']]['name'];
+    $array['image'] = $salads[(int)$row['item_id']]['image'];
     $items = json_decode($row['salad_items'], true);
     foreach ($items as &$item) {
         $item['name'] = $salad_items[(int)$item['item_id']]['name'];
