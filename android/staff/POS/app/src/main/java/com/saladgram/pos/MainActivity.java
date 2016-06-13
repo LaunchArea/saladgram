@@ -59,12 +59,12 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerViewClickListener mSaleClickListener;
     private SaleAdapter mSaleAdapter;
     private int mCashReceived = 0;
-    private double mDiscount = 5;
+    private double mDiscount = 0;
     private int mPoint = 0;
     private int mSubTotal;
     private int mTotal;
     private boolean mToGo = true;
-    private String mMirrorIP;
+    private static String mMirrorIP;
 
     private Order.PaymentType mPaymentType;
     private View.OnClickListener mSelfClickListener = new View.OnClickListener() {
@@ -373,7 +373,14 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Put actions for OK button here
                 if(input.getText().length() > 0) {
-                    saleItem.amount = Integer.parseInt(input.getText().toString());
+                    int amount = Integer.parseInt(input.getText().toString());
+                    if (saleItem.menuItem.type == MenuItem.Type.SELF_SALAD) {
+                        saleItem.amount = amount - 20;
+                    } else if(saleItem.menuItem.type == MenuItem.Type.SELF_SOUP) {
+                        saleItem.amount = amount - 10;
+                    } else {
+                        saleItem.amount = amount;
+                    }
                     saleItem.takeout = true;
                     addSaleItem(saleItem);
                 }
@@ -382,7 +389,14 @@ public class MainActivity extends AppCompatActivity {
         alert.setNegativeButton("Dine in", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 if(input.getText().length() > 0) {
-                    saleItem.amount = Integer.parseInt(input.getText().toString());
+                    int amount = Integer.parseInt(input.getText().toString());
+                    if (saleItem.menuItem.type == MenuItem.Type.SELF_SALAD) {
+                        saleItem.amount = amount - 276;
+                    } else if(saleItem.menuItem.type == MenuItem.Type.SELF_SOUP) {
+                        saleItem.amount = amount - 301;
+                    } else {
+                        saleItem.amount = amount;
+                    }
                     saleItem.takeout = false;
                     addSaleItem(saleItem);
                 }
@@ -447,7 +461,7 @@ public class MainActivity extends AppCompatActivity {
                     mSaleAdapter.notifyDataSetChanged();
                     findViewById(R.id.complete).setEnabled(false);
                     mCashReceived = 0;
-                    mDiscount = 5;
+                    mDiscount = 0;
                     mPoint = 0;
                     mPaymentType = null;
                     mToGo = true;

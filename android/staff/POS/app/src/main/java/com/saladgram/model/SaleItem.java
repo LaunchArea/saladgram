@@ -12,15 +12,17 @@ public class SaleItem {
     public int amount_type = 0;
 
     public int getPricePerEach() {
+        int rawPrice = 0;
         if(menuItem.type == MenuItem.Type.SOUP || menuItem.type == MenuItem.Type.SELF_SOUP) {
-            return ((amount * menuItem.price) / 100);
+            rawPrice = ((amount * menuItem.price) / 100);
         } else {
             if (amount > 0) {
-                return (int) (((double) amount / 100) * PRICE_PER_AMOUNT);
+                rawPrice = (int) (((double) amount / 100) * PRICE_PER_AMOUNT);
             } else {
-                return menuItem.price;
+                rawPrice = menuItem.price;
             }
         }
+        return rawPrice - (rawPrice % 100);
     }
 
     public int getTotalPrice() {

@@ -21,91 +21,103 @@
                 android:layout_height="wrap_content">
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp">
+                    android:layout_height="wrap_content">
                     <TextView
                         android:text="subtotal"
                         android:layout_gravity="left|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/subtotal"
                         android:layout_gravity="right|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent"
                         />
                 </FrameLayout>
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp">
+                    android:layout_height="wrap_content">
                     <TextView
                         android:text="discount"
                         android:layout_gravity="left|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/discount"
                         android:layout_gravity="right|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent"
                         />
                 </FrameLayout>
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp">
+                    android:layout_height="wrap_content">
                     <TextView
                         android:text="point"
                         android:layout_gravity="left|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/point"
                         android:layout_gravity="right|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent"
                         />
                 </FrameLayout>
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp">
+                    android:layout_height="wrap_content">
                     <TextView
                         android:text="cash"
                         android:layout_gravity="left|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/cash_received"
                         android:layout_gravity="right|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent"
                         />
                 </FrameLayout>
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp">
+                    android:layout_height="wrap_content">
                     <TextView
                         android:text="change"
                         android:layout_gravity="left|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/change"
                         android:layout_gravity="right|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent"
                         />
                 </FrameLayout>
                 <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="20dp">
+                    android:layout_height="wrap_content">
                     <TextView
                         android:text="total"
                         android:layout_gravity="left|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent" />
                     <TextView
                         android:id="@+id/total"
                         android:layout_gravity="right|center_vertical"
                         android:layout_width="wrap_content"
+                        android:textSize="30dp"
                         android:layout_height="match_parent"
                         />
                 </FrameLayout>
