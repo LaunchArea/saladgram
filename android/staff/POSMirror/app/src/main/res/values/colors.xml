@@ -4,4 +4,10 @@
     <color name="colorPrimaryDark">#B2B2B2</color>
     <color name="colorAccent">#bdd829</color>
     <color name="white">#FFFFFF</color>
+    <color name="order">#bdd829</color>
+    <color name="item">#838383</color>
+    <color name="list">#000000</color>
+    <color name="background">#f5f5f5</color>
+    <color name="line">#dfdfdf</color>
+    <color name="box">#ffffff</color>
 </resources>
