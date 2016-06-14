@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private static final int BUTTONS_PER_ROW = 4;
+    private static final int WEIGHT_EGG = 50;
     private RecyclerView mMenuRecyclerView;
     private MenuAdapter mMenuAdapter;
     private List<com.saladgram.model.MenuItem> mMenuList = new LinkedList<>();
@@ -64,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private int mSubTotal;
     private int mTotal;
     private boolean mToGo = true;
-    private static String mMirrorIP;
+    private static String mMirrorIP = "192.168.0.15";
 
     private Order.PaymentType mPaymentType;
     private View.OnClickListener mSelfClickListener = new View.OnClickListener() {
@@ -144,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
         mSaleClickListener = new RecyclerViewClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                checkAddedItem(mSaleList.get(position));
             }
 
             @Override
@@ -201,6 +203,58 @@ public class MainActivity extends AppCompatActivity {
         });
         findViewById(R.id.self_salad).setOnClickListener(mSelfClickListener);
         findViewById(R.id.self_soup).setOnClickListener(mSelfClickListener);
+        findViewById(R.id.reset).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reset();
+                refreshSaleAmount();
+            }
+        });
+    }
+
+    private void checkAddedItem(final SaleItem saleItem) {
+        if(saleItem.menuItem.type == MenuItem.Type.SALAD || saleItem.menuItem.type == MenuItem.Type.SELF_SALAD) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("샐러드볼에 추가된 아이템");
+            alert.setPositiveButton("계란", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    checkEggAmount(saleItem);
+                }
+            });
+            alert.show();
+        }
+    }
+
+    private void checkEggAmount(final SaleItem saleItem) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("몇개의 계란이 추가되었나요?");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setRawInputType(Configuration.KEYBOARD_12KEY);
+        input.setText("1");
+        alert.setView(input);
+        alert.setPositiveButton("차감", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //Put actions for OK button here
+                if(input.getText().length() > 0) {
+                    int numEggs = Integer.parseInt(input.getText().toString());
+                    saleItem.amount = saleItem.amount - WEIGHT_EGG * numEggs;
+                    for(MenuItem each : mMenuList) {
+                        if (each.name.equals("삶은달걀")) {
+                            for (int i =0; i < numEggs; i++) {
+                                SaleItem item = new SaleItem();
+                                item.menuItem = each;
+                                addSaleItem(item);
+                            }
+                            break;
+                        }
+                    }
+                    mSaleAdapter.notifyDataSetChanged();
+                    refreshSaleAmount();
+                }
+            }
+        });
+        alert.show();
     }
 
     private void onClickSelf(View v) {
@@ -369,7 +423,7 @@ public class MainActivity extends AppCompatActivity {
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         input.setRawInputType(Configuration.KEYBOARD_12KEY);
         alert.setView(input);
-        alert.setPositiveButton("Takeout", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("포장", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 //Put actions for OK button here
                 if(input.getText().length() > 0) {
@@ -457,14 +511,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onPostExecute(result);
                 Log.d("yns", ""+result);
                 if(result == 200) {
-                    mSaleList.clear();
-                    mSaleAdapter.notifyDataSetChanged();
-                    findViewById(R.id.complete).setEnabled(false);
-                    mCashReceived = 0;
-                    mDiscount = 0;
-                    mPoint = 0;
-                    mPaymentType = null;
-                    mToGo = true;
+                    reset();
                     refreshSaleAmount();
                 } else {
                     Toast.makeText(getActivity(),""+result,Toast.LENGTH_SHORT).show();
@@ -472,6 +519,17 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         task.execute();
+    }
+
+    private void reset() {
+        mSaleList.clear();
+        mSaleAdapter.notifyDataSetChanged();
+        findViewById(R.id.complete).setEnabled(false);
+        mCashReceived = 0;
+        mDiscount = 0;
+        mPoint = 0;
+        mPaymentType = null;
+        mToGo = true;
     }
 
     private void refreshSaleAmount() {
