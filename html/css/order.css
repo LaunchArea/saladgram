@@ -1096,6 +1096,7 @@
 	padding:0;
 	padding-right:12px;
 	margin-top:10px;
+	z-index:10;
 }
 #step_4_wrap .btn-change-step-order{
 	line-height: 27px;
@@ -1334,16 +1335,19 @@
 	}
 	.navbar-order-wrap .navbar-order .navbar-order-left{
 		/*visibility: hidden;*/
+		display: none;
 	}
 	.navbar-order-salad-items-nav .navbar-order .navbar-order-left{
 		display: none;
 	}
+	.navbar-order-wrap .navbar-order .navbar-order-center,
 	.navbar-order-salad-items-nav .navbar-order .navbar-order-center{
 		width:66.6666%;
 		text-align: left;
 	}
 	.navbar-order-wrap .navbar-order .navbar-order-right #btn_order_nav_cancel{
 		font-size:15px;
+		padding-right: 0;
 	}
 	.order-step-wrap h2{
 		font-size:28px;
@@ -1601,6 +1605,11 @@
 
 }
 
+@media (max-width: 470px) {
+	#final_order_info_body .list-group-item .final-item-img{
+		width: 16%;
+	}
+}
 @media (max-width: 380px) {
 	.salad-item-in-salad-wrap .overlay-btn-wrap .item-amount{
 		font-size:16px;

@@ -1,5 +1,5 @@
-var mApiUrl = 'https://www.saladgram.com/api/';
-// var mApiUrl = '/api/';
+// var mApiUrl = 'https://www.saladgram.com/api/';
+var mApiUrl = '/api/';
 
 var ORDER_TYPE_PICKUP = 1;
 var ORDER_TYPE_DELIVERY = 2;
