@@ -292,7 +292,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/user/myPageTemplate.h
                             error:function(error){
                                 swal({
                                   title: "",
-                                  text: "정보를 확인해주세요",
+                                  text: MES_ERROR,
                                   confirmButtonClass: "btn-warning",
                                 });
                                 console.log('휴대폰 변경 실패!!!');

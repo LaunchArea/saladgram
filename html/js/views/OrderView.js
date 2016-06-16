@@ -43,7 +43,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					window.cancelOrder = false;
 					function doCheck() {
 					  // TODO: add code that checks the app state that we have unsaved data
-					  return window.cancelOrder || window.confirm("진행중이던 주문을 삭제하시겠습니까?");
+					  return window.cancelOrder || window.confirm(MES_WRAN_ORDER_PAGE_BACK);
 					}
 					var oldLoad = Backbone.History.prototype.loadUrl;
 					Backbone.History.prototype.loadUrl = function() {
@@ -66,7 +66,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 				    	console.log('window.cancelOrder : ' + window.cancelOrder);
 				        if(!window.cancelOrder){
 				        	// window.cancelOrder = true;
-				        	return "이 페이지를 벗어나면 진행중인 주문은 저장되지 않습니다";
+				        	return MES_WRAN_ORDER_PAGE_REFRESH;
 				        }
 				    });
 				}else{
@@ -188,7 +188,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			                    beforeSend: setHeader,
 			                    success: function (collection) {
 			                        console.log('fetch success!');
-			                        // console.log('window.userRecentOrderCollection : ' + JSON.stringify(window.userRecentOrderCollection));
+			                        console.log('window.userRecentOrderCollection : ' + JSON.stringify(window.userRecentOrderCollection));
 			                        // console.log('collection.models; : ' + JSON.stringify(collection.models));
 
 									var recentOrdersModel = collection.models;
@@ -209,6 +209,13 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 											user_type: userType,
 									});
 									mOrderView.$el.prepend(template2);
+
+									//modal backdrop reset
+					                $('.modal').on('shown.bs.modal', function(e){
+					                    console.log('aaa');
+					                    $(this).modal('handleUpdate'); //Update backdrop on modal show
+					                    $(this).scrollTop(0); //reset modal to top position
+					                }); 
 
 			                    }}
 			                );
@@ -754,10 +761,10 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						reservationTimeStamp = reservationDate.getTime() / 1000;
 
 						if(currentTimeStamp > reservationTimeStamp){
-							console.log('예약시간이 현재시간보다 큽니다');
+							console.log(MES_WRAN_RESERVE_TIME);
 							swal({
 			                  title: "",
-			                  text: "예약시간이 현재시간보다 큽니다",
+			                  text: MES_WRAN_RESERVE_TIME,
 			                  confirmButtonClass: "btn-warning",
 			                });		
 			                return;			
@@ -770,7 +777,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						}else{
 							swal({
 			                  title: "",
-			                  text: "선택하신 시간은 영업시간이 아닙니다",
+			                  text: MES_WRAN_NOT_STORE_HOUR,
 			                  confirmButtonClass: "btn-warning",
 			                });		
 			                return;	
@@ -783,7 +790,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						}else{
 							swal({
 			                  title: "",
-			                  text: "지금은 영업시간이 아닙니다",
+			                  text: MES_WRAN_NOT_NOW_STORE_HOUR,
 			                  confirmButtonClass: "btn-warning",
 			                });		
 			                return;	
@@ -1387,7 +1394,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			if(doneModel.get('salad_items').length < 1){
 				swal({
                   title: "",
-                  text: "아이템을 한개 이상 선택하세요",
+                  text: MES_EMPTY_SALAD_ITEM,
                   confirmButtonClass: "btn-warning",
                 });
                 return;
@@ -1395,7 +1402,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			if(doneModel.get('price') <= mMinPricePerSalad){
 				swal({
                   title: "",
-                  text: "샐러드1개당 최소금액은 "+mMinDeliveryPrice+"원 입니다",
+                  text: MES_MIN_SALAD_PRICE,
                   confirmButtonClass: "btn-warning",
                 });
                 return;
@@ -1816,7 +1823,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 				// console.log("window.orderItemsCollection: " + JSON.stringify(window.orderItemsCollection));
 				swal({
 					title: "",
-					text: "주문 하실 아이템을 선택하세요",
+					text: MES_EMPTY_ORDER_ITEM,
 					confirmButtonClass: "btn-warning",
 				});	
 				return;
@@ -1831,7 +1838,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 				if(gross_price < mMinDeliveryPrice){
 					swal({
 	                  title: "",
-	                  text: "최소 배달금액은 "+mMinDeliveryPrice+"원 입니다",
+	                  text: MES_MIN_DELIVERY_PRICE,
 	                  confirmButtonClass: "btn-warning",
 	                });	
 	                return;
@@ -1949,10 +1956,10 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                     var orderTime = window.orderInfoModel.get('order_time');
                     if(orderTime !== 'now'){
 	                    if(currentTimeStamp > reservationDate){
-							console.log('예약시간이 현재시간보다 큽니다');
+							console.log(MES_WRAN_RESERVE_TIME);
 							swal({
 			                  title: "",
-			                  text: "예약시간이 현재시간보다 큽니다",
+			                  text: MES_WRAN_RESERVE_TIME,
 			                  confirmButtonClass: "btn-warning",
 			                },
 		                    function(){
@@ -1974,7 +1981,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			        if(myOwnPoint < useMyPoint){
 			        	swal({
 							title: "",
-							text: "사용가능 한 포인트를 입력해주세요",
+							text: MES_VALID_USE_REWARD,
 							confirmButtonClass: "btn-warning",
 						});
 			        	return;
@@ -1982,7 +1989,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			         if(useMyPoint%100 !== 0){
 			        	swal({
 							title: "",
-							text: "100원 단위로 입력해주세요",
+							text: MES_MIN_UNIT_USE_REWARD,
 							confirmButtonClass: "btn-warning",
 						});
 			        	return;

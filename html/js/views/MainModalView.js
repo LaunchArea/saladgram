@@ -26,11 +26,11 @@ define(['jquery', 'underscore', 'backbone'
     			var template1 = _.template(choiceLoginTypeTemplate);
     			that.$el.prepend(template1);
     			
-    			var template2 = _.template(loginTemplate);
-    			that.$el.prepend(template2);
+    			// var template2 = _.template(loginTemplate);
+    			// that.$el.prepend(template2);
 
-    			var template3 = _.template(joinTemplate);
-    			that.$el.prepend(template3);
+    			// var template3 = _.template(joinTemplate);
+    			// that.$el.prepend(template3);
 
     			var template4 = _.template(findLoginInfoTemplate);
     			that.$el.prepend(template4);
@@ -361,7 +361,7 @@ define(['jquery', 'underscore', 'backbone'
                         beforeSend: setHeader,
                         success: function (model) {
                             console.log('fetch success!');
-                            console.log('window.userBeforeOrderCollection : ' + JSON.stringify(window.userBeforeOrderCollection));
+                            // console.log('window.userBeforeOrderCollection : ' + JSON.stringify(window.userBeforeOrderCollection));
                             $.ajax({
                                 type:"GET",
                                 url: mApiUrl + 'rewards.php?id='+id,

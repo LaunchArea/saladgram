@@ -29,10 +29,10 @@
 			<div class="list-group nav nav-list">
 				<% _.each(order_list, function(odl) { %>
 				<div class="col-xs-12 list-group-item">
-					<p class="col-xs-3 col-sm-2 final-item-img" style="background-image:url('https://<%= odl.get('image') %>')"></p>
+					<p class="col-xs-2 col-sm-2 final-item-img" style="background-image:url('https://<%= odl.get('image') %>')"></p>
 					<p class="col-xs-4 col-sm-4 text-container final-item-name" ><%= odl.get('name') %></p>
 					<p class="col-xs-1 col-sm-2 text-container final-item-quantity"><%= odl.get('quantity') %></p>
-					<p class="col-xs-4 col-sm-4 text-container item-cal-price">
+					<p class="col-xs-5 col-sm-4 text-container item-cal-price">
 						<span class="item-cal"><%= odl.get('calorie') %></span>kcal / 
 						<span class="item-price"><%= odl.get('price') %></span>원
 					</p>
@@ -47,8 +47,8 @@
 				<div class="col-xs-12 point-wrap">
 					<p class="col-xs-12 ">100원 미만 절삭 할인 후 금액<span><%= discount_cut_price  %></span>원</p>
 					<p class="col-xs-12 ">사용가능 적립금
-						<span id="order_my_point"><%= my_point %></span> 
-						적립금 사용 | <span><input id="input_user_my_point" type="number" value="0">원</span>
+						<span id="order_my_point"><%= my_point %></span>
+						적립금 사용 | <span class="use-reward-input-wrap"><input id="input_user_my_point" type="number" value="0">원</span>
 					</p>
 				</div>
 				<div class="col-xs-12 final-price ">

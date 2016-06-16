@@ -8,16 +8,20 @@ var ORDER_TYPE_SUBSCRIBE = 3;
 var mMinDeliveryPrice = 8000;
 var mMinPricePerSalad = 3000;
 
-var mFirstDiscountMinPrice = 100000;
+//10만원 이상 주문시 10%할인
+var mFirstDiscountMinPrice = 100000;    
 var mFirstDiscountRate = 10;
+//5만원 이상 주문시 7%할인
 var mSecondDiscountMinPrice = 50000;
 var mSecondDiscountRate = 7;
+//2만원 이상 주문시 5%할인
 var mThirdDiscountMinPrice = 20000;
 var mThirdDiscountRate = 5;
 
 var mDiscountRateByPickup = 5;
 var mDiscountRateBySubscribe = 5;
 
+//영업시간
 var WEEKDAY_OPEN_HOUR = 7;
 var WEEKDAY_CLOSE_HOUR = 22;
 var WEEKDAY_BREAK_START_HOUR = 14;
@@ -53,6 +57,20 @@ var MES_PWD_CHANGE_FAIL= "패스워드 변경에 실패했습니다";
 var MES_PHONE_AUTH_SUCCESS = "인증이 정상적으로 처리되었습니다";
 var MES_PHONE_AUTH_FAIL = "인증번호를 확인하세요";
 var MES_THANKS_FOR_JOIN = "회원가입을 감사드립니다";
+
+var MES_WRAN_ORDER_PAGE_REFRESH = '이 페이지를 벗어나면 진행중인 주문은 저장되지 않습니다';
+var MES_WRAN_ORDER_PAGE_BACK = '진행중이던 주문을 삭제하시겠습니까?';
+
+var MES_WRAN_RESERVE_TIME = '예약시간이 현재시간보다 작습니다';
+var MES_WRAN_NOT_STORE_HOUR = '선택하신 시간은 영업시간이 아닙니다';
+var MES_WRAN_NOT_NOW_STORE_HOUR = '지금은 영업시간이 아닙니다';
+var MES_EMPTY_SALAD_ITEM = "아이템을 한개 이상 선택하세요";
+
+var MES_MIN_SALAD_PRICE = "샐러드1개당 최소금액은 "+mMinPricePerSalad+"원 입니다";
+var MES_EMPTY_ORDER_ITEM = "주문 하실 아이템을 선택하세요";
+var MES_MIN_DELIVERY_PRICE = "최소 배달금액은 "+mMinDeliveryPrice+"원 입니다";
+var MES_VALID_USE_REWARD = "사용가능 한 포인트를 입력해주세요";
+var MES_MIN_UNIT_USE_REWARD = "100원 단위로 입력해주세요";
 
 window.utils = {
 

@@ -17,7 +17,7 @@
 	text-align: center;
 	background-color:#fff;
 	border-bottom:#e6e6e6 3px solid;
-	border-radius: 10px;
+	border-radius: 10px 10px 0 0;
 	height: 75px;
 	line-height: 75px;
 }
@@ -89,6 +89,7 @@
 }
 .mypage-order-list-wrap .user-order-list-panel .panel-heading p{
 	margin:0;
+	/*padding:;*/
 }
 .user-order-list-panel .panel-body{
 	border-left:none;
@@ -182,7 +183,7 @@
 		padding-left: 0;*/
 	}
 	.user-order-list-panel .panel-body .list-group .list-group-item p{
-		padding:0;
+		/*padding:0;*/
 	}
 	#myPageModal .modal-body{
 		padding:0;

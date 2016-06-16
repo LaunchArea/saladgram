@@ -135,10 +135,10 @@
     background-color: rgba(0,0,0,0.6);
     width: 200%; /*right offcanvas cover*/
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
-    z-index: 150;
+    z-index: 1030;
     display: none;
     overflow: auto;
 }
@@ -165,9 +165,9 @@
 .menu-tab{
 	float: left;
 	padding: 0 10px;
-	width:634px;
+	width:632px;
     background: #fff;
-    margin:0 4px;
+    margin:0 15px;
 }
 
 .menu-tab li{
@@ -177,11 +177,15 @@
 .navbar-default .navbar-nav>li>a{
 	padding:10px 15px;
 }
-.navbar  .menu-tab .active a{
+.navbar .menu-tab .active{
 	background:none;
 	box-shadow:none;
 	border-bottom:3px solid #bdd829;
-	padding:10px 15px;
+	/*padding:10px 15px;*/
+}
+.navbar .menu-tab .active a{
+	background:none;
+	box-shadow:none;
 }
 .navbar  .menu-tab  .click-active a{
 	background:none;
@@ -448,7 +452,7 @@
 .order-item-wrap .btn-add-soup{
 	width:100%;
 	position: absolute;
-	bottom:-24px;
+	bottom:0;
 	left:0;
 	display: none;
 	background-color: #404040;
@@ -567,7 +571,7 @@
 	position: absolute;
 	width:40px;
 	height: 40px;
-	line-height: 35px;
+	line-height: 40px;
 	border-radius: 20px;
 	background-color: #bdd829;
 	color:#fff;
@@ -667,7 +671,7 @@
 }
 .order-item-wrap .soup-bottom-wrap{
 	padding:0;
-	margin-top:35px;
+	/*margin-top:35px;*/
 }
 .order-item-wrap .overlay-div{
 	position: absolute;
@@ -804,6 +808,7 @@
 	background-color:#fff;
 	border-top: 1px solid #8E8E8E;
 	border-bottom: 1px solid #8E8E8E;
+	border-radius: 0;
 }
 #beforeOrderList .before-order-checkbox-input{
 	float: left;
@@ -850,10 +855,12 @@
 #btn_items_sel_done{
 	width:100%;
 	height: 40px;
+	border-radius: 0;
 }
 #btn_salads_items_sel_done{
 	width:100%;
 	height: 40px;
+	border-radius: 0;
 }
 
 #selected_salad_items_wrap div{
@@ -1210,6 +1217,7 @@
 	font-size:19px;
 	font-weight: 700;
 }
+
 #final_order_info_footer button{
 	height: 100%;
 	background: none;
@@ -1267,7 +1275,7 @@
 
 @media (max-width: 991px) {
 	.menu-tab{
-		width: 56.6%;
+		width: 56.3%;
 		/*margin:0 4px;*/
 	}
 	#order_list_wrap, #sel_salad_item_list_wrap{
@@ -1380,7 +1388,7 @@
 	.sidebar-offcanvas {
 		position: fixed;
 		top: 98px;
-		z-index: 1000;
+		z-index: 1030;
 		width: 50%; 
 		margin-top:0;
 	}
@@ -1393,7 +1401,7 @@
 		height: 75px;
 	    width: 75px;
 	}
-
+	
 	#order_list_wrap, #sel_salad_item_list_wrap{
 		max-width: initial;
 	}
@@ -1455,11 +1463,11 @@
 	}
 	
 	#final_order_info_header{
-		padding:10% 0 0;
+		/*padding:10% 0 0;*/
 	}
 
 	#final_order_info_header .addr-info-wrap{
-		margin:5px 0;	
+		/*margin:5px 0;	*/
 	}
 	.salad-item-in-salad-wrap:nth-child(3n){
 		border-right: none;
@@ -1542,6 +1550,16 @@
 	#final_order_info_footer .do-order-wrap button{
 		height: 50px;
 	}
+	#final_order_info_body .final-order-price-info-wrap .use-reward-input-wrap{
+		/*padding:0 5px;*/
+	}
+	#final_order_info_body .final-order-price-info-wrap .use-reward-input-wrap #input_user_my_point{
+		width:80px;
+	}
+	#final_order_info_header .addr-display{
+		/*color:#111;*/
+		margin:0;
+	}
 	.scroll-top-btn-wrap .btn-scroll-top{
 		left: initial;
 		right:10px;
@@ -1574,6 +1592,10 @@
 	#final_order_info_body .list-group-item .final-item-img{
 		width: 60px;
 		height: 60px;
+	}
+
+	#beforeOrderList .before-order-item-name{
+		font-size:14px;
 	}
 
 }

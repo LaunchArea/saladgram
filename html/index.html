@@ -28,11 +28,6 @@
     <script src="assets/js/sweetalert.min.js"></script>
     <script src="js/common.js" type="text/javascript" ></script>
     <script data-main="js/main" src="assets/js/require.js"></script>
-     <script type="text/javascript">
-        $(function () {
-            $('input, textarea').placeholder({customClass:'saladgram-placeholder'});
-        });
-    </script>
   </head>
   <body>
 
@@ -61,6 +56,59 @@
                 </div>
             </div>
         </div>
+        <div id="joinModal" class="modal fade">
+            <div class="modal-dialog modal-lg saladgram-modal-dialog saladgram-modal-dialog-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="img/btn_close_bottom_pop.png"></button>
+                    <h4 class="modal-title">회원가입
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <input id="input_user_id" type="text" name="id" value="" placeholder="아이디">
+                        <button class="btn btn-defalut btn-primary btn-saladgram btn-saladgram-join" id="btn_id_check" type="button" >중복 확인</button>
+                    </div>
+                    <div>
+                        <input id="input_user_name" type="text" name="name" value="" placeholder="이름">
+                    </div>
+                    <div>
+                        <input id="input_pwd" type="password" name="password" value="" placeholder="비밀번호">
+                    </div>
+                    <div>
+                        <input id="input_pwd_confirm" type="password" value="" placeholder="비밀번호확인">
+                    </div>
+                    <div>
+                        <input id="input_phone" type="number" name="phone" value="" placeholder="휴대폰번호">
+                        <button class="btn btn-defalut btn-primary btn-saladgram btn-saladgram-join" id="btn_send_auth_num" type="button" >인증번호 발송</button>
+                    </div>
+                    <div>
+                        <input id="input_phone_auth" type="text" name="phone_auth" value="" placeholder="인증번호">
+                        <button id="btn_phone_auth" type="button" class="btn btn-defalut btn-primary btn-saladgram btn-saladgram-join">인증번호 승인</button>
+                    </div>
+                    <div>
+                        <div class="select-wrap">
+                        <select class="form-control saladgram-select-tag" id="input_addr_sel" name="addr_sel">
+                            <option value="0" data-hidden="true">건물을선택하세요</option>
+                            <option value="1">송파한화오벨리스크</option>
+                            <option value="2">송파푸르지오시티</option>
+                            <option value="3">송파아이파크</option>
+                            <option value="4">래미안갤러리</option>
+                        </select>
+                        </div>
+                        <input id="input_addr" type="text" name="addr" value="" placeholder="나머지 주소">
+                    </div>
+                    <div class="saladgram-check-box-wrap">
+                        <input id="input_checkbox_privacy" class="checkbox-input" type="checkbox" value="">
+                        <label class="checkbox-label">개인정보 제공동의</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn_join_member" type="button" class="btn btn-defalut btn-primary saladgram-btn-primary" >가입하기</button>
+                </div>
+            </div>
+            </div>  
+        </div> 
     </div>
     <div id="page" >
 
@@ -98,5 +146,11 @@
         </div>
       </div>
     </footer>
+    <script type="text/javascript">
+        /*IE placeholder custom*/
+        $(function () {
+            $('input, textarea').placeholder({customClass:'saladgram-placeholder'});
+        });
+    </script>
   </body>
 </html>
