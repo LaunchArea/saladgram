@@ -118,6 +118,7 @@ html,body{height:100%;}
   background-repeat: no-repeat;
   background-size: 100%;
   box-shadow: none;
+  filter:none;
 }
 
 #btn_nav_order_wrap:hover #btn_nav_order, .active #btn_nav_order{
@@ -369,10 +370,12 @@ html,body{height:100%;}
 .carousel-control.left{
   background: none;
   opacity: 1;
+  filter:none;
 }
 .carousel-control.right{
   background: none;
   opacity: 1;
+  filter:none;
 }
 .btn-carousel{
   position: absolute;

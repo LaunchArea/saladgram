@@ -59,6 +59,9 @@ define(['jquery', 'underscore', 'backbone','text!templates/user/myPageTemplate.h
                     gross_reward:gross_reward,
                 }));
 
+                // IE에서 placeholder set
+                Placeholders.enable( $('#saladgramModal')[0] );
+
                 //modal backdrop reset
                 $('.modal').on('shown.bs.modal', function(e){
                     console.log('aaa');
@@ -75,6 +78,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/user/myPageTemplate.h
                     .find("input[type=checkbox], input[type=radio]")
                         .prop("checked", "")
                         .end();
+                    Placeholders.enable( $('#saladgramModal')[0] );
                 });   
             }else{
                 console.log('로그인되지 않았습니다');

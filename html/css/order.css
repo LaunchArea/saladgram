@@ -329,7 +329,7 @@
 
 .order-time-select-wrap .select-wrap .saladgram-select-tag {
     padding:0 10px;
-    width: 100%;
+    width: 120%;
     padding-left:20px;
     height: 48px;
 	line-height: 48px;
@@ -413,7 +413,8 @@
     width: 100%;
     height: 40px;
     left: 0;
-    top:40%;
+    /*top:40%;*/
+    top:47.5px;
     text-align: center;
 }
 #step_3_navbar_contents .overlay-btn-wrap{
@@ -571,7 +572,7 @@
 	position: absolute;
 	width:40px;
 	height: 40px;
-	line-height: 40px;
+	line-height: 38px;
 	border-radius: 20px;
 	background-color: #bdd829;
 	color:#fff;
@@ -615,7 +616,7 @@
 }
 #salad_sel_results_toggle .active_badge .badge{
 	font-size:13px;
-
+	line-height: 35px;
 }
 #salad_sel_results_toggle .active-toggle .badge, #order_results_toggle .active-toggle .badge{
 	display: none;
@@ -1332,7 +1333,7 @@
 	  margin: 8px 0;
 	}
 	.navbar-order-wrap .navbar-order .navbar-order-left{
-		visibility: hidden;
+		/*visibility: hidden;*/
 	}
 	.navbar-order-salad-items-nav .navbar-order .navbar-order-left{
 		display: none;
@@ -1406,10 +1407,10 @@
 		max-width: initial;
 	}
 	.row-offcanvas-right.active #order_list_wrap, .row-offcanvas-right.active #sel_salad_item_list_wrap{
-		left:37px;
+		left:47px;
 	}
 	.row-offcanvas-right.active #order_results_toggle, .row-offcanvas-right.active #salad_sel_results_toggle{
-	    left:0;
+	    left:10px;
 	}
 
 

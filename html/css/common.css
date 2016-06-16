@@ -48,10 +48,10 @@ body{
 }
 
 .saladgram-placeholder { /*for jquery plugin placholder*/
-  font-family: "Nanum Gothic" !important;
+ /* font-family: "Nanum Gothic" !important;
   font-weight: 100 !important;
   font-size:14px !important;
-  color:red !important;
+  color:#cacaca !important;*/
 }
 
 /***********input, select, a, button reset************/

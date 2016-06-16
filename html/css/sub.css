@@ -78,6 +78,7 @@
 	margin:70px 0 0 0;
 	padding-bottom:70px;
 	border-bottom:1px solid #f0f0f0;
+    color: #333;
 }
 .sub-menu-list-full-wrap .row {
 	display: -webkit-box;
@@ -125,7 +126,7 @@
 	color:rgba(0,0,0,0);
 }
 .sub-menu-list-full-wrap li .mene-warp{
-	color:initial;
+    color: #333;
 }
 .sub-menu-list-full-wrap li .mene-warp p{
 	padding:0 10px;
@@ -300,12 +301,12 @@
     overflow: hidden;
     background-color: #eee;
 	margin-bottom:20px;
-    background: #eee url("../img/addr_narrow.png") no-repeat 95% 50%;
+    background: #eee url("../img/addr_narrow.png") no-repeat 95% 50%;+
 }
 
 .select-wrap .saladgram-select-tag {
     padding:0 10px;
-    width: 100%;
+    width: 110%;
     padding-left:20px;
     height:40px;
 	line-height:40px;
@@ -357,7 +358,11 @@
     padding-left:20px;
     margin-bottom:15px;
 }
-
+.saladgram-modal-dialog-lg input[type='checkbox'] {
+	padding-left:0;
+	border:none;
+	background-color:rgba(0,0,0,0);
+}
 .saladgram-modal-dialog-lg .edit-my-info-body{
 	padding:5% 0;
 	padding:3% 0;
@@ -394,7 +399,7 @@
 	width: 66.66666667%;
 }
 .saladgram-modal-dialog-lg .edit-my-info-body select{
-	 width: 100%;
+	 width: 110%;
 }
 .saladgram-modal-dialog-lg .edit-my-info-body button{
 	margin:0;
@@ -448,6 +453,9 @@
 .saladgram-modal-dialog-lg .modal-header{
 	border:inherit;
 	padding:24px 0;
+	border-top:0;
+	border-right:0;
+	border-left:0;
 }
 
 
@@ -459,6 +467,9 @@
 }
 .saladgram-modal-dialog-lg .diaolog-lg-header{
 	padding: 3% 0 1%;
+	border-top:0;
+	border-right:0;
+	border-left:0;
 }
 
 

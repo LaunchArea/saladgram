@@ -5,6 +5,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/menuTemplate.html','v
     var menuView = Backbone.View.extend({
         el: $("#page"),
         render: function() {
+        	$('[data-toggle="popover"]').popover({html : true,'placement':'top'}); 
 			var that = this;
 			if(typeof window.naviView === "undefined"){
 				window.naviView = new NavigationView();

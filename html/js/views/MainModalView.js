@@ -26,11 +26,11 @@ define(['jquery', 'underscore', 'backbone'
     			var template1 = _.template(choiceLoginTypeTemplate);
     			that.$el.prepend(template1);
     			
-    			// var template2 = _.template(loginTemplate);
-    			// that.$el.prepend(template2);
+    			var template2 = _.template(loginTemplate);
+    			that.$el.prepend(template2);
 
-    			// var template3 = _.template(joinTemplate);
-    			// that.$el.prepend(template3);
+    			var template3 = _.template(joinTemplate);
+    			that.$el.prepend(template3);
 
     			var template4 = _.template(findLoginInfoTemplate);
     			that.$el.prepend(template4);
@@ -39,6 +39,8 @@ define(['jquery', 'underscore', 'backbone'
     			that.$el.prepend(template5);
                 window.modalTemplate = that.$el;
 
+                // IE에서 placeholder set
+                Placeholders.enable( $('#saladgramModal')[0] );
                 //hide시 reset input
                 $('#loginModal, #joinModal, #findLoginInfoModal, #guestOderLoginModal').on('hidden.bs.modal', function (e) {
                     $(this)
@@ -48,17 +50,18 @@ define(['jquery', 'underscore', 'backbone'
                     .find("input[type=checkbox], input[type=radio]")
                         .prop("checked", "")
                         .end();
+                    Placeholders.enable( $('#saladgramModal')[0] );
                 });
                 //enter키 처리
-                $('#input_login_pw').keypress(function(e){
-                  if(e.keyCode==13){
-                    that.memberLogin();
-                  }
+                $('#input_login_pw, #input_login_id').keypress(function(e){
+                    if(e.keyCode==13){
+                        e.preventDefault();
+                        that.memberLogin();
+                    }
                 });
 
                 //modal backdrop reset
                 $('.modal').on('shown.bs.modal', function(e){
-                    console.log('aaa');
                     $(this).modal('handleUpdate'); //Update backdrop on modal show
                     $(this).scrollTop(0); //reset modal to top position
                 });
