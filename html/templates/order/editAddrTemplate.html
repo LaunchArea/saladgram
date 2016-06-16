@@ -1,0 +1,31 @@
+<div id="changeOrderAddrModal" class="modal fade">
+    <div class="modal-dialog modal-sm saladgram-modal-dialog saladgram-modal-dialog-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="img/btn_close_bottom_pop.png"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <div class="select-wrap">
+                    <select class="form-control saladgram-select-tag" id="input_change_order_addr_sel" name="addr_sel">
+                        <option value="0" data-hidden="true">건물을선택하세요</option>
+                        <option value="1">송파한화오벨리스크</option>
+                        <option value="2">송파푸르지오시티</option>
+                        <option value="3">송파아이파크</option>
+                        <option value="4">래미안갤러리</option>
+                    </select>
+                    </div>
+                    <input id="input_change_order_addr" type="text" name="addr" value="" placeholder="나머지 주소">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <% if(user_type === 'member'){ %>
+                    <button class="btn btn-defalut btn-primary saladgram-btn-default" id="btn_change_order_addr" type="button">주소 한번만 사용하기</button>
+                    <button class="btn btn-defalut btn-primary saladgram-btn-primary" id="btn_change_basic_addr" type="button">기본배송지로 변경하기</button>
+                <% }else{ %>
+                    <button class="btn btn-defalut btn-primary saladgram-btn-primary" id="btn_change_order_addr" type="button">변경하기</button>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>

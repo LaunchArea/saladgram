@@ -1,0 +1,43 @@
+<div id="beforeOrderList" class="modal fade">
+    <div class="modal-dialog modal-sm saladgram-modal-dialog saladgram-modal-dialog-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="img/btn_close_bottom_pop.png"></button>
+                <h4 class="modal-title">최근 주문내역</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <% _.each(before_orders, function(bo) { %>
+                    <div class="before-order-each-wrap">
+                        <div class="panel-heading">
+                            <input class="before-order-checkbox-input" c_id="<%= bo.cid %>" item_id="<%= bo.get('item_id') %>" order_item_type="<%= bo.get('order_item_type') %>" type="checkbox" value="" >
+                            <p class="before-order-item-name"><%= bo.get('name') %>
+                            </p>
+                            <p class="before-order-item-time">
+                            <%= bo.get('reservation_text') %>
+                            </p>
+                        </div>
+                        <div class="panel-body">
+                            <p class="col-xs-12 before-order-cal-price">
+                                <span class="item-cal"><%= bo.get('calorie') %></span>kcal / 
+                                <span class="item-price"><%= bo.get('price') %></span>원
+                            </p>
+                            <p class="col-xs-12">
+                                <% _.each(bo.get('salad_items'), function(sal) { %>
+                                <span class="item-cal"><%= sal.name %></span>:
+                                <span class="item-price"><%= sal.amount %></span><%= sal.unit %>/
+                                <% }); %>
+                            </p>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div> 
+            </div>
+            <div class="modal-footer">
+                <button id="btn_add_before_order_items" type="button" class="btn btn-defalut btn-order-add" >
+                추가하기
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

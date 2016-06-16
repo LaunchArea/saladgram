@@ -22,35 +22,50 @@
     <link type="text/css" media="all" href="css/sub.css" rel="stylesheet">
     <link type="text/css" media="all" href="css/user.css" rel="stylesheet">
     <link type="text/css" media="all" href="css/order.css" rel="stylesheet">
-    <!-- <link href="css/style.css" rel="stylesheet">
-    <link href="css/carousel.css" rel="stylesheet">
-    <link href="css/navbar.css" rel="stylesheet">
-    <link href="css/user.css" rel="stylesheet">
-    <link href="css/offcanvas.css" rel="stylesheet">
-    <link href="css/order.css" rel="stylesheet"> -->
-
+    
     <script src="assets/js/jquery-1.12.4.min.js"></script>
+    <script src="assets/js/jquery.placeholder.js"></script>
     <script src="assets/js/sweetalert.min.js"></script>
+    <script src="js/common.js" type="text/javascript" ></script>
     <script data-main="js/main" src="assets/js/require.js"></script>
+     <script type="text/javascript">
+        $(function () {
+            $('input, textarea').placeholder({customClass:'saladgram-placeholder'});
+        });
+    </script>
   </head>
-
   <body>
 
-    <!-- <nav id="top_navigation" class="navbar navbar-default navbar-fixed-top navbar-saladgram"> -->
     <nav id="top_navigation" class="navbar navbar-default navbar-fixed-top navbar-salgram">
       
     </nav>
     <div id="saladgramModal">
-
+        <div id="loginModal" class="modal fade">
+            <div class="modal-dialog modal-sm saladgram-modal-dialog saladgram-modal-dialog-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="img/btn_close_bottom_pop.png"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <input id="input_login_id" type="text" name="id" value="" placeholder="ID">
+                        </div>
+                        <div>
+                            <input id="input_login_pw" type="password" name="password" value="" placeholder="PASSWORD">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-defalut btn-primary saladgram-btn-primary" id="btn_login" type="button">로그인</button>
+                        <a id="btn_find_id_pwd"><button class="btn-link btn-saladgram-link">ID/PASSWORD 찾기</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div id="page" >
- <!--      <div class="container" id="page">
 
-      </div> -->
     </div>
-    <!-- /.container -->
     
-
     <footer id="saladgram_footer" class="footer saladgram-footer">
       <div class="container">
         <p class="text-muted pull-left footer-copyright">© 2016 Saladgram. All rights reserved.</p>
@@ -83,6 +98,5 @@
         </div>
       </div>
     </footer>
-    <script src="js/common.js" type="text/javascript" ></script>
   </body>
 </html>

@@ -1,0 +1,368 @@
+<link href="/css/order.css" rel="stylesheet">
+<div id="order_full_wrap" stepNum='1' class="container order-step-1">
+<div id="step_1_wrap" class="order-step-wrap">
+	<div class ="order-step-pager"><img src="img/order_pager_1.png"></div>
+	<ul class="nav nav-tabs order-type-tabs-wrap">
+	  <li class="col-xs-4 active" val="">
+		  <a id="tab_order_type_delivery" data-toggle="tab" href="#delivery"></a>
+	  </li>
+	  <li class="col-xs-4">
+		  <a id="tab_order_type_pickup" data-toggle="tab" href="#pickup"></a>
+	  </li>
+	  <li class="col-xs-4">
+	  	<a id="tab_order_type_subscribe" data-toggle="tab" href="#subscribe"></a>
+	  </li>
+	</ul>
+	<div class="tab-content">
+	  <div id="delivery" class="tab-pane fade in active">
+	    <h3>배달주문</h3>
+	  </div>
+	  <div id="pickup" class="tab-pane fade">
+	    <h3>픽업</h3>
+	  </div>
+	  <div id="subscribe" class="tab-pane fade">
+	    <h3>정기배송</h3>
+	    <div id="subscribe_wrap" class="order-step-1-now-wrap">
+		    <span class="col-xs-12">준비중입니다</span> 
+		</div>
+	  </div>
+	</div>
+	<button id="btn_order_type_done" type="button" class="btn btn-primary btn-xs saladgram-btn-primary">주문방법 선택완료</button>
+</div>
+<div id="step_2_wrap" class="order-step-wrap">
+	<div class="row row-offcanvas row-offcanvas-right">
+	<div class='offcanvas-overlay-div'></div>
+        <div class="col-xs-12 col-sm-7 col-md-8 order-left-contents">
+        	<div class ="order-step-pager"><img src="img/order_pager_2.png"></div>
+			<nav id ="navbar_order_sub" class ="navbar navbar-default navbar-static" role = "navigation">
+				<div class="container">
+					<div class = "">
+						<ul class = "nav navbar-nav menu-tab navbar-static">
+							<li id="_salads" class="active"><a >샐러드</a></li>
+							<li id="_soups"><a >스프</a></li>
+							<li id="_others"><a >기타</a></li>
+							<li id="_beverages"><a >음료</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+
+
+			<div id="step_2_navbar_contents" class="navbar-contents">
+
+				<div class = "section sa">
+				  	<h2 id="con_salads">샐러드</h2>
+				  	<div class = "row bottom-padding">
+				  	<% 
+				  	_.each(salads, function(salad) {
+					  	if(salad.hide !== 1){
+				  	%>
+				  		<div id="salads_wrap_<%= salad.item_id %>" orderItmeType="salads" itemId='<%= salad.item_id %>' class="col-xs-6 col-md-4 order-item-wrap salad-item-wrap" >
+				  			<%
+								if(salad.available === 0){
+				  			%>
+					  			<div class='soldout-div'>
+					  				<p>sold out</p>
+					  			</div>
+				  			<%
+								}
+				  			%>
+				  			<div class='mousedown-div'>
+				  			</div>
+							<img src="https://<%= salad.thumbnail %>"> 
+							<p class="col-xs-12 item-name"><%= salad.name %></p>
+							
+							<p class="col-xs-7 item-amout-cal">
+								<% if(typeof salad.calorie !== 'undefined' && salad.calorie !== null && salad.calorie !== ''){%>
+								<%= salad.amount %> / <%= salad.calorie %>kcal
+								<% } %>
+							</p>
+							<div class="col-xs-5 item-price">
+								<p>
+								<% if(typeof salad.price !== 'undefined' && salad.price !== null && salad.price !== ''){%>
+								<%= salad.price %>원
+								<% } %>
+								</p>
+							</div>
+							<p class="col-xs-12 item-des"><%= salad.description %></p>
+				        </div>
+
+					<% 
+						}
+					}); 
+					%>
+					</div>
+				</div>
+
+				<div class = "section">
+					<h2 id="con_soups">스프</h2>
+					<div class = "row bottom-padding">
+				  	<% 
+				  	_.each(soups, function(soup) {
+					  	if(soup.hide !== 1){
+				  	%>
+				  		<div id="soups_wrap_<%= soup.item_id %>" orderItmeType="soups" itemId='<%= soup.item_id %>' amountType="<%= soup.amount_type %>" class="col-xs-6 col-md-4 order-item-wrap order-item-soup-wrap">
+				  			<%
+								if(soup.available === 0){
+				  			%>
+					  			<div class='soldout-div'>
+					  				<p>sold out</p>
+					  			</div>
+					  		<%
+								}
+					  		%>
+					  		<div class='mousedown-div'>
+				  			</div>
+				  			<div class="col-xs-12 soup-top-wrap">
+								<img src="https://<%= soup.thumbnail %>">
+								<div class='overlay-div'>
+						  			<div class='overlay-btn-wrap'>
+						  				<button class="col-xs-2 col-xs-offset-1 btn-soup-amount soup-amount-minus" btnVal="-1">
+											<img src="img/btn_soup_size_down.png">
+						  				</button>
+										<p class="col-xs-4 col-xs-offset-1 soup-amount">Small</p>
+										<button class="col-xs-2 col-xs-offset-1 btn-soup-amount soup-amount-plus" btnVal="1">
+											<img src="img/btn_soup_size_up.png">
+										</button>
+									</div>
+									<button class="btn btn-default saladgram-btn-basic btn-add-soup" type="button">추가</button>
+						  		</div>
+							</div>
+							<div class="col-xs-12 soup-bottom-wrap">
+								<p class="col-xs-12 item-name"><%= soup.name %></p>
+								<p class="col-xs-7 item-amout-cal"><%= soup.amount %><%= soup.unit %> / <%= soup.calorie * (soup.amount / 100) %>kcal</p>
+								<div class="col-xs-5 item-price">
+									<p ><%= soup.price * (soup.amount / 100) %>원</p>
+								</div>
+								<p class="col-xs-12 item-des"><%= soup.description %></p>
+							</div>
+							
+				        </div>
+					<% 
+						}
+					}); 
+					%>
+					</div>
+				</div>
+
+				<div class = "section">
+					<h2 id="con_others">기타</h2>
+					<div class = "row bottom-padding">
+				  	<% 
+				  	_.each(others, function(other) {
+					  	if(other.hide !== 1){
+				  	%>
+				  		<div id="others_wrap_<%= other.item_id %>" orderItmeType="others" itemId='<%= other.item_id %>' class="col-xs-6 col-md-4 order-item-wrap">
+				  			<%
+								if(other.available === 0){
+				  			%>
+					  			<div class='soldout-div'>
+					  				<p>sold out</p>
+					  			</div>
+				  			<%
+								}
+				  			%>
+				  			<div class='mousedown-div'>
+				  			</div>
+							<img src="https://<%= other.thumbnail %>"> 
+							<p class="col-xs-12 item-name"><%= other.name %></p>
+							
+							<p class="col-xs-7 item-amout-cal"><%= other.amount %> / <%= other.calorie %>kcal</p>
+							<div class="col-xs-5 item-price">
+								<p ><%= other.price %>원</p>
+							</div>
+							<p class="col-xs-12 item-des"><%= other.description %></p>
+				        </div>
+
+					<% 
+						}
+					}); 
+					%>
+					</div>
+				</div>
+
+				<div class = "section">
+					<h2 id="con_beverages">음료</h2>
+					<div class = "row bottom-padding">
+				  	<% 
+				  	_.each(beverages, function(beverage) {
+					  	if(beverage.hide !== 1){
+				  	%>
+				  		<div id="beverages_wrap_<%= beverage.item_id %>" orderItmeType="beverages" itemId='<%= beverage.item_id %>'  class="col-xs-6 col-md-4 order-item-wrap">
+				  			<%
+								if(beverage.available === 0){
+				  			%>
+					  			<div class='soldout-div'>
+					  				<p>sold out</p>
+					  			</div>
+				  			<%
+								}
+				  			%>
+				  			<div class='mousedown-div'>
+				  			</div>
+							<img src="https://<%= beverage.thumbnail %>"> 
+							<p class="col-xs-12 item-name"><%= beverage.name %></p>
+							
+							<p class="col-xs-7 item-amout-cal"><%= beverage.amount %> / <%= beverage.calorie %>kcal</p>
+							<div class="col-xs-5 item-price">
+								<p ><%= beverage.price %>원</p>
+							</div>
+							<p class="col-xs-12 item-des"><%= beverage.description %></p>
+				        </div>
+
+					<% 
+						}
+					}); 
+					%>
+					</div>
+				</div>
+			</div>
+			<div class="scroll-top-btn-wrap hidden">
+				<button  class="btn-scroll-top" type="button"><img src="img/btn_scroll_top.png"></button>
+			</div>
+
+        </div>
+
+        <div class="col-xs-6 col-sm-5 col-md-4 sidebar-offcanvas" id="sidebar_">
+	    	<p id="order_results_toggle" class="pull-right visible-xs affix">
+				<button id="btn_order_results_toggle" type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas"><span class="badge">5</span></button>
+			</p>
+			<div id="order_list_wrap" class="list-group nav nav-list bs-docs-sidenav affix">
+				<div class="col-xs-12 order-info-top-wrap">
+					<div class="col-xs-12 time-info-top">
+						<p id="order_time_label" class="col-xs-8 time-label">배송예정시간</p>
+						<a class="col-xs-4 btn btn-link btn-saladgram-link btn-time-change btn-change-step-time" >
+							변경하기
+						</a>
+					</div>
+					<p id="order_time_info" class="cox-xs-12 time-info">2016년 6월 23일 08시 00분 도착예정</p>
+	          	</div>
+	          	<div class="order-info-contents-wrap">
+	          		<div class="col-xs-12 " id="before_orders_wrap">
+		          		<% if(user_type === 'member'){%>
+			          	<a class="col-xs-12 btn btn-link"  id="btn_show_before_orders">
+							기존 주문에서 메뉴 가져오기
+						</a>
+						<% } %>
+		          	</div>
+	          	</div>
+				<div class="col-xs-12 order-info-bottom-wrap">
+					<p class="col-xs-6 info-label">총칼로리</p>
+					<p id="order_gross_cal" class="col-xs-6 info-value"><span>0</span>kcal</p>
+					<p class="col-xs-6 info-label">총가격</p>
+					<p id="order_gross_price" class="col-xs-6 info-value"><span>0</span>원</p>
+		          	<button id="btn_items_sel_done" type="button" class="col-xs-12 btn btn-primary btn-xs saladgram-btn-basic">주문하기</button>
+	          	</div>
+			</div>
+        </div>
+        <!--/.sidebar-offcanvas-->
+	</div>
+</div>
+<div id="step_3_wrap" class="order-step-wrap">
+	
+	<div class="row row-offcanvas row-offcanvas-right">
+	<div class='offcanvas-overlay-div'></div>
+        <div class="col-xs-12 col-sm-7 col-md-8 order-left-contents">
+        	<div class ="order-step-pager"><img src="img/order_pager_3.png"></div>
+			<nav id = "navbar_salad_sel_sub" class ="navbar navbar-default navbar-static" role = "navigation">
+				<div class="container">
+					<div class = "">
+						<ul class = "nav navbar-nav menu-tab navbar-static">
+							<li id="_bases" class="active"><a >베이스</a></li>
+							<li id="_vegetables"><a >채소</a></li>
+							<li id="_fruits"><a >과일</a></li>
+							<li id="_proteins"><a >프로틴</a></li>
+							<li id="_others_items"><a >기타</a></li>
+							<li id="_dressings"><a >드레싱</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<div id="step_3_navbar_contents" class="navbar-contents">
+				<% 
+					for(var i=1; i < 7; i++){
+						var name='';
+						var id = '';
+						switch(i){
+							case 1 : 
+								name = '베이스';
+								id = 'bases';
+								break;
+							case 2 : 
+								name = '채소';
+								id = 'vegetables';
+								break;
+							case 3 : 
+								name = '과일';
+								id = 'fruits';
+								break;
+							case 4 : 
+								name = '프로틴';
+								id = 'proteins';
+								break;
+							case 5 : 
+								name = '기타';
+								id = 'others_items';
+								break;
+							case 6 : 
+								name = '드레싱';
+								id = 'dressings';
+								break;
+						}
+				%>
+				<div class = "section">
+				  	<h2 id="con_<%= id %>">
+				  	<%= name %>
+				  	</h2>
+				  	<div class = "row bottom-padding">
+				  	
+				  	<% 
+				  	_.each(salad_items, function(salad_item) {
+					  	if(salad_item.hide !== 1 && salad_item.salad_item_type === i){
+				  	%>
+				  		<div salad_item_type="<%= salad_item.salad_item_type %>" salad_item_id="<%= salad_item.item_id %>" class="col-xs-6 col-md-15 order-item-wrap salad-item-in-salad-wrap">
+				  			<div class='overlay-div' >
+				  				<div class='overlay-btn-wrap'>
+				  				<button class="col-xs-2 col-xs-offset-1 btn-item-amount item-amount-minus" btnVal="-1">
+								<img src="img/btn_amount_minus_act.png">
+				  				</button>
+								<p class="col-xs-4 col-xs-offset-1 item-amount">0.5</p>
+								<button class="col-xs-2 col-xs-offset-1 btn-item-amount item-amount-plus" btnVal="1">
+								<img src="img/btn_amount_plus_act.png">
+								</button>
+								</div>
+				  			</div>
+				  			<div class='mousedown-div'>
+				  			</div>
+				  			<img src="https://<%= salad_item.image %>"> 
+							<p class="col-xs-12 item-name"><%= salad_item.name %></p>
+				        </div>
+
+					<% 
+						}
+					}); 
+					%>
+					</div>
+				</div>
+				<% } %>
+			</div>
+			<div class="scroll-top-btn-wrap hidden">
+				<button class="btn-scroll-top" type="button"><img src="img/btn_scroll_top.png"></button>
+			</div>
+        </div>
+		
+        <div class="col-xs-6 col-sm-5 col-md-4 sidebar-offcanvas" id="sidebar2">
+	        <p id="salad_sel_results_toggle" class="pull-right visible-xs affix">
+				<button id="btn_salad_sel_results_toggle" type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">
+				<span class="badge">5</span>
+				</button>
+			</p>
+			<div id="sel_salad_item_list_wrap" class="list-group nav nav-list bs-docs-sidenav affix">
+			</div>
+        </div>
+        <!--/.sidebar-offcanvas-->
+	</div>
+</div>
+<div id="step_4_wrap" class="order-step-wrap">
+	
+</div>

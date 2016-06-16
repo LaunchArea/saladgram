@@ -1,0 +1,608 @@
+
+/*******sub page*******/
+#page{
+	overflow: auto;
+	height: 100%;
+}
+#page .sub-wrap{
+	height: 100%;
+	padding-top:78px;
+	background-color:#fff;
+	overflow: auto;
+}
+
+.page-sub-background{
+	background-color: #fff;
+}
+.page-sub-store-background{
+	background-color: #F0F0F0;
+}
+#page .page-store-wrap{
+	background-color: #f0f0f0;
+}
+
+#page .page-store-wrap .container{
+	padding:0;
+}
+
+#page .sub-wrap .container{
+	/*margin:0;
+	padding:0;*/
+}
+.sub-page-img-wrap img{
+	max-width: 100%;
+}
+.sub-wrap .sub-page-top-img{
+	width:100%;
+	height: 450px;
+	background-repeat: no-repeat;
+	background-position: top center;
+}
+.sub-wrap .sub-page-top-img img{
+	display: none;
+}
+.sub-store-bottom{
+	text-align: center;
+	padding:6% 0%;
+	margin-bottom:100px;
+}
+.sub-store-bottom img{
+	width: 100%;
+	max-width:529px;
+}
+
+.sub-wrap .sub-ourstory-top{
+	background-image: url("../img/main_our_story_01.jpg");
+}
+.sub-wrap .sub-ourstory-bottom{
+	text-align: center;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-image: url("../img/main_our_story_02.png");
+	height: 300px;
+	margin-top:65px;
+	margin-bottom:100px;
+}
+.sub-ourstory-bottom img{
+	display: none;
+}
+
+.sub-wrap .sub-menu-top{
+	background-image: url("../img/main_menu_01.jpg");
+}
+
+.sub-menu-list-full-wrap{
+	padding-bottom:100px;
+}
+.sub-menu-list-full-wrap .sub-menu-wrap{
+	margin:70px 0 0 0;
+	padding-bottom:70px;
+	border-bottom:1px solid #f0f0f0;
+}
+.sub-menu-list-full-wrap .row {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display:         flex;
+	flex-wrap: wrap;
+	padding:0;
+	margin:0;
+}
+.sub-menu-list-full-wrap .row > [class*='col-'] {
+	display: flex;
+	flex-direction: column;
+	margin-bottom:5px;
+}
+
+.sub-menu-list-full-wrap .row li{
+	/*padding:0;
+	margin:0;*/
+}
+.sub-menu-list-full-wrap .row:last-child{
+	/*margin-bottom:100px;*/
+}
+.sub-menu-list-full-wrap h3{
+	text-align: center;
+	font-weight: 500;
+	margin-bottom:40px;
+
+}
+.sub-menu-list-full-wrap .mene-thumb{
+	background: none;
+	border: none;
+	box-shadow: none;
+	margin-bottom:20px;
+}
+.sub-menu-list-full-wrap .mene-thumb img{
+	width: 100%;
+}
+
+.sub-menu-list-full-wrap li{
+	color:rgba(0,0,0,0);
+}
+
+.sub-menu-list-full-wrap li{
+	color:rgba(0,0,0,0);
+}
+.sub-menu-list-full-wrap li .mene-warp{
+	color:initial;
+}
+.sub-menu-list-full-wrap li .mene-warp p{
+	padding:0 10px;
+	
+}
+.sub-menu-list-full-wrap li .mene-warp .menu-name{
+	font-weight: normal;
+	font-size: 18px;
+	padding:0 0 0 10px;
+
+}
+.sub-menu-list-full-wrap li .mene-warp .menu-amount-cal{
+	text-align: right;
+	font-size: 14px;
+	padding:0 10px 0 0;
+}
+.sub-menu-list-full-wrap li .mene-warp .menu-salad-items{
+	margin-bottom:70px;
+	font-size: 13px;
+}
+
+
+/************************dialog modal************************/
+
+
+.modal {
+	overflow-y: auto;
+}
+.modal-open {
+	padding:0 !important;
+	overflow: auto;
+}
+
+
+.saladgram-modal-dialog{
+	width: 400px;
+    height: 50px;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin-top: -25px;
+    margin-left: -200px;
+    padding: 20px;
+}
+#loginModal .saladgram-modal-dialog{
+	width: 400px;
+    height: 300px;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    margin-top: -25px;
+    margin-left: -200px;
+    padding: 0;
+}
+#loginModal .saladgram-modal-dialog .modal-body{
+	margin:40px 0 10px 0;
+	padding:0 13%;
+}
+#choiceLoginTypeModal .modal-body{
+	margin:20px 0;
+}
+#loginModal .saladgram-modal-dialog .saladgram-btn-primary{
+	width: 74%;
+	margin:0 13% ;
+	font-size:18.5px;
+}
+#loginModal .saladgram-modal-dialog .modal-header .close{
+	width: 23px;
+	height: 23px;
+}	
+#loginModal .saladgram-modal-dialog .btn-saladgram-link{
+	margin:15px 0 20px 0;
+}
+#loginModal .saladgram-modal-dialog .btn-saladgram-link:hover{
+	font-family: 'Open Sans';
+    color: #7e7e7e;
+    font-weight: initial;
+}
+#choiceLoginTypeModal .saladgram-btn-default{
+	margin-top:15px;
+}
+#choiceLoginTypeModal a{
+	width: 100%;
+	margin:0;
+	font-size:16.5px;
+}
+#choiceLoginTypeModal a:hover{
+	color:inherit !important;
+}
+.saladgram-modal-dialog input{
+	font-family: 'Open Sans';
+	border:none;
+	background:none;
+	border-bottom:1px solid #bdd829;
+	width:100%;
+	height: 40px;
+	line-height: 40px;
+	font-size:16px;
+	margin-bottom:4%;
+	outline: none;
+	padding-left:8px;
+}
+.saladgram-modal-dialog input:-webkit-autofill {
+	-webkit-box-shadow:none;
+	background-color:#eee !important;
+}
+
+.saladgram-modal-dialog .modal-header{
+	padding:15px 7%;
+	border:none;
+}
+.saladgram-modal-dialog .modal-header .modal-title{
+	text-align: center;
+}
+
+.saladgram-modal-dialog .btn-success{
+	background-color: #bdd829 !important;
+    color: #fff !important
+}
+.saladgram-modal-dialog .modal-header .close{
+    position: absolute;
+    right: 14px;
+    top: 16px;
+    width: 26px;
+    height: 26px;
+}
+.saladgram-modal-dialog .modal-header .close img{
+	width: 100%;
+}
+.saladgram-modal-dialog .modal-body{
+	padding:3% 10%;
+}
+.saladgram-modal-dialog .modal-body .modal-body-title{
+	text-align:center;
+	margin-bottom:50px;
+}
+.saladgram-modal-dialog .modal-footer{
+	border:none;
+	padding:0 0 3% 0
+}
+
+.saladgram-modal-dialog .btn-saladgram-join{
+	width:100%;
+	margin:0;
+	margin-bottom:35px;
+	background:none;
+	border:1px solid #bdd829;
+	border-radius: 25px;
+	color:#bdd829;
+	height: 40px;	
+}
+#btn_join_member{
+	font-size:18px;
+}
+.saladgram-modal-dialog .btn-saladgram-link{
+	font-family: 'Open Sans';
+	background:none;
+	border:none;
+	width: 100%;
+	margin:2% 0;
+	color:#7e7e7e;
+}
+
+
+.select-wrap {
+    padding: 0;
+    margin: 0;
+    width:100%;
+    height:40px;
+	line-height:40px;
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: #eee;
+	margin-bottom:20px;
+    background: #eee url("../img/addr_narrow.png") no-repeat 95% 50%;
+}
+
+.select-wrap .saladgram-select-tag {
+    padding:0 10px;
+    width: 100%;
+    padding-left:20px;
+    height:40px;
+	line-height:40px;
+    border: none;
+    box-shadow: none;
+    background-color: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+}
+
+.select-wrap .saladgram-select-tag:focus {
+    outline: none;
+}
+
+
+.saladgram-check-box-wrap{
+	text-align: left;
+}
+
+.saladgram-check-box-wrap .checkbox-input{
+    width: 8%;
+    margin: 0;
+    margin-left: 20%;
+    height: 25px;
+}
+
+.saladgram-check-box-wrap .checkbox-label{
+    position: relative;
+    top: -7px;
+    left: 10px;
+}
+
+.saladgram-modal-dialog-lg .modal-body{
+	margin:0 18%;
+	overflow-y: auto;
+}
+.saladgram-modal-dialog-lg .modal-footer{
+	margin:0 18%;
+	padding-bottom:40px;
+}
+
+.saladgram-modal-dialog-lg input{
+	border:none;
+	background-color:#eee;
+	border: 1px solid #eee;
+    border-radius: 25px;
+    padding-left:20px;
+    margin-bottom:15px;
+}
+
+.saladgram-modal-dialog-lg .edit-my-info-body{
+	padding:5% 0;
+	padding:3% 0;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body .each-input-wrap{
+    padding: 5px 0;
+    overflow: auto;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body .each-input-wrap .info-span{
+    height: 40px;
+    line-height: 40px;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body .edit-user-section-wrap{
+	border-top:solid #eee 1px;
+	padding-top:10px;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body .edit-user-section-wrap:first-child{
+	border-top:none;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body .edit-user-section-wrap h4{
+	text-align: center;
+	font-size:16px;
+	margin:25px 0;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body label{
+	height: 40px;
+	line-height: 40px;
+	font-weight: 900;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body input{
+    width: 66.66666667%;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body .select-wrap{
+	width: 66.66666667%;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body select{
+	 width: 100%;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body button{
+	margin:0;
+	margin-bottom:15px;
+	background:none;
+	border:1px solid #bdd829;
+	border-radius: 25px;
+	color:#bdd829;
+	height: 40px;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body .empty-label{
+	display: block;
+}
+
+.saladgram-modal-dialog-lg .edit-my-info-body .find-id-wrap{
+	/*padding-top:0px;*/
+}
+.saladgram-modal-dialog-lg .edit-my-info-body .find-id-wrap h4{
+	text-align: center;
+	margin:10px 0 20px;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body .find-pwd-wrap{
+	padding-top:30px;
+	border-top:solid 1px #eee;
+}
+.saladgram-modal-dialog-lg .edit-my-info-body .find-pwd-wrap h4{
+	text-align: center;
+	margin:30px 0 20px;
+}
+#editUserModal .modal-footer{
+	padding-bottom:35px;
+}
+#findLoginInfoModal .edit-my-info-body .col-sm-12{
+	padding:0;
+}
+#findLoginInfoModal .edit-my-info-body .col-sm-12 label{
+	padding:0;
+}
+.saladgram-modal-dialog-lg{
+	top:1%;
+	width:800px;
+	margin-left:-400px;
+}
+#guestOderLoginModal .saladgram-modal-dialog-lg{
+	top:10%;
+}
+#findLoginInfoModal .saladgram-modal-dialog-lg{
+	top:5%;
+}
+
+.saladgram-modal-dialog-lg .modal-header{
+	border:inherit;
+	padding:24px 0;
+}
+
+
+.saladgram-modal-dialog-lg .mypage-info-wrap{
+	margin-top:30px;
+}
+.saladgram-modal-dialog-lg .mypage-info-wrap span{
+	margin-top:30px;
+}
+.saladgram-modal-dialog-lg .diaolog-lg-header{
+	padding: 3% 0 1%;
+}
+
+
+@media (max-width: 850px) {
+	.saladgram-modal-dialog-lg{
+		width:600px;
+		margin-left:-300px;
+	}
+}
+@media (max-width: 768px) {
+	#page .sub-wrap{
+		padding-top:0;
+	}
+	.sub-wrap .sub-page-top-img{
+		width:100%;
+		height: auto;
+		background-repeat: no-repeat;
+		background-size: contain;
+		background-position: top;
+	}
+	.sub-wrap .sub-page-top-img img{
+		display: block;
+		width:100%;
+	}
+	.sub-wrap .sub-ourstory-top{
+		background-image: url("../img/main_our_story_mo_01.jpg");
+	}
+	.sub-wrap .sub-menu-top{
+		background-image: url("../img/main_menu_mo_01.jpg");
+	}
+	.sub-menu-list-full-wrap .row{
+		padding:0;
+		margin:0;
+	}
+	.sub-menu-list-full-wrap .row li{
+		padding:0 1%;
+		margin:0;
+	}
+	#page .sub-wrap .container{
+		padding:5% 0;
+	}
+	.sub-wrap .sub-ourstory-bottom{
+		width:100%;
+		background-image: url("../img/main_our_story_mo_02.png");
+		background-repeat: no-repeat;
+		background-size: 80% auto;
+		background-position: top;
+		height: auto;
+	}
+	.sub-wrap .sub-ourstory-bottom img{
+		display: block;
+		width:100%;
+	}
+	
+	.sub-store-bottom img{
+		width: 90%;
+		margin-top:50px;
+	}
+	.saladgram-modal-dialog{
+		/*top:5%;*/
+	}
+	.saladgram-modal-dialog-lg{
+		top:3%;
+
+	}
+	.saladgram-modal-dialog .edit-my-info-body label{
+	    height: 30px;
+	    line-height: 30px;
+	}
+	.saladgram-modal-dialog .edit-my-info-body input{
+	    width: 100%;
+	    margin:0;
+	}
+	.saladgram-modal-dialog .edit-my-info-body select{
+		 width: 100%;
+	}
+	.saladgram-modal-dialog .edit-my-info-body button{
+		margin:5% 0 7%;
+	}
+	.saladgram-modal-dialog .edit-my-info-body .empty-label{
+		display: none;
+	}
+	
+	#choiceLoginTypeModal a{
+		font-size:17.5px;
+	}
+
+	.sub-menu-list-full-wrap li .mene-warp .menu-name{
+		font-size: 14px;
+
+	}
+	.sub-menu-list-full-wrap li .mene-warp .menu-amount-cal{
+		/*text-align: right;
+		font-size: 14px;
+		padding:0 10px 0 0;*/
+	}
+	.sub-menu-list-full-wrap li .mene-warp .menu-salad-items{
+		font-size: 14px;
+	}
+
+	.saladgram-modal-dialog .edit-my-info-body .select-wrap{
+		width: 100%;
+	}
+}
+
+@media (max-width: 615px) {
+	
+	.sub-wrap .sub-ourstory-top{
+		background-image: url("../img/main_our_story_mo_01.jpg");
+	}
+	.sub-wrap .sub-menu-top{
+	    /*background-size:contain;
+	    background-position: top;
+	    height: 270px;*/
+	}
+
+	.saladgram-modal-dialog{
+		position: absolute;
+		width: 94%;
+	    left: 50%;
+	    margin-left: -47%;
+	    padding: 2%;
+	}
+	#loginModal .saladgram-modal-dialog{
+	    width: 90%;
+	    margin-left: -45%;
+	}
+	.saladgram-modal-dialog-sm{
+		width: 90%;
+	    margin-left: -45%;
+	}
+
+	.saladgram-modal-dialog-lg .modal-body{
+		margin:2% 5%;
+	}
+	.saladgram-modal-dialog-lg .modal-footer{
+		margin:0 5%;
+	}
+	
+}
+
+@media (max-width: 380px) {
+	
+	.saladgram-modal-dialog-lg .modal-body{
+		padding:5% 2%;
+	}
+}

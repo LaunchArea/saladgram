@@ -1,0 +1,27 @@
+<div class="list-group-item order-list-item" itemCid="<%= item_cid %>" id="order_item_<%= item_cid %>">
+	<div>
+		<p class="col-xs-6 item-type" ><%= item_type_text %></p>
+	
+		<p class="col-xs-6 item-modify">
+		<% if(item_type_num === 1){ %>
+			<span class="menu-modify">수정</span>
+		<% } %>
+			<span class="menu-remove">삭제</span>
+		</p>
+	<div>	
+	<div class="col-xs-8 item-name-cal-price-wrap">
+	<p class="item-name"><%= item_name %></p>
+	<p class="item-cal-price">
+		<span class="item-cal"><%= item_cal %></span>kcal / 
+		<span class="item-price"><%= item_price %></span>원
+	</p>
+	</div>
+	<p class="col-xs-4"></p>
+	<button class="col-xs-1 btn-item-quantity item-quantity-minus" btnVal="-1">
+	<img src="img/btn_quantity_minus.png">
+	</button>
+	<p class="col-xs-2 item-quantity">1</p>
+	<button class="col-xs-1 btn-item-quantity item-quantity-plus" btnVal="1">
+	<img src="img/btn_quantity_plus.png">
+	</button>
+</div>

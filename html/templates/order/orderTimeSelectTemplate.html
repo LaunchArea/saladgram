@@ -1,0 +1,110 @@
+<div class="nav nav-tabs order-step-time-type-wrap">
+    <div class="col-xs-6 order-type-tab active" data-toggle="tab" href="#<%= order_type %>_now">
+    	바로주문
+    </div>
+    <div class="col-xs-6 order-type-tab " data-toggle="tab" href="#<%= order_type %>_reserve">
+    	예약주문
+    </div>
+</div>
+<div class="tab-content">
+    <div id="<%= order_type %>_now" class="tab-pane fade in active order-step-1-now-wrap">
+    	<% if(order_type === 'delivery'){ %>
+	    <p class="col-xs-10 col-sm-10 addr-wrap">
+		    <b class="col-xs-3 col-sm-2 addr-label">기본배송지</b>
+		    <span class="col-xs-9 col-sm-8 addr-display"><%= addr %></span>
+	    </p> 
+	    <a class="col-xs-2 col-sm-2 btn btn-link btn-modify-add btn-change-order-addr">
+			수정
+		</a> 
+		<% }else if(order_type === 'pickup'){ %>
+		<p class="col-xs-12 col-sm-9 addr-wrap">
+			<b class="col-xs-3 col-sm-2 addr-label">픽업장소</b>
+			<span class="col-xs-9 col-sm-8 addr-pickup-display"><%= addr %></span>
+		</p>
+		<% } %>
+	</div>
+    <div id="<%= order_type %>_reserve" class="tab-pane fade order-time-select-wrap">
+    	<div class="select-wrap">
+	    <select id="<%= order_type %>_date_select" order_type="<%= order_type %>" class="col-xs-3 saladgram-select-tag dates-select">
+		    <option value="0">오늘</option>
+		    <option value="1">내일</option>
+		</select>
+		</div>
+		<div class="select-wrap" id="<%= order_type %>_hour_select_wrap">
+		<select id="<%= order_type %>_hour_select" order_type="<%= order_type %>" class="col-xs-3 saladgram-select-tag hours-select">
+		  	<% _.each(hours, function(hour) { 
+				
+				if(off_day){
+			%>
+				<option value="<%= hour %>" disabled><%= hour %>시</option>
+			<%	
+				}else{
+					var disable = true;
+					if(!is_saturday){
+						if(hour >= c_hours && (hour < week_break_start || hour >= week_break_end)){
+							disable = false;
+						}else{
+
+						}
+					}else{
+						if(hour >= c_hours && (hour >= saturday_open && hour < saturday_end)){
+							disable = false;
+						}else{
+						
+						}
+					}
+
+					if(disable){
+		  	%>
+				<option value="<%= hour %>" disabled><%= hour %>시</option>
+			<% 
+					}else{
+			%>
+				<option value="<%= hour %>"><%= hour %>시</option>
+			<%
+					}
+				}
+				}); 
+			%>
+		</select>
+		</div>
+		<div class="select-wrap">
+		<select id="<%= order_type %>_min_select" class="col-xs-3 saladgram-select-tag mins-select">
+			<% _.each(mins, function(min) { 
+				
+				if(off_day){
+			%>
+				<option value="<%= min %>" disabled><%= min %>분</option>
+			<%	}else{
+					if(min >= c_mins){
+						if(min === 0){
+							min = '00';
+						};
+			
+		  	%>
+				<option value="<%= min %>"><%= min %>분</option>
+			<% 
+					}else{
+						if(min === 0){
+							min = '00';
+						};
+			%>
+				<option value="<%= min %>" disabled><%= min %>분</option>
+			<%
+					}
+				}
+			}); 
+			%>
+		</select>
+		</div>
+		<% if(order_type === 'delivery'){ %>
+		<div class="col-xs-12 col-sm-12 delivery-reserve-addr">
+			<b class="col-xs-3 col-sm-2 addr-label">기본배송지</b>
+			<p class="col-xs-7 col-sm-8 addr-display"><%= addr %></p> 
+		    <a class="col-xs-2 col-sm-2 btn btn-link btn-modify-add btn-change-order-addr">
+				수정
+			</a> 
+		</div>
+		<% } %>
+	</div>
+</div>

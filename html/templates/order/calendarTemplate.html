@@ -1,0 +1,10 @@
+<div class="container" id="calendar"></div>
+
+<script type="text/javascript" src="assets/js/calendar.js"></script>
+<script type="text/javascript">
+var calendar = $("#calendar").calendar(
+    {
+        tmpl_path: "assets/tmpls/",
+        events_source: function () { return []; }
+    });         
+</script>
