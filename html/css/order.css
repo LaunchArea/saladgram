@@ -459,6 +459,7 @@
 	background-color: #404040;
 	font-weight: lighter;
 	text-shadow: none;
+	border-radius: 0;
 }
 .order-item-wrap .btn-add-soup:hover{
 	color:#fff;

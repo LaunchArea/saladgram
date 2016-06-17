@@ -205,6 +205,10 @@
     color: #7e7e7e;
     font-weight: initial;
 }
+
+#loginModal .saladgram-modal-dialog .btn-saladgram-link span{
+	font-family: 'Nanum Gothic';
+}
 #choiceLoginTypeModal .saladgram-btn-default{
 	margin-top:15px;
 }

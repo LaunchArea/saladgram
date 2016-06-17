@@ -43,14 +43,16 @@
 .mypage-info-wrap span{
 	
 }
-.mypage-info-wrap label{
-}
+
 .mypage-info-wrap .mypage-info-top{
 }
 .mypage-info-wrap .each-info-wrap{
 	height: 58px;
 	padding:0;
 	overflow: auto;
+}
+.mypage-info-wrap .each-info-wrap label{
+	
 }
 .mypage-info-wrap .each-info-wrap .reward-wrap{
 	/*height: 20px;*/
@@ -223,7 +225,46 @@
 	.user-order-list-panel .panel-body .list-group .list-group-item p{
 		font-size:90%;
 	}
+	.mypage-info-wrap .each-info-wrap label{
+		font-size:90%;
+		padding-right: 0;
+	}
+	.user-order-list-panel .list-group .list-group-item .item-cal-price{
+		padding-left:0;
+		font-size:85% !important;
+	}
+	.user-order-list-panel .list-group .list-group-item .item-cal-price span{
+		font-size:85% !important;
+	}
 }
 @media (max-width: 380px) {
-
+	.mypage-order-list-wrap .user-order-list-panel .panel-heading p{
+		padding:0;
+	}
+	.user-order-list-panel .panel-body .list-group .list-group-item p{
+		padding:0;
+	}
+	.mypage-info-wrap .each-info-wrap label{
+		font-size:80%;
+		padding-right: 0;
+		padding:0 5px 0 0;
+	}
+	.mypage-info-wrap .each-info-wrap span{
+		font-size:80%;
+		padding-left:5px;
+	}
+	.mypage-info-wrap .each-info-wrap .show-reward-detail{
+		height: 15px;
+		padding: 0;
+		/*padding-bottom:5px;*/
+	}
+	.mypage-info-wrap .each-info-wrap .show-reward-detail img{
+		padding-bottom:8px;
+	}
+	.user-order-list-panel .list-group .list-group-item .item-cal-price{
+		font-size:75% !important;
+	}
+	.user-order-list-panel .list-group .list-group-item .item-cal-price span{
+		font-size:75% !important;
+	}
 }

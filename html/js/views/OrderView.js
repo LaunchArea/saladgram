@@ -647,6 +647,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 								window.orderInfoModel.set('addr', addr);
 					            window.userCollection.models[0].get('user_info').addr = addr;
 					           	$('.addr-display').html(addr);
+					           	$('.addr-label').html('기본배송지');
 					           	$('#changeOrderAddrModal').hide();
 							});
 	                    }else{
@@ -673,6 +674,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
             	window.orderInfoModel.set('addr', addr);
 	            window.userCollection.models[0].get('user_info').addr = addr;
 	           	$('.addr-display').html(addr);
+	           	$('.addr-label').html('배송지');
 	           	$('#changeOrderAddrModal').hide();
             }
 		},
