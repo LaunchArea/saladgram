@@ -1108,8 +1108,9 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		    		var grossPrice = 0;
 		    		for(var i=0; i < saladItemsModel.length; i++){
 		    			var amountType = parseInt(saladItemsModel[i].amount_type);
-		    			var price = parseInt(saladItemsModel[i].price) * amountType;
-		    			var calorie = parseInt(saladItemsModel[i].calorie) * amountType;
+		    			var amount = parseInt(saladItemsModel[i]["amount"+amountType]);
+		    			var price = parseInt(saladItemsModel[i].price * amount / 100);
+		    			var calorie = parseInt(saladItemsModel[i].calorie * amount / 100);
 		    			grossCalorie = grossCalorie + calorie;
 		    			grossPrice = grossPrice + price;
 		    		};
@@ -1347,7 +1348,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					var unit = currentSaladItemsModel[i].unit;
 					var changedAmount;
 					if(unit === 'g'){
-						changedAmount = (changedAmountType * 100);
+		    			changedAmount = parseInt(currentSaladItemsModel[i]["amount"+changedAmountType]);
 					}else if(unit === '개'){
 						changedAmount = (changedAmountType);
 					};
