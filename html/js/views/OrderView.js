@@ -327,7 +327,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			"click button#check_order_type_online": "checkOrderTypeOnline",
 			"click button#check_order_type_offline": "checkOrderTypeOffline",
 			"click a.btn-change-step-order": "changeOrderBack",
-			'click button#btn_confirm_order_complete': "confirmOrderComplete",
+			"click button#btn_confirm_order_complete": "confirmOrderComplete",
 		},
 		/**
 		 * 주문 스탭을 변경합니다
