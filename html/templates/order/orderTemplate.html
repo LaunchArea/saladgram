@@ -130,9 +130,13 @@
 							</div>
 							<div class="col-xs-12 soup-bottom-wrap">
 								<p class="col-xs-12 item-name"><%= soup.name %></p>
-								<p class="col-xs-7 item-amout-cal"><%= soup.amount %><%= soup.unit %> / <%= soup.calorie * (soup.amount / 100) %>kcal</p>
+                                <p class="col-xs-7 item-amout-cal"><%= soup.amount1 %><%= soup.unit %> / <%= parseInt(soup.calorie * (soup.amount1 / 100)) %>kcal</p>
 								<div class="col-xs-5 item-price">
-									<p ><%= soup.price * (soup.amount / 100) %>원</p>
+									<p ><%= soup.price * (soup.amount1 / 100) %>원</p>
+								</div>
+								<p class="col-xs-7 item-amout-cal"><%= soup.amount2 %><%= soup.unit %> / <%= parseInt(soup.calorie * (soup.amount2 / 100)) %>kcal</p>
+								<div class="col-xs-5 item-price">
+									<p ><%= soup.price * (soup.amount2 / 100) %>원</p>
 								</div>
 								<p class="col-xs-12 item-des"><%= soup.description %></p>
 							</div>

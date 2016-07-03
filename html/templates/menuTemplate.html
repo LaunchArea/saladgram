@@ -16,7 +16,9 @@
 					</div>
 					<p class="col-xs-7 menu-name"><%= salad.name %></p>
 					<p class="col-xs-5 menu-amount-cal">
-						<%= salad.amount %> / <%= salad.calorie %>kcal
+                    <% if(typeof salad.calorie !== 'undefined' && salad.calorie !== null && salad.calorie !== ''){%>
+                    <%= salad.amount %> / <%= salad.calorie %>kcal
+                    <% } %>
 					</p>
 					<p class="col-xs-12 menu-salad-items">
 					<% _.each(salad.salad_items, function(si) { %>
@@ -38,7 +40,8 @@
 		    	<div class="mene-warp">
 					<p class="col-xs-7 menu-name"><%= soup.name %></p>
 					<p class="col-xs-5 menu-amount-cal">
-						<%= soup.amount %><%= soup.unit %> / <%= soup.calorie * (soup.amount / 100) %>kcal
+                    <%= soup.amount1 %><%= soup.unit %> / <%= parseInt(soup.calorie * (soup.amount1 / 100)) %>kcal
+                    <%= soup.amount2 %><%= soup.unit %> / <%= parseInt(soup.calorie * (soup.amount2 / 100)) %>kcal
 					</p>
 				</div>
 			</li>
