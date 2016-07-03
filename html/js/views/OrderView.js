@@ -970,21 +970,24 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		},
 
 		/*****************************STEP 2**********************************/
-		//샐러드 아이템 컬렉션을 만들고 선택된 샐러드의 샐러듸 아이템을 넣어줍니다
+		//샐러드 아이템 컬렉션을 만들고 선택된 샐러드의 샐러드 아이템을 넣어줍니다
 		makeSaladItemsCollection : function(e){
 			var that = this;
+			var allSaladItemsModel = window.menuCollection.models[0].get('salad_items');
 			window.currentSaladItemsCollsection = new SaladItemsCollection();
-				window.currentSaladItemsCollsection.on({
-			    "add" : function(e, collection, options) { 
+            window.currentSaladItemsCollsection.on({
+			    "add" : function(e, collection, options) {
+                    console.log('1');
 			    	console.log('SaladItemsCollection add event' + e); 
 			    	if(options.render_view){
 			    		this.trigger('render_view',e);
 			    	};
 					// this.trigger('calculateAll');
 		    	},
-		    	"render_view" : function(e) { 
+                "render_view" : function(e) {
+                    console.log('2');
 		    		console.log('SaladItemsCollection set event' + e); 
-			    	console.log(" saladitem set event: " + e); 
+                    console.log(" saladitem set event: " + JSON.stringify(e));
 			    	var itemId = e.get('item_id');
 		    		var name = e.get('name');
 		    		var calorie = e.get('calorie');
@@ -995,13 +998,10 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		    		//salad item 정보 reset;
 		    		$('#sel_salad_item_list_wrap').empty();
 
-		    		var timeLabeText = $('#order_time_label').html()
-					var timeText = $('#order_time_info').html();
-
 					var template = _.template(selectSaladItemListTemplate)({
 									item_cid: e.cid,
-									tiem_label :timeLabeText,
-									tiem_info :timeText,
+									//time_label :timeLabelText,
+									//time_info :timeText,
 									item_name: name,
 									item_cal: calorie,
 									item_price: price,
@@ -1012,16 +1012,14 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					
 			    	that.selSaladItemListView.prepend(template);
 			    	
-		    		// console.log(window.currentSaladItemsCollsection.toJSON());
-		    		// console.log("window.currentSaladItemsCollsection: " + JSON.stringify(window.currentSaladItemsCollsection));
 			    	var saladItemWraps = $('.order-item-wrap');
 			    	var length = saladItemWraps.length;
 			    	//salad item 선택정보 reset;
 					saladItemWraps.removeClass('item-selected');
+                    var saladItemsModel = e.get('salad_items');
 					for(var i=0; i < saladItemWraps.length; i++){
 						var saladItemType = parseInt(saladItemWraps.eq(i).attr('salad_item_type'));
 						var saladItemId = parseInt(saladItemWraps.eq(i).attr('salad_item_id'));
-						var saladItemsModel = e.get('salad_items');
 						//salad item 양 정보 reset;
 						saladItemWraps.eq(i).find('.item-amount').html('0.5');
 						for(var j=0; j < saladItemsModel.length; j++){
@@ -1034,10 +1032,12 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							}
 						};
 					};
+					this.trigger('calculateAll');
 					//mobile toggle btn badge change
 					// this.trigger('changeBadgeCount');
 		    	},
 		    	"changeBadgeCount": function(){
+                    console.log('3');
 		    		var count = window.currentSaladItemsCollsection.length;
 		    		var saladNew = 'new';
 		    		if(count >= 1){
@@ -1051,14 +1051,17 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		    			$('#salad_sel_results_toggle button').removeClass('active_badge');
 		    		};
 		    	},
-		    	"set" : function(e, collection, options) { 
+		    	"set" : function(e, collection, options) {
+                    console.log('4');
 		    		console.log('SaladItemsCollection set event' + e); 
 			    	console.log(" saladitem set event: " + e); 
 		    	},
-		    	"change" : function(e, options) { 
+		    	"change" : function(e, options) {
+                    console.log('5');
 		    		console.log('SaladItemsCollection change event' + e); 
 		    	},
 		    	"addsaladitem" : function(item) { 
+                    console.log('6');
 		    		console.log('addsaladitem');
 		    		console.log('added item : ' + JSON.stringify(item));
 		    		var addedItem = $('#selected_salad_item_clone').clone();
@@ -1071,7 +1074,8 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		    		$('#selected_salad_items_wrap').prepend(addedItem);
 		    		this.trigger('changeBadgeCount');
 		    	},
-		    	"itemamountchange" : function(e, item) { 
+		    	"itemamountchange" : function(e, item) {
+                    console.log('7');
 		    		console.log('itemamountchange');
 		    		// var itemAmoutDisplay = item.amount + item.unit;
 		    		var itemAmoutDisplay = item.amount_type * 0.5;
@@ -1079,7 +1083,8 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		    		console.log("itemamountchange event: " + JSON.stringify(window.currentSaladItemsCollsection));
 		    		this.trigger('calculateAll');
 		    	},
-		    	"itemremoved" : function(saladItemId, saladItemType) { 
+		    	"itemremoved" : function(saladItemId, saladItemType) {
+                    console.log('8');
 		    		console.log("itemremoved saladItemId: " + saladItemId);
 		    		console.log("itemremoved saladItemType: " + saladItemType);
 		    		var saladItemWraps = $('.salad-item-in-salad-wrap');
@@ -1097,23 +1102,25 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					this.trigger('changeBadgeCount');
 					this.trigger('calculateAll');
 		    	},	
-		    	"resetCollectionView": function(e, item){
-
+		    	"resetCollectionView": function(e, item) {
+                    console.log('9');
 		    	},
 		    	//현재 샐러드(currentSaladItemsCollsection)의 총 칼로리/가격을 계산합니다
-		    	"calculateAll": function(){
+		    	"calculateAll": function() {
+                    console.log('10');
 		    		console.log('calculateAll');
 		    		var saladItemsModel = this.models[0].get('salad_items');
 		    		var grossCalorie = 0;
 		    		var grossPrice = 0;
 		    		for(var i=0; i < saladItemsModel.length; i++){
-		    			var amountType = parseInt(saladItemsModel[i].amount_type);
-		    			var amount = parseInt(saladItemsModel[i]["amount"+amountType]);
-		    			var price = parseInt(saladItemsModel[i].price * amount / 100);
-		    			var calorie = parseInt(saladItemsModel[i].calorie * amount / 100);
-		    			grossCalorie = grossCalorie + calorie;
-		    			grossPrice = grossPrice + price;
+                        var amountType = parseInt(saladItemsModel[i].amount_type);
+                        var amount = parseInt(allSaladItemsModel[saladItemsModel[i]["item_id"]]["amount"+amountType]);
+                        var price = parseInt(saladItemsModel[i].price * amount / 100);
+                        var calorie = saladItemsModel[i].calorie * amount / 100;
+                        grossCalorie = grossCalorie + calorie;
+                        grossPrice = grossPrice + price;
 		    		};
+                    grossCalorie = parseInt(grossCalorie);
 		    		this.models[0].set({'calorie':grossCalorie});
 		    		this.models[0].set({'price':grossPrice});
 		    		$('#current_selected_salad_wrap').find('.item-cal').html(grossCalorie);
@@ -1137,13 +1144,14 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			window.menuCollection.fetch({
 				success: function () {
 					console.log('fetch success!'); 
+                    /*
 					var soups = window.menuCollection.models[0].get('soups');
 					for(var i=0; i < soups.length; i++){
 						soups[i].amount_type = 1;
 						soups[i].amount = soups[i].amount1;
 						// soups[i].price = soups[i].price * 1.5;
 						// soups[i].calorie = soups[i].calorie * 1.5;
-					}
+					}*/
 					var saladsModel = window.menuCollection.models[0].get('salads');
 					var clickedModel;
 					for(var i=0; i < saladsModel.length; i++){
@@ -1265,7 +1273,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 				}
 			};
 		},
-		//샐러드에 새로운 샐러드 아이템의 추가합니다
+		//샐러드에 새로운 샐러드 아이템을 추가합니다
 		addSaladItem:function(e){
 			console.log('addSaladItem click');
 
