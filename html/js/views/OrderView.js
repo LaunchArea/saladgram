@@ -1033,7 +1033,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                                 } else if (saladItemsModel[j].unit === "g") {
                                     amount = parseInt(saladItemsModel[j].amount_type) * 0.5;
                                 }
-								saladItemWraps.eq(i).find('.item-amount').html(amount);
+								saladItemWraps.eq(i).find('.item-amount').html("x"+amount);
 							}
 						};
 					};
@@ -1085,7 +1085,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                     // var itemAmoutDisplay = item.amount + item.unit;
                     var itemAmoutDisplay;
                     if (item.unit === 'g') {
-                        itemAmoutDisplay = item.amount_type * 0.5;
+                        itemAmoutDisplay = "x" + (item.amount_type * 0.5);
                     } else if (item.unit === '개') {
                         itemAmoutDisplay = item.amount_type;
                     }
@@ -1298,7 +1298,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 				return;
 			}
 			$(e.currentTarget).addClass('item-selected');
-			$(e.currentTarget).find('.item-amount').html('1');
+			$(e.currentTarget).find('.item-amount').html('x1');
 
 			var saladItemType = parseInt($(e.currentTarget).attr('salad_item_type'));
 			var saladItemId = parseInt($(e.currentTarget).attr('salad_item_id'));
