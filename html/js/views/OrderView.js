@@ -2070,6 +2070,10 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 								delete oneItem["name"];
 								delete oneItem["amount"];
 								delete oneItem["salad_item_type"];
+								delete oneItem["image"];
+								delete oneItem["unit"];
+								delete oneItem["price"];
+								delete oneItem["calorie"];
 							}
 						}
 					};
