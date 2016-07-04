@@ -1027,7 +1027,12 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							var containId = parseInt(saladItemsModel[j].item_id);
 							if(saladItemType == containType && containId === saladItemId){
 								saladItemWraps.eq(i).addClass('item-selected');
-								var amount = parseInt(saladItemsModel[j].amount_type) * 0.5;
+								var amount;
+                                if (saladItemsModel[j].unit === "개") {
+                                    amount = parseInt(saladItemsModel[j].amount_type);
+                                } else if (saladItemsModel[j].unit === "g") {
+                                    amount = parseInt(saladItemsModel[j].amount_type) * 0.5;
+                                }
 								saladItemWraps.eq(i).find('.item-amount').html(amount);
 							}
 						};
