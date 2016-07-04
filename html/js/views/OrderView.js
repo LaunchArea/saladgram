@@ -1668,7 +1668,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			    			grossPrice = grossPrice + modelPrice;
 			    		};
 		    		};
-		    		mOrderView.$el.find('#order_gross_cal').children().html(grossCalorie);
+		    		mOrderView.$el.find('#order_gross_cal').children().html(parseInt(grossCalorie));
 		    		mOrderView.$el.find('#order_gross_price').children().html(grossPrice);
 		    		window.orderInfoModel.set('total_price',grossPrice);
 		    	}
@@ -2075,7 +2075,10 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 								delete oneItem["price"];
 								delete oneItem["calorie"];
 							}
-						}
+						} else if (oneItem.get('order_item_type') === 2) {
+                            oneItem.set("price", oneItem.get("price") * oneItem.get("amount"+oneItem.get("amount_type")) / 100);
+                            oneItem.set("calorie", parseInt(oneItem.get("calorie") * oneItem.get("amount"+oneItem.get("amount_type")) / 100));
+                        }
 					};
 
 					window.orderInfoModel.set({order_items: orderItemsCollection});
