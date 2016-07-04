@@ -1325,7 +1325,6 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			};
 			//샐러드의 총 가격/칼로리 계산
 			window.currentSaladItemsCollsection.trigger('calculateAll');
-			console.log('saladItemId: ' + JSON.stringify(window.currentSaladItemsCollsection));
 		},
 		//샐러드 아이템의 양을 조절합니다
 		saladItemAmountChange: function(e){
@@ -1338,6 +1337,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			var saladItemId = parseInt(saladItemWrap.attr('salad_item_id'));
 			var btnVal = parseInt($(e.currentTarget).attr('btnVal'));
 			var currentSaladItemsModel = window.currentSaladItemsCollsection.models[0].get('salad_items');
+			var allSaladItemsModel = window.menuCollection.models[0].get('salad_items');
 
 			console.log('saladItemType : ' + saladItemType);
 			console.log('saladItemId : ' + saladItemId);
@@ -1348,20 +1348,22 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 				if(saladItemType == containType && containId === saladItemId){
 					
 					var currentAmountType = parseInt(currentSaladItemsModel[i].amount_type);
-					if(currentAmountType >= 4 && btnVal === 1){
-						return;
+					if(btnVal === 1 &&
+                       (currentAmountType >= 4 || !allSaladItemsModel[currentSaladItemsModel[i]["item_id"]]["amount" + (currentAmountType + 1)])) {
+                        return;
 					};
-					if(currentAmountType <= 1 && btnVal === -1){
-						var btnSaldItemDel = $('.btn-salad-item-del');
-						for(var i=0; i < btnSaldItemDel.length; i++){
-							var btnItemId = parseInt(btnSaldItemDel.eq(i).attr('item_id'));
-							var btnItemType = parseInt(btnSaldItemDel.eq(i).attr('item_type'));
-							if(saladItemId === btnItemId && btnItemType === saladItemType){
-								// 샐러드 아이템 삭제 버튼 강제 클릭
-								btnSaldItemDel.eq(i).trigger('click');
-								return;
-							}
-						}
+					if(btnVal === -1 &&
+                       (currentAmount <= 1 || !allSaladItemsModel[currentSaladItemsModel[i]["item_id"]]["amount" + (currentAmountType - 1)])) {
+                        var btnSaldItemDel = $('.btn-salad-item-del');
+                        for(var i=0; i < btnSaldItemDel.length; i++){
+                            var btnItemId = parseInt(btnSaldItemDel.eq(i).attr('item_id'));
+                            var btnItemType = parseInt(btnSaldItemDel.eq(i).attr('item_type'));
+                            if(saladItemId === btnItemId && btnItemType === saladItemType){
+                                // 샐러드 아이템 삭제 버튼 강제 클릭
+                                btnSaldItemDel.eq(i).trigger('click');
+                                return;
+                            }
+                        }
 					}
 					var currentAmount = parseInt(currentSaladItemsModel[i].amount);
 					var changedAmountType = currentAmountType + btnVal;
