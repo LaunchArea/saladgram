@@ -1074,14 +1074,19 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		    		$('#selected_salad_items_wrap').prepend(addedItem);
 		    		this.trigger('changeBadgeCount');
 		    	},
-		    	"itemamountchange" : function(e, item) {
+                "itemamountchange" : function(e, item) {
                     console.log('7');
-		    		console.log('itemamountchange');
-		    		// var itemAmoutDisplay = item.amount + item.unit;
-		    		var itemAmoutDisplay = item.amount_type * 0.5;
-		    		var itemAmount = $(e.currentTarget).siblings('.item-amount').html(itemAmoutDisplay);
-		    		console.log("itemamountchange event: " + JSON.stringify(window.currentSaladItemsCollsection));
-		    		this.trigger('calculateAll');
+                    console.log('itemamountchange');
+                    // var itemAmoutDisplay = item.amount + item.unit;
+                    var itemAmoutDisplay;
+                    if (item.unit === 'g') {
+                        itemAmoutDisplay = item.amount_type * 0.5;
+                    } else if (item.unit === '개') {
+                        itemAmoutDisplay = item.amount_type;
+                    }
+                    var itemAmount = $(e.currentTarget).siblings('.item-amount').html(itemAmoutDisplay);
+                    console.log("itemamountchange event: " + JSON.stringify(window.currentSaladItemsCollsection));
+                    this.trigger('calculateAll');
 		    	},
 		    	"itemremoved" : function(saladItemId, saladItemType) {
                     console.log('8');
@@ -1115,8 +1120,15 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		    		for(var i=0; i < saladItemsModel.length; i++){
                         var amountType = parseInt(saladItemsModel[i].amount_type);
                         var amount = parseInt(allSaladItemsModel[saladItemsModel[i]["item_id"]]["amount"+amountType]);
-                        var price = parseInt(saladItemsModel[i].price * amount / 100);
-                        var calorie = saladItemsModel[i].calorie * amount / 100;
+                        var price;
+                        var calorie;
+                        if (allSaladItemsModel[saladItemsModel[i]["item_id"]]["unit"] === "개") {
+                            price = parseInt(saladItemsModel[i].price * amount);
+                            calorie = saladItemsModel[i].calorie * amount;
+                        } else if (allSaladItemsModel[saladItemsModel[i]["item_id"]]["unit"] === "g") {
+                            price = parseInt(saladItemsModel[i].price * amount / 100);
+                            calorie = saladItemsModel[i].calorie * amount / 100;
+                        }
                         grossCalorie = grossCalorie + calorie;
                         grossPrice = grossPrice + price;
 		    		};
@@ -1299,10 +1311,11 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					clickedSaladItem = saladItemsModel[i];
 					//추가 했을때 amount값 초기화
 					// clickedSaladItem.amount_type = 1;
-					clickedSaladItem.amount_type = 2;
 					if(clickedSaladItem.unit === 'g'){
+                        clickedSaladItem.amount_type = 2;
 						clickedSaladItem.amount = 100;
-					}else if(unit === '개'){
+					}else if(clickedSaladItem.unit === '개'){
+                        clickedSaladItem.amount_type = 1;
 						clickedSaladItem.amount = 1;
 					};
 
