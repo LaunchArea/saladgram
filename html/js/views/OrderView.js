@@ -1662,6 +1662,10 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			    				calorie = calorie * (amount/100);
 			    				price = price * (amount/100);
 			    			};
+                            var calPriceWrap = mOrderView.$el.find('.item-name-cal-price-wrap');
+                            var calPriceWrapLength = calPriceWrap.length;
+                            calPriceWrap.eq(calPriceWrapLength - i - 1).children().find('.item-cal').html(parseInt(calorie));
+                            calPriceWrap.eq(calPriceWrapLength - i - 1).children().find('.item-price').html(price);
 			    			var modelCal = calorie * modelQuantity;
 			    			var modelPrice = price * modelQuantity;
 			    			grossCalorie = grossCalorie + modelCal;
