@@ -28,7 +28,7 @@ insert into salad_items values(10, 2, '오이', '', 'www.saladgram.com/images/sa
 insert into salad_items values(11, 2, '아스파라거스', '', 'www.saladgram.com/images/ingredient_378x279/asparagus.png', 'www.saladgram.com/images/ingredient_378x279/asparagus.png', 8, 16, 24, NULL, 'g', 22, 2500, 1, 0);
 insert into salad_items values(12, 3, '청포도', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 100, 200, 300, 400, 'g', 100, 2500, 1, 1);
 insert into salad_items values(13, 3, '자몽', '', 'www.saladgram.com/images/ingredient_378x279/grapefruit.png', 'www.saladgram.com/images/ingredient_378x279/grapefruit.png', 28, 56, 84, NULL, 'g', 32, 2500, 1, 0);
-insert into salad_items values(14, 3, '오렌지', '', 'www.saladgram.com/images/salad_item.png', 'www.saladgram.com/images/salad_item.png', 28, 56, 84, NULL, 'g', 47, 2500, 1, 0);
+insert into salad_items values(14, 3, '오렌지', '', 'www.saladgram.com/images/ingredient_378x279/orange.png', 'www.saladgram.com/images/ingredient_378x279/orange.png', 28, 56, 84, NULL, 'g', 47, 2500, 1, 0);
 insert into salad_items values(15, 4, '오븐 치킨', '', 'www.saladgram.com/images/ingredient_378x279/grilled_chicken.png', 'www.saladgram.com/images/ingredient_378x279/grilled_chicken.png', 40, 80, 120, 160, 'g', 165, 2500, 1, 0);
 insert into salad_items values(16, 4, '스팀 치킨', '', 'www.saladgram.com/images/ingredient_378x279/steamed_chicken.png', 'www.saladgram.com/images/ingredient_378x279/steamed_chicken.png', 40, 80, 120, 160, 'g', 120, 2500, 1, 0);
 insert into salad_items values(17, 4, '훈제 연어', '', 'www.saladgram.com/images/ingredient_378x279/smokedsalmon.png', 'www.saladgram.com/images/ingredient_378x279/smokedsalmon.png', 40, 80, 120, 160, 'g', 180, 2500, 1, 0);
