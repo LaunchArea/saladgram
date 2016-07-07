@@ -33,8 +33,8 @@
 					<p class="col-xs-4 col-sm-4 text-container final-item-name" ><%= odl.get('name') %></p>
 					<p class="col-xs-1 col-sm-2 text-container final-item-quantity"><%= odl.get('quantity') %></p>
 					<p class="col-xs-5 col-sm-4 text-container item-cal-price">
-                    <span class="item-cal"><%= parseInt(odl.get('calorie') * odl.get('amount'+odl.get('amount_type')) / 100) %></span>kcal / 
-                    <span class="item-price"><%= parseInt(odl.get('price') * odl.get('amount'+odl.get('amount_type')) / 100) %></span>원
+                    <span class="item-cal"><%= odl.get('amount_type') ? (parseInt(odl.get('calorie') * odl.get('amount'+odl.get('amount_type')) / 100)) : parseInt(odl.get('calorie')) %></span>kcal / 
+                    <span class="item-price"><%= odl.get('amount_type') ? (parseInt(odl.get('price') * odl.get('amount'+odl.get('amount_type')) / 100)) : parseInt(odl.get('price')) %></span>원
 					</p>
 				</div>
 				<% }); %>
