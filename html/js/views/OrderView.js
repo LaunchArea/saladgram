@@ -1192,6 +1192,9 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						window.currentSaladItemsCollsection = window[collectionName];
 						window.currentSaladItemsCollsection.trigger('render_view',window.currentSaladItemsCollsection.models[0]);
 					};
+                    window.undoSaladItemsModel = JSON.parse(JSON.stringify(window.currentSaladItemsCollsection.models[0].get('salad_items')));
+                    window.undoSaladPrice = window.currentSaladItemsCollsection.models[0].get('price');
+                    window.undoSaladCalorie = window.currentSaladItemsCollsection.models[0].get('calorie');
 					mOrderView.changeStep(3, clickedModel.name);
 					$('#navbar_salad_sel_sub').find('li').eq(0).addClass('active');
 				}
@@ -1412,6 +1415,9 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		},
 		//샐러드 아이템 추가/변경 취소
 		saladItemCancel: function(e){
+            window.currentSaladItemsCollsection.models[0].set('salad_items', window.undoSaladItemsModel);
+            window.currentSaladItemsCollsection.models[0].set('price', window.undoSaladPrice);
+            window.currentSaladItemsCollsection.models[0].set('calorie', window.undoSaladCalorie);
 			this.changeStep(2);
 		},
 		//샐러드 아이템을 변경을 완성합니다 
