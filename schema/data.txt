@@ -70,10 +70,10 @@ insert into others values(3, '삶은달걀', '당근브로콜리...', 'www.salad
 insert into others values(4, '파마산', '당근브로콜리...', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 125, 200, 1, 1);
 
 # beverages
-insert into beverages values(0, '코카 콜라', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '355ml', 100, 1000, 1, 0);
-insert into beverages values(1, '사이다', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '355ml', 100, 1000, 1, 0);
-insert into beverages values(2, '트래비 플레인', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '500ml', 100, 1000, 1, 0);
-insert into beverages values(3, '트래비 라임', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '500ml', 100, 1000, 1, 0);
+insert into beverages values(0, '코카 콜라', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '355ml', 160, 1500, 1, 0);
+insert into beverages values(1, '사이다', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '355ml', 150, 1500, 1, 0);
+insert into beverages values(2, '트래비 플레인', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '500ml', 0, 1500, 1, 0);
+insert into beverages values(3, '트래비 라임', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '500ml', 0, 1500, 1, 0);
 
 # holidays
 insert into holidays values('2016-08-15');
