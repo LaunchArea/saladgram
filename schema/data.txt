@@ -58,22 +58,22 @@ insert into salad_items values(39, 6, '레몬 오일', '', 'www.saladgram.com/im
 
 
 # soups
-insert into soups values(0, '양송이 크림스프', '양송이 크림', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', 140, 200, 'g', 81, 2000, 1, 0);
-insert into soups values(1, '토마토 야채스프', '양송이 크림', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', 140, 200, 'g', 54, 2000, 1, 0);
+insert into soups values(0, '양송이 크림스프', '진한 크림과 부드러운 양송이 ', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', 140, 200, 'g', 81, 2000, 1, 0);
+insert into soups values(1, '토마토 야채스프', ' ', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', 140, 200, 'g', 54, 2000, 1, 0);
 insert into soups values(2, '브로콜리 치즈 스프', '양송이 크림', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', 150, 200, 'ml', 100, 2000, 1, 1);
 
 # others
 insert into others values(0, '더운 야채', '당근브로콜리...', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 100, 2500, 1, 1);
-insert into others values(1, '현미밥', '당근브로콜리...', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 140, 800, 1, 0);
-insert into others values(2, '고구마', '당근브로콜리...', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 125, 700, 1, 0);
-insert into others values(3, '삶은달걀', '당근브로콜리...', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 125, 500, 1, 1);
-insert into others values(4, '파마산', '당근브로콜리...', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 125, 200, 1, 1);
+insert into others values(1, '현미밥', '백미보다 낮은 칼로리와 큰 포만감', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 140, 800, 1, 0);
+insert into others values(2, '고구마', '저칼로리와 풍부한 식이섬유', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 125, 700, 1, 0);
+insert into others values(3, '삶은달걀', ' ', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 125, 500, 1, 1);
+insert into others values(4, '파마산', '고소함으로 샐러드의 맛을 더욱 풍부하게', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 125, 200, 1, 1);
 
 # beverages
-insert into beverages values(0, '코카 콜라', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '355ml', 100, 1000, 1, 0);
-insert into beverages values(1, '사이다', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '355ml', 100, 1000, 1, 0);
-insert into beverages values(2, '트래비 플레인', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '500ml', 100, 1000, 1, 0);
-insert into beverages values(3, '트래비 라임', '코크', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '500ml', 100, 1000, 1, 0);
+insert into beverages values(0, '코카 콜라', ' ', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '355ml', 160, 1500, 1, 0);
+insert into beverages values(1, '사이다', '롯데칠성사이다', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '355ml', 150, 1500, 1, 0);
+insert into beverages values(2, '트래비 플레인', 'Sparkling water', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '500ml', 0, 1500, 1, 0);
+insert into beverages values(3, '트래비 라임', 'Natural lime flavor', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '500ml', 0, 1500, 1, 0);
 
 # holidays
 insert into holidays values('2016-08-15');
