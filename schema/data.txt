@@ -47,7 +47,7 @@ insert into salad_items values(29, 5, '호두', '', 'www.saladgram.com/images/in
 insert into salad_items values(30, 5, '건 크랜베리', '', 'www.saladgram.com/images/ingredient_378x279/cranberry.png', 'www.saladgram.com/images/ingredient_378x279/cranberry.png', 4, 8, 12, NULL, 'g', 308, 2500, 1, 0);
 insert into salad_items values(31, 5, '블랙 올리브', '', 'www.saladgram.com/images/ingredient_378x279/olive.png', 'www.saladgram.com/images/ingredient_378x279/olive.png', 4, 8, 12, NULL, 'g', 105, 2500, 1, 0);
 insert into salad_items values(32, 5, '케이퍼', '', 'www.saladgram.com/images/ingredient_378x279/caper.png', 'www.saladgram.com/images/ingredient_378x279/caper.png', 2, 4, 6, NULL, 'g', 66, 2500, 1, 0);
-insert into salad_items values(33, 6, '올리브 오일', '', 'www.saladgram.com/images/dressing_378x279/balsamic.png', 'www.saladgram.com/images/dressing_378x279/balsamic.png', NULL, 12, 18, NULL, 'g', 833, 2500, 1, 0);
+insert into salad_items values(33, 6, '올리브 오일', '', 'www.saladgram.com/images/dressing_378x279/oliveoil.png', 'www.saladgram.com/images/dressing_378x279/oliveoil.png', NULL, 12, 18, NULL, 'g', 833, 2500, 1, 0);
 insert into salad_items values(34, 6, '발사믹 글레이즈', '', 'www.saladgram.com/images/dressing_378x279/balsamic.png', 'www.saladgram.com/images/dressing_378x279/balsamic.png', NULL, 16, NULL, NULL, 'g', 177, 2500, 1, 0);
 insert into salad_items values(35, 6, '파인애플 마요', '', 'www.saladgram.com/images/dressing_378x279/pineapple.png', 'www.saladgram.com/images/dressing_378x279/pineapple.png', NULL, 32, 48, NULL, 'g', 351, 2500, 1, 0);
 insert into salad_items values(36, 6, '오리엔탈', '', 'www.saladgram.com/images/dressing_378x279/oriental.png', 'www.saladgram.com/images/dressing_378x279/oriental.png', NULL, 32, 48, NULL, 'g', 404, 2500, 1, 0);
