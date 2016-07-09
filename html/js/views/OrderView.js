@@ -93,16 +93,14 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                     // var serveTime = '1482632742';//성탄절 and 일요일
                     // var serveTime = '1475461542';//개천절 월요일
                     // var serveTime = '1473992742';//추석 셋째날 금요일
-                    console.log('res : ' + res);
-                    console.log('serveTime : ' + serveTime);
                     var currentDate = new Date((serveTime*1000));
 					var currentHours = currentDate.getHours();
 					var currentMins = currentDate.getMinutes();
 
 					console.log('currentHours : ' + currentHours);
 					console.log('currentMins : ' + currentMins);
-					var offDay = mOrderView.isOffDay(currentDate);
-					var isSaturday = mOrderView.isSaturday(currentDate);
+                    var offDay = window.times.isOffDay(currentDate);
+					var isSaturday = window.times.isSaturday(currentDate);
 					var userType = window.userCollection.models[0].get('user_type');
 
 					function setHtmlView(){
@@ -127,7 +125,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							week_break_end:WEEKDAY_BREAK_END_HOUR,
 							saturday_open:SATURDAY_OPEN_HOUR,
 							saturday_end:SATURDAY_CLOSE_HOUR,
-							off_day:offDay,
+                            off_day:offDay,
 							is_saturday:isSaturday,
 							order_type : 'delivery',
 							addr: addrText,
@@ -141,7 +139,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							week_break_end:WEEKDAY_BREAK_END_HOUR,
 							saturday_open:SATURDAY_OPEN_HOUR,
 							saturday_end:SATURDAY_CLOSE_HOUR,
-							off_day:offDay,
+                            off_day:offDay,
 							is_saturday:isSaturday,
 							order_type : 'pickup',
 							addr: addrText,
@@ -188,7 +186,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			                    beforeSend: setHeader,
 			                    success: function (collection) {
 			                        console.log('fetch success!');
-			                        console.log('window.userRecentOrderCollection : ' + JSON.stringify(window.userRecentOrderCollection));
+			                        // console.log('window.userRecentOrderCollection : ' + JSON.stringify(window.userRecentOrderCollection));
 			                        // console.log('collection.models; : ' + JSON.stringify(collection.models));
 
 									var recentOrdersModel = collection.models;
@@ -277,7 +275,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						});
 					}else{
 						setHtmlView();
-						console.log(JSON.stringify(window.menuCollection.models[0]));
+						// console.log(JSON.stringify(window.menuCollection.models[0]));
 					}
                 },
                 error:function(error){
@@ -386,50 +384,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			$(e.currentTarget).siblings('.order-type-tab').removeClass('active');
         },
         //쉬는날인지 반환
-        isOffDay:function(date){
-        	var currentYear = date.getFullYear();
-	        var currentMonth = date.getMonth() + 1;
-	        var currentDay = date.getUTCDate();
-	        if ( currentMonth < 10 ) {
-	            currentMonth = "0" + currentMonth;
-            }
-            // 일이 한자리인경우에는 앞에 0을 붙여서 반환
-            if ( currentDay < 10 ) {
-	            currentDay = "0" + currentDay;
-            }
-	        console.log('currentYear : ' + currentYear);
-	        console.log('currentMonth : ' + currentMonth);
-	        console.log('currentDay : ' + currentDay);
-	        var currentFullDay = currentYear+''+currentMonth+''+currentDay;
-	        console.log('currentFullDay : ' + currentFullDay);
-	        var isHoliday = window.times.isHoliday(currentFullDay);
-	        var isSunday = window.times.isSunday(currentFullDay);
-	        var offDay = false;
-	        if(isHoliday || isSunday){
-	        	offDay = true;
-	        }
-	        return offDay;
-        },
-        isSaturday:function(date){
-        	var currentYear = date.getFullYear();
-	        var currentMonth = date.getMonth() + 1;
-	        var currentDay = date.getUTCDate();
-	        if ( currentMonth < 10 ) {
-	            currentMonth = "0" + currentMonth;
-            }
-            // 일이 한자리인경우에는 앞에 0을 붙여서 반환
-            if ( currentDay < 10 ) {
-	            currentDay = "0" + currentDay;
-            }
-	        console.log('currentYear : ' + currentYear);
-	        console.log('currentMonth : ' + currentMonth);
-	        console.log('currentDay : ' + currentDay);
-	        var currentFullDay = currentYear+''+currentMonth+''+currentDay;
-	        console.log('currentFullDay : ' + currentFullDay);
-	        var isSaturday = window.times.isSaturday(currentFullDay);
-	        return isSaturday;
-        },
-		//날짜를 변경합니다
+        //날짜를 변경합니다
 		changedDate: function(e){
 			console.log('dates-select changedDate');
 			var mOrderView = this;
@@ -453,19 +408,17 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                     // var serveTime = '1475461542';//개천절 월요일
                     // var serveTime = '1473992742';//추석 셋째날 금요일
                     // var serveTime = '1473823542';//추석 첫째날 수요일
-                    console.log('res : ' + res);
                     var currentDate = new Date((serveTime*1000));
                     var currentHours = currentDate.getHours();
 					var currentMins = currentDate.getMinutes();
 
 					var tomorrowDate = new Date((serveTime*1000));
 					tomorrowDate.setDate(tomorrowDate.getDate() + 1);
-					var isTodayOffDay = mOrderView.isOffDay(currentDate);
-					var isTomorrowOffDay = mOrderView.isOffDay(tomorrowDate);
+					var isTodayOffDay = window.times.isOffDay(currentDate);
+					var isTomorrowOffDay = window.times.isOffDay(tomorrowDate);
+					var isTodaySaturday = window.times.isSaturday(currentDate);
+					var isTomorrowSaturday = window.times.isSaturday(tomorrowDate);
 
-					// var SATURDAY_CLOSE_HOUR = 14;
-					var isTodaySaturday = mOrderView.isSaturday(currentDate);
-					var isTomorrowSaturday = mOrderView.isSaturday(tomorrowDate);
 					console.log('isTodayOffDay : ' + isTodayOffDay);
 					console.log('isTomorrowOffDay : ' + isTomorrowOffDay);
 					console.log('isTodaySaturday : ' + isTodaySaturday);
@@ -773,26 +726,28 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						}else{
 							console.log('예약 할 수 있습니다');
 						};
-						if(window.times.isStoreHours(reservationDate)){
+                        var orderTimeChecked = window.times.checkOrderTime(orderType, currentDate, reservationDate);
+						if(orderTimeChecked === true){
 							window.orderInfoModel.set({order_time:  currentTimeStamp });
 							window.orderInfoModel.set({reservation_time: reservationTimeStamp});
 						}else{
 							swal({
 			                  title: "",
-			                  text: MES_WRAN_NOT_STORE_HOUR,
+			                  text: orderTimeChecked,
 			                  confirmButtonClass: "btn-warning",
 			                });		
-			                return;	
+			                return;
 						}
 						
 					}else{
-						if(window.times.isStoreHours(currentDate)){
+                        var orderTimeChecked = window.times.checkOrderTime(orderType, currentDate, null);
+						if(orderTimeChecked === true){
 							window.orderInfoModel.set({order_time:  'now' });
 							window.orderInfoModel.set({reservation_time: 'now'});
 						}else{
 							swal({
 			                  title: "",
-			                  text: MES_WRAN_NOT_NOW_STORE_HOUR,
+			                  text: orderTimeChecked,
 			                  confirmButtonClass: "btn-warning",
 			                });		
 			                return;	
