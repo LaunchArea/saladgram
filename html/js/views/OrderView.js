@@ -85,19 +85,19 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                 method: 'GET',
                 success: function(res) {
                     console.log('서버시간 체크 성공');
-                    var serveTime = JSON.parse(res).server_time;
-                    // var serveTime = '1466214763';//토요일 오전 10시52분
-                    // var serveTime = '1466128542';//금요일 오전 10시55분
-                    // var serveTime = '1465867842';//화요일 오전 10시30분
-                    // var serveTime = '1466303142';//일요일
-                    // var serveTime = '1482632742';//성탄절 and 일요일
-                    // var serveTime = '1475461542';//개천절 월요일
-                    // var serveTime = '1473992742';//추석 셋째날 금요일
-                    var currentDate = new Date((serveTime*1000));
-					var currentHours = currentDate.getHours();
+                    var serverTime = JSON.parse(res).server_time;
+                    // var serverTime = '1466214763';//토요일 오전 10시52분
+                    // var serverTime = '1466128542';//금요일 오전 10시55분
+                    // var serverTime = '1465867842';//화요일 오전 10시30분
+                    // var serverTime = '1466303142';//일요일
+                    // var serverTime = '1482632742';//성탄절 and 일요일
+                    // var serverTime = '1475461542';//개천절 월요일
+                    // var serverTime = '1473992742';//추석 셋째날 금요일
+                    var currentDate = new Date((serverTime*1000));
+					var currentHour = currentDate.getHours();
 					var currentMins = currentDate.getMinutes();
 
-					console.log('currentHours : ' + currentHours);
+					console.log('currentHour : ' + currentHour);
 					console.log('currentMins : ' + currentMins);
                     var offDay = window.times.isOffDay(currentDate);
 					var isSaturday = window.times.isSaturday(currentDate);
@@ -116,7 +116,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 
 						var addrText = window.userCollection.models[0].get('user_info').addr;
 						if(currentMins > 50){
-							currentHours = currentHours + 1
+							currentHour = currentHour + 1
 							currentMins = 0;
 						};
 						console.log('addrText : ' +  addrText);
@@ -130,7 +130,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							order_type : 'delivery',
 							addr: addrText,
 							hours: window.times.get('hours'),
-							c_hours: currentHours,
+							c_hours: currentHour,
 							mins: window.times.get('mins'),
 							c_mins: currentMins,
 						}));
@@ -144,7 +144,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							order_type : 'pickup',
 							addr: addrText,
 							hours: window.times.get('hours'),
-							c_hours: currentHours,
+							c_hours: currentHour,
 							mins: window.times.get('mins'),
 							c_mins: currentMins,
 						}));
@@ -399,20 +399,20 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                 method: 'GET',
                 success: function(res) {
                     console.log('서버시간 체크 성공');
-                    var serveTime = JSON.parse(res).server_time;
-                    // var serveTime = '1466214763';//토요일 오전 10시52분
-                    // var serveTime = '1466128542';//금요일 오전 10시55분
-                    // var serveTime = '1465867842';//화요일 오전 10시30분
-                    // var serveTime = '1466303142';//일요일
-                    // var serveTime = '1482632742';//성탄절 and 일요일
-                    // var serveTime = '1475461542';//개천절 월요일
-                    // var serveTime = '1473992742';//추석 셋째날 금요일
-                    // var serveTime = '1473823542';//추석 첫째날 수요일
-                    var currentDate = new Date((serveTime*1000));
-                    var currentHours = currentDate.getHours();
+                    var serverTime = JSON.parse(res).server_time;
+                    // var serverTime = '1466214763';//토요일 오전 10시52분
+                    // var serverTime = '1466128542';//금요일 오전 10시55분
+                    // var serverTime = '1465867842';//화요일 오전 10시30분
+                    // var serverTime = '1466303142';//일요일
+                    // var serverTime = '1482632742';//성탄절 and 일요일
+                    // var serverTime = '1475461542';//개천절 월요일
+                    // var serverTime = '1473992742';//추석 셋째날 금요일
+                    // var serverTime = '1473823542';//추석 첫째날 수요일
+                    var currentDate = new Date((serverTime*1000));
+                    var currentHour = currentDate.getHours();
 					var currentMins = currentDate.getMinutes();
 
-					var tomorrowDate = new Date((serveTime*1000));
+					var tomorrowDate = new Date((serverTime*1000));
 					tomorrowDate.setDate(tomorrowDate.getDate() + 1);
 					var isTodayOffDay = window.times.isOffDay(currentDate);
 					var isTomorrowOffDay = window.times.isOffDay(tomorrowDate);
@@ -426,7 +426,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					
 					//현재 분이 50분 이상이면 
 					if(currentMins > 50){
-						currentHours = currentHours + 1
+						currentHour = currentHour + 1
 						currentMins = 0;
 					};
 					if(date === 0){ //today
@@ -440,21 +440,21 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 								var option = hoursOptions.eq(i);
 								var optionVal = parseInt(option.val());
 								var disable = true;
-								console.log('currentHours : ' + currentHours);
+								console.log('currentHour : ' + currentHour);
 								console.log('hours optionVal : ' + optionVal);
 								if(!isTodaySaturday){
-									if(currentHours <= optionVal && (optionVal < WEEKDAY_BREAK_START_HOUR || optionVal >= WEEKDAY_BREAK_END_HOUR)){
+									if(currentHour <= optionVal && (optionVal < WEEKDAY_BREAK_START_HOUR || optionVal >= WEEKDAY_BREAK_END_HOUR)){
 										disable = false;
 									}
 								}else{
-									if(currentHours <= optionVal && (optionVal >= SATURDAY_OPEN_HOUR && optionVal < SATURDAY_CLOSE_HOUR)){
+									if(currentHour <= optionVal && (optionVal >= SATURDAY_OPEN_HOUR && optionVal < SATURDAY_CLOSE_HOUR)){
 										disable = false;
 									}
 								}
 								if(disable){
 									// console.log('hours optionVal : ' + optionVal);
 									option.attr('disabled',true);
-								}else if(optionVal == currentHours){
+								}else if(optionVal == currentHour){
 									option.prop({selected: true});
 								}
 							}
@@ -516,13 +516,13 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                 method: 'GET',
                 success: function(res) {
                     console.log('서버시간 체크 성공');
-                    var serveTime = JSON.parse(res).server_time;
+                    var serverTime = JSON.parse(res).server_time;
                     console.log('res : ' + res);
-                    var currentDate = new Date((serveTime*1000));
-                    var currentHours = currentDate.getHours();
+                    var currentDate = new Date((serverTime*1000));
+                    var currentHour = currentDate.getHours();
                     var currentMins = currentDate.getMinutes();
 
-                    if(hour > currentHours){
+                    if(hour > currentHour){
                     	minsOptions.attr('disabled',false);
                     }else{
                     	for(var j=0; j < minsOptions.length; j++){
@@ -684,10 +684,10 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                 method: 'GET',
                 success: function(res) {
                     console.log('서버시간 체크 성공');
-                    var serveTime = JSON.parse(res).server_time;
-                    var currentDate = new Date((serveTime*1000));
+                    var serverTime = JSON.parse(res).server_time;
+                    var currentDate = new Date((serverTime*1000));
                     var currentTimeStamp = currentDate.getTime() / 1000;
-                    var reservationDate = new Date((serveTime*1000));
+                    var reservationDate = new Date((serverTime*1000));
 
 					if(typeof window.orderInfoModel === "undefined"){
 						window.orderInfoModel = new OrderInfoModel();
@@ -696,10 +696,14 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					var reservationTimeStamp = '';
 					//orderTimeType : 0(바로주문), 1(예약주문)
 					if(orderTimeType === 1){
-						if(typeof dates === 'undefined' || typeof hours === 'undefined' || typeof mins === 'undefined'){
+						if(typeof hours === 'undefined' || typeof mins === 'undefined'){
+                            var available = window.times.isReservationAvailable(orderType, parseInt(dates), currentDate);
+                            if (available === true) {
+                                available = "예약시간을 선택하세요";
+                            }
 							swal({
 			                  title: "",
-			                  text: "예약시간을 선택하세요",
+			                  text: available,
 			                  confirmButtonClass: "btn-warning",
 			                });	
 			                return;			
@@ -716,10 +720,13 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						reservationTimeStamp = reservationDate.getTime() / 1000;
 
 						if(currentTimeStamp > reservationTimeStamp){
-							console.log(MES_WRAN_RESERVE_TIME);
+                            var available = window.times.isReservationAvailable(orderType, 0, currentDate);
+                            if (available === true) {
+                                available = MES_WRAN_RESERVE_TIME;
+                            }
 							swal({
 			                  title: "",
-			                  text: MES_WRAN_RESERVE_TIME,
+			                  text: available,
 			                  confirmButtonClass: "btn-warning",
 			                });		
 			                return;			
@@ -1944,15 +1951,14 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                 method: 'GET',
                 success: function(res) {
                     console.log('서버시간 체크 성공');
-                    var serveTime = JSON.parse(res).server_time;
+                    var serverTime = JSON.parse(res).server_time;
                     console.log('res : ' + res);
-                    var currentDate = new Date((serveTime*1000));
+                    var currentDate = new Date((serverTime*1000));
                     var currentTimeStamp = currentDate.getTime() / 1000;
                     var reservationDate = window.orderInfoModel.get('reservation_time');
                     var orderTime = window.orderInfoModel.get('order_time');
                     if(orderTime !== 'now'){
 	                    if(currentTimeStamp > reservationDate){
-							console.log(MES_WRAN_RESERVE_TIME);
 							swal({
 			                  title: "",
 			                  text: MES_WRAN_RESERVE_TIME,

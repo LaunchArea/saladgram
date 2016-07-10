@@ -1,9 +1,9 @@
 <div class="nav nav-tabs order-step-time-type-wrap">
     <div class="col-xs-6 order-type-tab active" data-toggle="tab" href="#<%= order_type %>_now">
-    	바로주문
+        바로주문
     </div>
     <div class="col-xs-6 order-type-tab " data-toggle="tab" href="#<%= order_type %>_reserve">
-    	예약주문
+        예약주문
     </div>
 </div>
 <div class="tab-content">
@@ -32,7 +32,7 @@
 		</div>
 		<div class="select-wrap" id="<%= order_type %>_hour_select_wrap">
 		<select id="<%= order_type %>_hour_select" order_type="<%= order_type %>" class="col-xs-3 saladgram-select-tag hours-select">
-		  	<% _.each(hours, function(hour) { 
+		  	<% _.each(hours, function(hour) {
 				
 				if(off_day){
 			%>

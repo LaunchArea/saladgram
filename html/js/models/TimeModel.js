@@ -89,6 +89,9 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                             return "평일 배달 시간은 오전 7시부터 오후 2시까지 입니다";
                         }
                     }
+                    if (((reservationDate.getTime() - currentDate.getTime()) / 60 / 1000) < 20) {
+                        return "20분 이내 주문은 바로주문을 이용해 주세요";
+                    }
                 } else {
                     // 즉시
                     var currentHour = currentDate.getHours();
@@ -142,6 +145,9 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                             return "오후 2시부터 오후 5시까지는 브레이크타임 입니다";
                         }
                     }
+                    if (((reservationDate.getTime() - currentDate.getTime()) / 60 / 1000) < 20) {
+                        return "20분 이내 주문은 바로주문을 이용해 주세요";
+                    }
                 } else {
                     // 즉시
                     var currentHour = currentDate.getHours();
@@ -167,6 +173,31 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                 return "정기배송 서비스 준비중입니다";
             }
 
+            return true;
+        },
+        isReservationAvailable: function(orderType, isTomorrow, currentDate) {
+            // select 에서 시간 선택이 불가할 때의 에러메시지를 주기 위한 처리
+            if (isTomorrow) {
+                currentDate.setDate(currentDate.getDate() + 1);
+                if (this.isSunday(currentDate) || this.isHoliday(currentDate)) {
+                    return "일요일 및 공휴일은 매장 휴일입니다";
+                }
+            } else {
+                if (this.isSunday(currentDate) || this.isHoliday(currentDate)) {
+                    return "일요일 및 공휴일은 매장 휴일입니다";
+                } else {
+                    // 당일 예약 가능 시간이 지난 경우
+                    if (orderType == ORDER_TYPE_PICKUP && !this.isSaturday(currentDate) && currentDate.getHours() >= 21) {
+                        return "픽업 웹주문 가능 시간은 오후 9시까지 입니다";
+                    }
+                    if (orderType == ORDER_TYPE_PICKUP && this.isSaturday(currentDate) && currentDate.getHours() >= 14) {
+                        return "토요일 영업 시간은 오전 9시부터 오후 2시까지 입니다";
+                    }
+                    if (orderType == ORDER_TYPE_DELIVERY && currentDate.getHours() >= 14) {
+                        return "평일 배달 시간은 오전 7시부터 오후 2시까지 입니다";
+                    }
+                }
+            }
             return true;
         },
         dateFormat: function(date) {
