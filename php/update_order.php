@@ -55,6 +55,16 @@ if (!$db_conn->set_charset("utf8")) {
     return;
 }
 
+if (!$db_conn->autocommit(false)) {
+    http_response_code(500);
+    return;
+}
+
+if (!$data['order_id']) {
+    http_response_code(400); // Bad Request
+    return;
+}
+
 $updated = 0;
 $query = "update orders set";
 if ($data['deliverer_id']) {
@@ -81,8 +91,68 @@ if ($data['status']) {
     }
     $query = $query." status = ".$data['status'];
     $updated = 1;
+    if ($data['status'] == Types::STATUS_DONE) {
+        $result = mysqli_query($db_conn, "select id, reward_use, actual_price from orders where order_id = ".$data['order_id']);
+        if (!$result) {
+            $array = array();
+            $array['success'] = false;
+            $array['message'] = mysqli_error($db_conn);
+            print(json_encode($array));
+            http_response_code(500);
+            return;
+        } else if (mysqli_num_rows($result) != 0) {
+            $row = mysqli_fetch_array($result);
+            $reward_id = $row['id'];
+            $reward_use = (int)$row['reward_use'];
+            $actual_price = (int)$row['actual_price'];
+            mysqli_free_result($result);
+            $time = time();
+            if ($reward_use) {
+                $reward_use = -$reward_use;
+                $result = mysqli_query($db_conn, "insert into rewards values('$reward_id', $time, ".$data['order_id'].", 2, '적립금 사용', $reward_use)");
+                if (!$result) {
+                    $array = array();
+                    $array['success'] = false;
+                    $array['message'] = mysqli_error($db_conn);
+                    print(json_encode($array));
+                    http_response_code(500);
+                    return;
+                }
+            } else {
+                $reward_use = 0;
+            }
+            $reward_reward = (int)($actual_price * 5 / 100);
+            $result = mysqli_query($db_conn, "insert into rewards values('$reward_id', $time, ".$data['order_id'].", 3, '구매 적립', $reward_reward)");
+            if (!$result) {
+                $array = array();
+                $array['success'] = false;
+                $array['message'] = mysqli_error($db_conn);
+                print(json_encode($array));
+                http_response_code(500);
+                return;
+            }
+            $actual_reward = $reward_use + $reward_reward;
+            $reward_query = "update users set reward = reward ";
+            $reward_query = $reward_query.($actual_reward < 0 ? " - " : " + ");
+            $actual_reward = abs($actual_reward);
+            $reward_query = $reward_query."$actual_reward where id = '$reward_id'";
+            $result = mysqli_query($db_conn, $reward_query);
+            if (!$result) {
+                $array = array();
+                $array['success'] = false;
+                $array['message'] = mysqli_error($db_conn);
+                print(json_encode($array));
+                http_response_code(500);
+                return;
+            }
+        } else {
+            mysqli_free_result($result);
+            http_response_code(400);
+            return;
+        }
+    }
 }
-if (!$data['order_id'] || !$updated) {
+if (!$updated) {
     http_response_code(400); // Bad Request
     return;
 }
@@ -90,6 +160,15 @@ $query = $query." where order_id = ".$data['order_id'];
 
 $result = mysqli_query($db_conn, $query);
 if (!$result) {
+    $array = array();
+    $array['success'] = false;
+    $array['message'] = mysqli_error($db_conn);
+    print(json_encode($array));
+    http_response_code(500);
+    return;
+}
+
+if (!mysqli_commit($db_conn)) {
     $array = array();
     $array['success'] = false;
     $array['message'] = mysqli_error($db_conn);
