@@ -21,7 +21,7 @@ server {
 	listen 80;
 	listen 443 ssl;
 	server_name saladgram.co saladgram.net saladgram.co.kr saladgram.kr www.saladgram.co www.saladgram.net www.saladgram.co.kr www.saladgram.kr;
-	return 301 $scheme://www.saladgram.com$request_uri;
+	return 301 https://www.saladgram.com$request_uri;
 }
 
 server {
@@ -36,9 +36,10 @@ server {
 	location / {
 		# First attempt to serve request as file, then
 		# as directory, then fall back to displaying a 404.
-		try_files $uri $uri/ =404;
+		# try_files $uri $uri/ =404;
 		# Uncomment to enable naxsi on this location
 		# include /etc/nginx/naxsi.rules
+		return 301 https://www.saladgram.com$request_uri;
 	}
 
 	location /api {
@@ -123,7 +124,7 @@ server {
 		add_header 'Access-Control-Allow-Origin' '*';
 		add_header 'Access-Control-Allow-Credentials' 'true';
 		add_header 'Access-Control-Allow-Methods' 'GET, POST, PUT';
-		add_header 'Access-Control-Allow-Headers' 'JWT';
+		add_header 'Access-Control-Allow-Headers' 'JWT, X-Requested-With';
 
 		fastcgi_split_path_info ^(.+\.php)(/.+)$;
 		# NOTE: You should have "cgi.fix_pathinfo = 0;" in php.ini

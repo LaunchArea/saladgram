@@ -6,6 +6,10 @@ use \Firebase\JWT\ExpiredException;
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+if ($method == "OPTIONS") {
+    return;
+}
+
 if ($method != "GET") {
     http_response_code(405); // Method Not Allowed
     return;
@@ -61,6 +65,7 @@ if (!$result) {
     $array['user_info']['phone'] = $row['phone'];
     $array['user_info']['name'] = $row['name'];
     $array['user_info']['addr'] = $row['addr'];
+    $array['user_info']['reward'] = $row['reward'];
     print(json_encode($array, JSON_UNESCAPED_UNICODE));
     mysqli_free_result($result);
 } else {

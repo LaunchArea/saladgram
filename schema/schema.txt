@@ -4,14 +4,15 @@ create table users (
     password varchar(128) not null,
     name varchar(32) not null,
     addr varchar(128) not null,
+    reward int not null,
     primary key(id)
 );
 
 create table orders (
     order_id int not null auto_increment,
-    subscribe_id int,
+    subscription_id int,
     deliverer_id varchar(32),
-    type int not null,
+    order_type int not null,
     id varchar(32),
     phone varchar(16),
     addr varchar(128),
@@ -21,36 +22,51 @@ create table orders (
     actual_price int not null,
     payment_type int not null,
     paid int not null,
-    time int not null,
+    order_time int not null,
+    reservation_time int not null,
     status int not null,
     primary key (order_id)
 );
 
 create table order_items (
     order_id int not null,
-    type int not null,
+    id varchar(32),
+    order_item_type int not null,
     item_id int not null,
     salad_items text,
+    amount_type int,
     quantity int not null,
     price int not null,
     calorie int not null,
-    canceled boolean not null
+    package_type int not null
 );
 
-create table diet (
+create table subscriptions (
     id varchar(32) not null,
-    time int not null,
+    subscription_id int not null auto_increment,
+    order_time int not null,
+    start_time int not null,
+    weeks int not null,
     mon text,
     tue text,
     wed text,
     thur text,
-    fri text
+    fri text,
+    total_price int not null,
+    discount int not null,
+    reward_use int not null,
+    actual_price int not null,
+    payment_type int not null,
+    paid int not null,
+    primary key (subscription_id)
 );
 
 create table rewards (
     id varchar(32) not null,
+    time int not null,
     order_id int,
-    type int not null,
+    reward_type int not null,
+    description text,
     amount int not null
 );
 
@@ -61,17 +77,20 @@ create table salads (
     image varchar(64) not null,
     thumbnail varchar(64) not null,
     salad_items text not null,
-    calorie int not null,
-    price int not null,
-    available boolean not null
+    amount varchar(16),
+    calorie int,
+    price int,
+    available boolean not null,
+    hide boolean not null
 );
 
 create table salad_items (
     item_id int not null unique,
-    type int not null,
+    salad_item_type int not null,
     name varchar(32) not null,
     description text not null,
     image varchar(64) not null,
+    thumbnail varchar(64) not null,
     amount1 int,
     amount2 int,
     amount3 int,
@@ -83,31 +102,58 @@ create table salad_items (
     hide boolean not null
 );
 
-create table small_menus (
-    item_id int not null,
+create table soups (
+    item_id int not null unique,
     name varchar(32) not null,
     description text not null,
-    amount1 int,
-    amount2 int,
+    image varchar(64) not null,
+    thumbnail varchar(64) not null,
+    amount1 int not null,
+    amount2 int not null,
+    unit varchar(16) not null,
     calorie int not null,
     price int not null,
-    available boolean not null
+    available boolean not null,
+    hide boolean not null
+);
+
+create table others (
+    item_id int not null unique,
+    name varchar(32) not null,
+    description text not null,
+    image varchar(64) not null,
+    thumbnail varchar(64) not null,
+    amount varchar(16) not null,
+    calorie int not null,
+    price int not null,
+    available boolean not null,
+    hide boolean not null
 );
 
 create table beverages (
-    item_id int not null,
+    item_id int not null unique,
     name varchar(32) not null,
     description text not null,
-    amount int,
+    image varchar(64) not null,
+    thumbnail varchar(64) not null,
+    amount varchar(16) not null,
     calorie int not null,
     price int not null,
-    available boolean not null
+    available boolean not null,
+    hide boolean not null
+);
+
+create table holidays (
+    date varchar(32) not null
 );
 
 order_item types {
     1: salad,
-    2: small_menu,
-    3: beverage
+    2: soups,
+    3: others,
+    4: beverages,
+    5: self_salad,
+    6: self_soup
 }
 
 order types {
@@ -121,16 +167,22 @@ order types {
 payment_type types {
     1: card,
     2: cash,
-    3: deliver_card,
-    4: deliver_cash,
-    5: reward
+    3: cash_receipt,
+    4: delivery_card,
+    5: delivery_cash,
+    6: delivery_cash_receipt,
+    7: inipay,
+    8: at_pick_up,
+    9: at_delivery,
+    10: reward_only
 }
 
 status types {
-    1: done,
-    2: shipping,
-    3: ready,
-    4: todo
+    1: todo,
+    2: ready,
+    3: shipping,
+    4: done,
+    5: canceled
 }
 
 reward types {
@@ -147,4 +199,9 @@ salad_item types {
     4: proteins,
     5: others,
     6: dressings
+}
+
+package_types {
+    1: take_out,
+    2: dine_in
 }

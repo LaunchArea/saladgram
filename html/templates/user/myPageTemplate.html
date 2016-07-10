@@ -1,0 +1,150 @@
+<div id="myPageModal" class="modal fade">
+<div class="modal-dialog modal-lg saladgram-user-info-dialog">
+    <div class="modal-content">
+        <div class="modal-header saladgram-user-info-dialog-header">
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="img/btn_close_bottom_pop.png"></button>
+             <h4 class="modal-title">MY PAGE</h4>
+        </div>
+        <div class="modal-body">
+
+            <div>
+                <a id="show_edit_user_modal" data-toggle="modal" data-target="#editUserModal" class="btn btn-link pull-right" >나의 정보 변경</a>
+            </div>
+
+            <div class="mypage-info-wrap">
+                <div class="container-fluid mypage-info-top">
+                    <div class="col-xs-12 each-info-wrap">
+                        <label class="col-xs-4 col-sm-3">이름</label>
+                        <span class="col-xs-8 col-sm-9"><%= user_info.name %> 님</span>
+                    </div>
+                    <div class="col-xs-12 each-info-wrap">
+                        <label class="col-xs-4 col-sm-3">기본배송지 정보</label>
+                        <span class="col-xs-8 col-sm-9"><%= user_info.addr %></span>
+                    </div>
+                    <div class="col-xs-12 each-info-wrap">
+                        <label class="col-xs-4 col-sm-3">적립금</label>
+                        <span class="col-xs-8 rcol-sm-9 reward-wrap">
+                            <%= user_info.reward %>
+                            <a class="btn btn-link show-reward-detail "><img src="img/btn_show_detail.png"></a>
+                        </span>
+                    </div>
+                    <div class="col-xs-12 each-info-wrap label-order-head">
+                        <label class="col-xs-4 col-sm-3">주문내역</label>
+                    </div>
+                </div>
+                <div class="container-fluid mypage-order-list-wrap">
+                    <div class="panel panel-default user-order-list-panel">
+                         <% _.each(user_orders, function(uod) { %>
+                        <div class="panel-heading">
+                            <p class="col-xs-6 "><%= uod.get('reservation_text') %>
+                            </p>
+                            <p class="col-xs-6 text-right">
+                            <%= uod.get('order_type_text') %>
+                            </p>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <% _.each(uod.get('order_items'), function(oi) { %>
+                                <li class="list-group-item">
+                                    <p class=" col-xs-6">
+                                    <% if(oi.order_item_type === 1){ %>
+                                        <span><%= oi.name %></span>
+                                        <span><a class="btn btn-link btn-show-detail-salad-order" ><img src="img/btn_show_detail.png"></a></span>
+    
+                                        <div class="modal fade detail_salad_order info-dialog-inner-popup">
+                                            <div class="modal-dialog modal-sm saladgram-user-info-dialog info-dialog-inner-popup">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                         <button type="button" class="close btn-detail-salad-close"><img src="img/btn_close_bottom_pop.png"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="mypage-info-wrap">
+                                                            <div class="panel panel-default user-order-list-panel">
+                                                            <div class="panel-heading">
+                                                                <p class="col-xs-6"><%= oi.name %>
+                                                                </p>
+                                                                <p class="col-xs-6 text-right">
+                                                                <%= uod.get('reservation_text') %>
+                                                                </p>
+                                                            </div>
+                                                            <div class="panel-body">
+                                                                <p class="col-xs-12 item-cal-price">
+                                                                    <span class="item-cal"><%= oi.calorie %></span>kcal / 
+                                                                    <span class="item-price"><%= oi.price %></span>원
+                                                                </p>
+                                                                <p class="col-xs-12 salad-item-list">
+                                                                    <% 
+                                                                        var orderSaladItems = oi.salad_items;
+                                                                        for(var i=0; i < orderSaladItems.length; i++) { 
+                                                                    %>
+                                                                    <span class="item-cal"><%= orderSaladItems[i].name %></span>:
+                                                                    <span class="item-price"><%= orderSaladItems[i].amount %></span><%= orderSaladItems[i].unit %>/
+                                                                    <% }; %>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>   
+                                        </div>
+
+                                    <% }else{ %>
+                                        <span><%= oi.name %></span>
+                                    <% }%>
+                                    </p>
+                                    <p class="col-xs-2 item-quantity"><%= oi.quantity %></p>
+                                    <p class=" col-xs-4 item-cal-price">
+                                        <span class="item-cal"><%= oi.calorie %></span>kcal / 
+                                        <span class="item-price"><%= oi.price %></span>원
+                                    </p>
+                                </li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                         <% }); %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   
+</div>
+
+
+<div id="myPageRewardModal" class="modal fade">
+<div class="modal-dialog modal-sm saladgram-user-info-dialog info-dialog-inner-popup">
+    <div class="modal-content">
+        <div class="modal-header">
+             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="img/btn_close_bottom_pop.png"></button>
+             <h4 class="modal-title">적립금 자세히보기</h4>
+        </div>
+        <div class="modal-body">
+            <div class="mypage-info-wrap">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>날짜</td>
+                                <td>적립금</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% _.each(rewards, function(rw) { %>
+                            <tr>
+                                <td><%=rw.time_text%></td>
+                                <td><%=rw.amount%></td>
+                            </tr>
+                            <% }); %>
+                            <tr>
+                                <td>사용가능적립금</td>
+                                <td><%=gross_reward%></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   
+</div>

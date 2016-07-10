@@ -6,6 +6,10 @@ use \Firebase\JWT\ExpiredException;
 
 $method = $_SERVER['REQUEST_METHOD'];
 
+if ($method == "OPTIONS") {
+    return;
+}
+
 if ($method != "POST") {
     http_response_code(405); // Method Not Allowed
     return;
@@ -82,7 +86,7 @@ if (!$db_conn->set_charset("utf8")) {
 }
 
 $query = "update users set phone = '$phone' where id = '$id'";
-$result = mysqli_query($db_conn, "$query");
+$result = mysqli_query($db_conn, $query);
 if (!$result) {
     $array = array();
     $array['success'] = false;

@@ -1,0 +1,39 @@
+<div class="col-xs-12 order-info-top-wrap">
+	<div id="current_selected_salad_wrap" class="list-group-item sel-salad-item" >
+		<p class="col-xs-6 item-img" style="background-image:url('https://<%= image %>')">
+
+		</p>
+		<div class="col-xs-6 item-info">
+			<p class="item-name"><%= item_name %> 구성</p>
+			<p class="item-cal-price">
+				<span class="item-cal"><%= item_cal %></span>kcal / 
+				<span class="item-price"><%= item_price %></span>원
+			</p>
+		</div>
+		<div class="col-xs-1 btn btn-link btn-salad-item-cancel">취소</div>
+	</div>
+</div>
+<div class="col-xs-4 each-selected-salad-item" id="selected_salad_item_clone" style="display: none">
+	<button item_id="" item_type="" type="button" class="btn-salad-item-del"><img class="salad-item-del-img" src="img/btn_close_bottom_pop.png"></button>
+	<img src="" >
+	<p></p>
+</div>
+<div id="selected_salad_items_wrap" class="order-info-contents-wrap">
+		
+	<% 
+  	_.each(salad_items, function(salad_item) {
+	  	if(salad_item.hide !== 1){
+  	%>
+  		<div class="col-xs-4 each-selected-salad-item">
+  			<button item_id="<%= salad_item.item_id %>" item_type="<%= salad_item.salad_item_type %>" type="button" class="btn-salad-item-del"><img class="salad-item-del-img" src="img/btn_close_bottom_pop.png"></button>
+	  		<img src="https://<%= salad_item.image %>" >
+	  		<p><%= salad_item.name %></p>
+  		</div>
+	<% 
+		}
+	});
+	%>
+</div>
+<div class="col-xs-12 order-info-bottom-wrap">
+	<button id="btn_salads_items_sel_done" type="button" class="col-xs-12 btn btn-primary btn-xs saladgram-btn-basic">샐러드 완성</button>
+</div>

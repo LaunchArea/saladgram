@@ -1,0 +1,86 @@
+<div class="sub-wrap">
+	<div class="sub-page-top-img sub-menu-top">
+		<img src="img/main_menu_mo_empty.png">
+	</div>
+	<div class="container sub-menu-list-full-wrap">
+		<div class="sub-menu-wrap">
+		<h3>샐러드</h3>
+		<ul class="row">
+			<% _.each(salads, function(salad) { 
+				if(salad.hide !== 1){
+			%>
+		    <li class="col-xs-6 col-md-4">
+		    	<div class="mene-warp">
+					<div class="thumbnail mene-thumb">
+						<img src="https://<%= salad.thumbnail %>" alt="...">
+					</div>
+					<p class="col-xs-7 menu-name"><%= salad.name %></p>
+					<p class="col-xs-5 menu-amount-cal">
+                    <% if(typeof salad.calorie !== 'undefined' && salad.calorie !== null && salad.calorie !== ''){%>
+                    <%= salad.amount %> / <%= salad.calorie %>kcal
+                    <% } %>
+					</p>
+					<p class="col-xs-12 menu-salad-items">
+					<% _.each(salad.salad_items, function(si) { %>
+						<%= si.name %>
+					<% }); %>
+					</p>
+				</div>
+			</li>
+			<% }}); %>
+		</ul>
+		</div>
+		<div class="sub-menu-wrap">
+		<h3>스프</h3>
+		<ul class="row">
+			<% _.each(soups, function(soup) { 
+				if(soup.hide !== 1){
+			%>
+		    <li class="col-xs-6 col-md-4">
+		    	<div class="mene-warp">
+					<p class="col-xs-7 menu-name"><%= soup.name %></p>
+					<p class="col-xs-5 menu-amount-cal">
+                    <%= soup.amount1 %><%= soup.unit %> / <%= parseInt(soup.calorie * (soup.amount1 / 100)) %>kcal
+                    <%= soup.amount2 %><%= soup.unit %> / <%= parseInt(soup.calorie * (soup.amount2 / 100)) %>kcal
+					</p>
+				</div>
+			</li>
+			<% }}); %>
+		</ul>
+		</div>
+		<div class="sub-menu-wrap">
+		<h3>기타</h3>
+		<ul class="row">
+			<% _.each(others, function(other) { 
+				if(other.hide !== 1){
+			%>
+		    <li class="col-xs-6 col-md-4">
+		    	<div class="mene-warp">
+					<p class="col-xs-7 menu-name"><%= other.name %></p>
+					<p class="col-xs-5 menu-amount-cal">
+						<%= other.amount %> / <%= other.calorie %>kcal
+					</p>
+				</div>
+			</li>
+			<% }}); %>
+		</ul>
+		</div>
+		<div class="sub-menu-wrap">
+		<h3>음료</h3>
+		<ul class="row">
+			<% _.each(beverages, function(beverage) { 
+				if(beverage.hide !== 1){
+			%>
+		    <li class="col-xs-6 col-md-4">
+		    	<div class="mene-warp">
+					<p class="col-xs-7 menu-name"><%= beverage.name %></p>
+					<p class="col-xs-5 menu-amount-cal">
+						<%= beverage.amount %> / <%= beverage.calorie %>kcal
+					</p>
+				</div>
+			</li>
+			<% }}); %>
+		</ul>
+		</div>
+	</div>
+</div>
