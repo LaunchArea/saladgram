@@ -109,6 +109,7 @@ public class Service {
                             SaladItem saladItem = new SaladItem(saladItems.getJSONObject(k));
                             orderItem.saladItems.add(saladItem);
                         }
+                        SaladItem.sort(orderItem.saladItems);
                     }
                 }
                 orderList.add(order);

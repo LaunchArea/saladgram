@@ -11,8 +11,10 @@ import android.widget.TextView;
 import com.saladgram.model.Order;
 import com.saladgram.model.OrderItem;
 
+import java.text.Collator;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.LinkedList;

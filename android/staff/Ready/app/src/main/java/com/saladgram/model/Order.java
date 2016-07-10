@@ -3,6 +3,8 @@ package com.saladgram.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.Collator;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -88,5 +90,4 @@ public class Order {
     public Status status;
     public String addr;
     public List<OrderItem> orderItems = new LinkedList<>();
-
 }
