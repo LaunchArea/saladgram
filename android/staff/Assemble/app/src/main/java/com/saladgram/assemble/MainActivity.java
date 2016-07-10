@@ -52,8 +52,6 @@ import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String mMirrorIP = "192.168.0.5";
-
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -107,13 +105,6 @@ public class MainActivity extends AppCompatActivity {
         lvItems = (RecyclerView) findViewById(R.id.item_list);
         btnReady = (Button) findViewById(R.id.ready_button);
         tvSelectedOrderId = (TextView) findViewById(R.id.selected_order_id);
-
-        findViewById(R.id.mirror).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mirrorSetup();
-            }
-        });
     }
 
     private void initControl() {
@@ -285,7 +276,6 @@ public class MainActivity extends AppCompatActivity {
                     m.put("status", Order.Status.DONE.ordinal() + 1);
                 } else {
                     m.put("status", Order.Status.READY.ordinal() + 1);
-                    sendToPrinter(mOrder);
                 }
 
                 JSONObject json = new JSONObject(m);
@@ -342,76 +332,5 @@ public class MainActivity extends AppCompatActivity {
 
     private static CharSequence formatTime(Date reservation_time) {
         return new SimpleDateFormat("MM/dd HH:mm:ss", Locale.KOREA).format(reservation_time);
-    }
-
-    private void sendToPrinter(Order order) {
-        if (mMirrorIP == null) {
-            return;
-        }
-
-        StringBuffer buffer = new StringBuffer();
-
-        buffer.append("" + order.id + "/" + order.orderType.name().toLowerCase() + "\n");
-        buffer.append("주소 : " + order.addr + "\n");
-        buffer.append("결제 : " + order.paymentType.name() + " " + order.actual_price + "원\n");
-        if (order.reservation_time.getTime() > 0) {
-            buffer.append("예약 : " + formatTime(order.reservation_time) + "\n");
-        }
-        buffer.append("\n");
-        for (OrderItem item : order.orderItems) {
-            buffer.append(item.name + " ");
-            buffer.append(item.amount != null ? item.amount : " ");
-            buffer.append(" x " + item.quantity + "\n");
-        }
-        buffer.append("\n\n\n\n\n");
-
-
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("data", buffer.toString());
-
-        final String message = new JSONObject(map).toString();
-        AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
-
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                try {
-                    InetAddress serverAddr = InetAddress.getByName(mMirrorIP);
-                    Socket socket = new Socket(serverAddr, 6000);
-                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-                    out.println(message);
-                    out.close();
-                    socket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return false;
-                }
-
-                return true;
-            }
-
-            @Override
-            protected void onPostExecute(Boolean succ) {
-                super.onPostExecute(succ);
-                if (!succ) {
-                    Toast.makeText(getActivity(), "Mirror failed", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-        task.execute();
-    }
-
-    private void mirrorSetup() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("mirror ip");
-        final EditText input = new EditText(this);
-        alert.setView(input);
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                if(input.getText().length() > 0) {
-                    mMirrorIP = input.getText().toString();
-                }
-            }
-        });
-        alert.show();
     }
 }

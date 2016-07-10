@@ -80,14 +80,6 @@
             android:layout_height="match_parent"
             android:layout_margin="16dp"
             />
-        <Button
-            android:id="@+id/mirror"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=":::"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            />
 
     </RelativeLayout>
 
