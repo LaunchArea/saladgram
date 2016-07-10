@@ -1902,8 +1902,12 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 				final_payment_price: final_payment_price,
 			});
 	    	this.$el.find('#step_4_wrap').html(template);
-	    	//paymenttype default 1 (카드)
-	    	window.orderInfoModel.set({payment_type: 1});
+
+            if (orderType == ORDER_TYPE_PICKUP) {
+                window.orderInfoModel.set({payment_type: 8});
+            } else if (orderType == ORDER_TYPE_DELIVERY) {
+                window.orderInfoModel.set({payment_type: 9});
+            }
 
 	    	var userId = window.userCollection.models[0].get('user_info').id;
 			var jwt = window.userCollection.models[0].get('jwt');
@@ -1940,15 +1944,32 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		/****************************************STEP 3****************************************/
 		//주문 결제 타입을 온라인(카드결제)로 변경
 		checkOrderTypeOnline: function(e){
+            swal({
+                title: "",
+                text: "온라인 결제 서비스 준비중입니다",
+                confirmButtonClass: "btn-warning",
+            });
+            return;
+
 			$('#check_order_type_online').addClass('active');
 			$('#check_order_type_offline').removeClass('active');
-			window.orderInfoModel.set({payment_type: 1});
+			var orderType = window.orderInfoModel.get('order_type');
+            if (orderType == ORDER_TYPE_PICKUP) {
+                window.orderInfoModel.set({payment_type: 8});
+            } else if (orderType == ORDER_TYPE_DELIVERY) {
+                window.orderInfoModel.set({payment_type: 9});
+            }
 		},
 		//주문 결제 타입을 오프라인(직접결제)로 변경
 		checkOrderTypeOffline: function(e){
 			$('#check_order_type_online').removeClass('active');
 			$('#check_order_type_offline').addClass('active');
-			window.orderInfoModel.set({payment_type: 2});
+			var orderType = window.orderInfoModel.get('order_type');
+            if (orderType == ORDER_TYPE_PICKUP) {
+                window.orderInfoModel.set({payment_type: 8});
+            } else if (orderType == ORDER_TYPE_DELIVERY) {
+                window.orderInfoModel.set({payment_type: 9});
+            }
 		},
 		//주문방법 시간설정으로 돌아갑니다
 		changeOrderBack: function(e){
