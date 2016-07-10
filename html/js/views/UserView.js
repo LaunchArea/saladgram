@@ -157,6 +157,18 @@ define(['jquery', 'underscore', 'backbone','text!templates/user/myPageTemplate.h
                     }
                 },
                 error:function(error){
+                    if (error['status'] == 440) {
+                        swal({
+                            title: "",
+                            text: "장시간 입력이 없어 로그아웃되었습니다",
+                            confirmButtonClass: "btn-warning",
+                        },
+                        function(isConfirm) {
+                            window.utils.deleteCookie('saladgram_user_id');
+                            window.utils.deleteCookie('saladgram_jwt');
+                            location.href = '/';
+                        });
+                    }
                     swal({
                       title: "",
                       text: MES_ERROR,
@@ -294,6 +306,18 @@ define(['jquery', 'underscore', 'backbone','text!templates/user/myPageTemplate.h
                                 }
                             },
                             error:function(error){
+                                if (error['status'] == 440) {
+                                    swal({
+                                        title: "",
+                                        text: "장시간 입력이 없어 로그아웃되었습니다",
+                                        confirmButtonClass: "btn-warning",
+                                    },
+                                    function(isConfirm) {
+                                        window.utils.deleteCookie('saladgram_user_id');
+                                        window.utils.deleteCookie('saladgram_jwt');
+                                        location.href = '/';
+                                    });
+                                }
                                 swal({
                                   title: "",
                                   text: MES_ERROR,
@@ -379,6 +403,18 @@ define(['jquery', 'underscore', 'backbone','text!templates/user/myPageTemplate.h
                     }
                 },
                 error:function(error){
+                    if (error['status'] == 440) {
+                        swal({
+                            title: "",
+                            text: "장시간 입력이 없어 로그아웃되었습니다",
+                            confirmButtonClass: "btn-warning",
+                        },
+                        function(isConfirm) {
+                            window.utils.deleteCookie('saladgram_user_id');
+                            window.utils.deleteCookie('saladgram_jwt');
+                            location.href = '/';
+                        });
+                    }
                     swal({
                       title: "",
                       text: MES_ERROR,

@@ -629,6 +629,18 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 	                    }
 	                },
 	                error:function(error){
+                        if (error['status'] == 440) {
+                            swal({
+                                title: "",
+                                text: "장시간 입력이 없어 로그아웃되었습니다",
+                                confirmButtonClass: "btn-warning",
+                            },
+                            function(isConfirm) {
+                                window.utils.deleteCookie('saladgram_user_id');
+                                window.utils.deleteCookie('saladgram_jwt');
+                                location.href = '/';
+                            });
+                        }
 	                    swal({
 	                      title: "",
 	                      text: MES_ERROR,
@@ -1941,6 +1953,18 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 	                    $('#order_my_point').html(reward);
 	                },
 	                error:function(error){
+                        if (error['status'] == 440) {
+                            swal({
+                                title: "",
+                                text: "장시간 입력이 없어 로그아웃되었습니다",
+                                confirmButtonClass: "btn-warning",
+                            },
+                            function(isConfirm) {
+                                window.utils.deleteCookie('saladgram_user_id');
+                                window.utils.deleteCookie('saladgram_jwt');
+                                location.href = '/';
+                            });
+                        }
 	                    console.log('유저 포인트 가져오기 실패!!!');
 	                    console.log('error : ' + JSON.stringify(error));
 	                }
@@ -2137,6 +2161,18 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							location.href="/#ordercomplete"
 		                },
 		                error:function(error){
+                            if (error['status'] == 440) {
+                                swal({
+                                    title: "",
+                                    text: "장시간 입력이 없어 로그아웃되었습니다",
+                                    confirmButtonClass: "btn-warning",
+                                },
+                                function(isConfirm) {
+                                    window.utils.deleteCookie('saladgram_user_id');
+                                    window.utils.deleteCookie('saladgram_jwt');
+                                    location.href = '/';
+                                });
+                            }
 		                	swal({
 								title: "",
 								text: "주문에 실패했습니다"+ JSON.parse(res).message,

@@ -5,7 +5,7 @@ var ORDER_TYPE_PICKUP = 1;
 var ORDER_TYPE_DELIVERY = 2;
 var ORDER_TYPE_SUBSCRIBE = 3;
 
-var mMinDeliveryPrice = 8000;
+var mMinDeliveryPrice = 5000;
 var mMinPricePerSalad = 3000;
 
 //10만원 이상 주문시 10%할인
