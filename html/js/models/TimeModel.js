@@ -4,7 +4,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
             // this.on('all', function(e) { console.log(this.get('name') + " event: " + e); });
 
             var hoursArray = [];
-            for(var i=WEEKDAY_OPEN_HOUR; i <= WEEKDAY_CLOSE_HOUR; i++){
+            for(var i=WEEKDAY_OPEN_HOUR; i < WEEKDAY_CLOSE_HOUR; i++){
                 hoursArray.push(i);
             }
             this.set('hours',hoursArray);
@@ -24,7 +24,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
         defaults: {
             // hours:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
             hours:[],
-            mins:[00,20,40]    //20분 단위
+            mins:[00,20,40,59]    //20분 단위
         },
         isSaturday: function(date) {
             if ( date.getDay() == 6 ) {

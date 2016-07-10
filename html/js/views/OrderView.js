@@ -451,6 +451,11 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 										disable = false;
 									}
 								}
+                                if (currentOrderType == 'delivery') {
+                                    if (optionVal >= 14) {
+                                        disable = true;
+                                    }
+                                }
 								if(disable){
 									// console.log('hours optionVal : ' + optionVal);
 									option.attr('disabled',true);
@@ -458,6 +463,8 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 									option.prop({selected: true});
 								}
 							}
+							minsOptions.attr('disabled',false);
+                            /*
 							for(var j=0; j < minsOptions.length; j++){
 								var option = minsOptions.eq(j);
 								var optionVal = parseInt(option.val());
@@ -465,7 +472,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 									console.log('min optionVal : ' + optionVal);
 									option.attr('disabled',true);
 								}
-							}
+							}*/
 						}
 					}else{	//tomorrow
 						if(isTomorrowOffDay){
@@ -487,6 +494,11 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 										disable = false;
 									}
 								}
+                                if (currentOrderType == 'delivery') {
+                                    if (optionVal >= 14) {
+                                        disable = true;
+                                    }
+                                }
 								if(disable){
 									console.log('hours optionVal : ' + optionVal);
 									option.attr('disabled',true);
@@ -510,7 +522,8 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			var hour = parseInt(currentTarget.val());
 			var currentOrderType = $(e.currentTarget).attr('order_type');
 			var minsOptions = $('#'+currentOrderType+'_min_select').find('option');
-
+            minsOptions.attr('disabled',false);
+            /*
 			$.ajax({
                 url: mApiUrl + 'server_time.php',
                 method: 'GET',
@@ -541,6 +554,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                     console.log('error : ' + JSON.stringify(error));
                 }
             });
+            */
 		},
 		//주소변경 창을 띄웁니다
 		showChangeOrderAddr: function(e){

@@ -43,14 +43,13 @@
 					if(!is_saturday){
 						if(hour >= c_hours && (hour < week_break_start || hour >= week_break_end)){
 							disable = false;
-						}else{
-
 						}
+                        if (order_type == 'delivery' && hour >= 14) {
+                            disable = true;
+                        }
 					}else{
 						if(hour >= c_hours && (hour >= saturday_open && hour < saturday_end)){
 							disable = false;
-						}else{
-						
 						}
 					}
 
@@ -70,30 +69,18 @@
 		</div>
 		<div class="select-wrap">
 		<select id="<%= order_type %>_min_select" class="col-xs-3 saladgram-select-tag mins-select">
-			<% _.each(mins, function(min) { 
+			<% _.each(mins, function(min) {
 				
 				if(off_day){
 			%>
 				<option value="<%= min %>" disabled><%= min %>분</option>
 			<%	}else{
-					if(min >= c_mins){
-						if(min === 0){
-							min = '00';
-						};
 			
 		  	%>
 				<option value="<%= min %>"><%= min %>분</option>
 			<% 
-					}else{
-						if(min === 0){
-							min = '00';
-						};
-			%>
-				<option value="<%= min %>" disabled><%= min %>분</option>
-			<%
-					}
 				}
-			}); 
+			});
 			%>
 		</select>
 		</div>
