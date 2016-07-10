@@ -67,10 +67,10 @@ var MES_WRAN_NOT_NOW_STORE_HOUR = '지금은 영업시간이 아닙니다';
 var MES_EMPTY_SALAD_ITEM = "아이템을 한개 이상 선택하세요";
 
 var MES_MIN_SALAD_PRICE = "샐러드1개당 최소금액은 "+mMinPricePerSalad+"원 입니다";
-var MES_EMPTY_ORDER_ITEM = "주문 하실 아이템을 선택하세요";
+var MES_EMPTY_ORDER_ITEM = "장바구니가 비었습니다";
 var MES_MIN_DELIVERY_PRICE = "최소 배달금액은 "+mMinDeliveryPrice+"원 입니다";
 var MES_VALID_USE_REWARD = "사용가능 한 포인트를 입력해주세요";
-var MES_MIN_UNIT_USE_REWARD = "100원 단위로 입력해주세요";
+var MES_MIN_UNIT_USE_REWARD = "적립금은 100원 단위로 사용 가능합니다";
 
 window.utils = {
 

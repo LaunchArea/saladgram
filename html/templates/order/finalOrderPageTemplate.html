@@ -42,13 +42,13 @@
 			<div class="col-xs-12 final-order-price-info-wrap">
 				<div class="col-xs-12 discount-wrap">
 					<p class="col-xs-12 ">총 <span><%= gross_price %></span>원</p>
-					<p class="col-xs-12 ">할인(<span><%= discount %></span>%)<span><%= discount_price %></span>원</p>
+                    <p class="col-xs-12 ">할인(<span><%= discount %></span>%) 후 <span><%= discount_price %></span>원</p>
 				</div>
 				<div class="col-xs-12 point-wrap">
-					<p class="col-xs-12 ">100원 미만 절삭 할인 후 금액<span><%= discount_cut_price  %></span>원</p>
+                    <p class="col-xs-12 ">100원 단위 미만 절사 후 <span><%= discount_cut_price  %></span>원</p>
 					<p class="col-xs-12 ">사용가능 적립금
 						<span id="order_my_point"><%= my_point %></span>
-						적립금 사용 | <span class="use-reward-input-wrap"><input id="input_user_my_point" type="number" value="0">원</span>
+                        원 | 적립금 사용 <span class="use-reward-input-wrap"><input id="input_user_my_point" type="number" value="0">원</span>
 					</p>
 				</div>
 				<div class="col-xs-12 final-price ">
