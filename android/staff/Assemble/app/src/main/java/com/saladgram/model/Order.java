@@ -21,6 +21,7 @@ public class Order {
         order_time = new Date(each.getLong("order_time") * 1000);
         reservation_time = new Date(each.getLong("reservation_time") * 1000);
         addr = each.optString("addr", null);
+        actual_price = each.getInt("actual_price");
 
         switch (each.getInt("order_type")) {
             case 1: orderType = OrderType.PICK_UP; break;
@@ -43,7 +44,7 @@ public class Order {
 
     public String getOrderItemSummary() {
         if (orderItemSummary == null) {
-            int[] arr = new int[6];
+            int[] arr = new int[4];
             for (OrderItem item : orderItems) {
                 arr[item.type.ordinal()]++;
             }
@@ -87,6 +88,7 @@ public class Order {
     public Date reservation_time;
     public Status status;
     public String addr;
+    public int actual_price;
     public List<OrderItem> orderItems = new LinkedList<>();
 
 }

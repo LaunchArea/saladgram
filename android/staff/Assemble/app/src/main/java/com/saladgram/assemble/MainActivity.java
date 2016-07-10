@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -28,10 +29,18 @@ import com.saladgram.model.OrderItem;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.InetAddress;
+import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -40,6 +49,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static String mMirrorIP = "192.168.0.5";
 
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
@@ -265,6 +276,7 @@ public class MainActivity extends AppCompatActivity {
                     m.put("status", Order.Status.DONE.ordinal() + 1);
                 } else {
                     m.put("status", Order.Status.READY.ordinal() + 1);
+                    sendToPrinter(mOrder);
                 }
 
                 JSONObject json = new JSONObject(m);
@@ -317,5 +329,65 @@ public class MainActivity extends AppCompatActivity {
             NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             nm.notify(123456, builder.build());
 
+    }
+
+    private static CharSequence formatTime(Date reservation_time) {
+        return new SimpleDateFormat("MM/dd HH:mm:ss", Locale.KOREA).format(reservation_time);
+    }
+
+    private void sendToPrinter(Order order) {
+        if (mMirrorIP == null) {
+            return;
+        }
+
+        StringBuffer buffer = new StringBuffer();
+
+        buffer.append("" + order.id + "/" + order.orderType.name().toLowerCase() + "\n");
+        buffer.append("주소 : " + order.addr + "\n");
+        buffer.append("결제 : " + order.paymentType.name() + " " + order.actual_price + "원\n");
+        if (order.reservation_time.getTime() > 0) {
+            buffer.append("예약 : " + formatTime(order.reservation_time) + "\n");
+        }
+        buffer.append("\n");
+        for (OrderItem item : order.orderItems) {
+            buffer.append(item.name + " ");
+            buffer.append(item.amount != null ? item.amount : " ");
+            buffer.append(" x " + item.quantity + "\n");
+        }
+        buffer.append("\n\n\n\n\n");
+
+
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("data", buffer.toString());
+
+        final String message = new JSONObject(map).toString();
+        AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    InetAddress serverAddr = InetAddress.getByName(mMirrorIP);
+                    Socket socket = new Socket(serverAddr, 6000);
+                    PrintWriter out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+                    out.println(message);
+                    out.close();
+                    socket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean succ) {
+                super.onPostExecute(succ);
+                if (!succ) {
+                    Toast.makeText(getActivity(), "Mirror failed", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        task.execute();
     }
 }
