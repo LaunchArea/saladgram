@@ -76,7 +76,7 @@ if (!$db_conn->autocommit(false)) {
 }
 
 $time = time();
-$query = "insert into rewards values('$id', $time, NULL, 1, 'Open Event 적립금', 5000)";
+$query = "insert into rewards values('$id', $time, NULL, 1, 'Open Event 적립금', 3000)";
 $result = mysqli_query($db_conn, "$query");
 if (!$result) {
     $array = array();
@@ -88,7 +88,7 @@ if (!$result) {
 }
 
 $hash = password_hash($password, PASSWORD_DEFAULT);
-$query = "insert into users values('$id', '$phone', '$hash', '$name', '$addr', 5000)";
+$query = "insert into users values('$id', '$phone', '$hash', '$name', '$addr', 3000)";
 $result = mysqli_query($db_conn, "$query");
 if (!$result) {
     $array = array();
