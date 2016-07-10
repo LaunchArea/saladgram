@@ -72,8 +72,8 @@ insert into others values(4, '파마산', '고소함으로 샐러드의 맛을 �
 # beverages
 insert into beverages values(0, '콜라', '코카콜라', 'www.saladgram.com/images/beverage_639x480/coke.png', 'www.saladgram.com/images/beverage_639x480/coke.png', '355ml', 160, 1500, 1, 0);
 insert into beverages values(1, '사이다', '칠성사이다', 'www.saladgram.com/images/beverage_639x480/cider.png', 'www.saladgram.com/images/beverage_639x480/cider.png', '355ml', 150, 1500, 1, 0);
-insert into beverages values(2, '트래비 플레인', 'Sparkling water', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '500ml', 0, 1500, 1, 0);
-insert into beverages values(3, '트래비 라임', 'Natural lime flavor', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '500ml', 0, 1500, 1, 0);
+insert into beverages values(2, '트래비 플레인', 'Sparkling water', 'www.saladgram.com/images/beverage_639x480/treviplain.png', 'www.saladgram.com/images/beverage_639x480/treviplain.png', '500ml', 0, 1500, 1, 0);
+insert into beverages values(3, '트래비 라임', 'Natural lime flavor', 'www.saladgram.com/images/beverage_639x480/trevilime.png', 'www.saladgram.com/images/beverage_639x480/trevilime.png', '500ml', 0, 1500, 1, 0);
 
 # holidays
 insert into holidays values('2016-08-15');
