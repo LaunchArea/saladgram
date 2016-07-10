@@ -409,6 +409,19 @@ define(['jquery', 'underscore', 'backbone'
                     console.log('collection : ' + JSON.stringify(collection));
                     console.log('response : ' + JSON.stringify(response));
                     console.log('options : ' + JSON.stringify(options));
+                    if (response['status'] == 440) {
+                        swal({
+                            title: "",
+                            text: "장시간 입력이 없어 로그아웃되었습니다",
+                            confirmButtonClass: "btn-warning",
+                        },
+                        function(isConfirm) {
+                            window.utils.deleteCookie('saladgram_user_id');
+                            window.utils.deleteCookie('saladgram_jwt');
+                            location.href = '/';
+                        });
+                    }
+
                     //로그인 실패시 cookie삭제
                     window.utils.deleteCookie('saladgram_user_id');
                     window.utils.deleteCookie('saladgram_jwt');
