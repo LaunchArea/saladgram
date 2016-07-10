@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
@@ -20,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -105,6 +107,13 @@ public class MainActivity extends AppCompatActivity {
         lvItems = (RecyclerView) findViewById(R.id.item_list);
         btnReady = (Button) findViewById(R.id.ready_button);
         tvSelectedOrderId = (TextView) findViewById(R.id.selected_order_id);
+
+        findViewById(R.id.mirror).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mirrorSetup();
+            }
+        });
     }
 
     private void initControl() {
@@ -389,5 +398,20 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         task.execute();
+    }
+
+    private void mirrorSetup() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("mirror ip");
+        final EditText input = new EditText(this);
+        alert.setView(input);
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if(input.getText().length() > 0) {
+                    mMirrorIP = input.getText().toString();
+                }
+            }
+        });
+        alert.show();
     }
 }
