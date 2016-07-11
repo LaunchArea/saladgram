@@ -90,7 +90,12 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                         }
                     }
                     if (((reservationDate.getTime() - currentDate.getTime()) / 60 / 1000) < 20) {
-                        return "20분 이내 주문은 바로주문을 이용해 주세요";
+                        if (this.isSaturday(reservationDate) && reservationHour == 9) {
+                        } else if (!this.isSaturday(reservationDate) && reservationHour == 7) {
+                        } else if (!this.isSaturday(reservationDate) && reservationHour == 17) {
+                        } else {
+                            return "20분 이내 주문은 바로주문을 이용해 주세요";
+                        }
                     }
                 } else {
                     // 즉시
@@ -146,7 +151,12 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                         }
                     }
                     if (((reservationDate.getTime() - currentDate.getTime()) / 60 / 1000) < 20) {
-                        return "20분 이내 주문은 바로주문을 이용해 주세요";
+                        if (this.isSaturday(reservationDate) && reservationHour == 9) {
+                        } else if (!this.isSaturday(reservationDate) && reservationHour == 7) {
+                        } else if (!this.isSaturday(reservationDate) && reservationHour == 17) {
+                        } else {
+                            return "20분 이내 주문은 바로주문을 이용해 주세요";
+                        }
                     }
                 } else {
                     // 즉시

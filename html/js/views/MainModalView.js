@@ -275,8 +275,6 @@ define(['jquery', 'underscore', 'backbone'
             var that = this;
 			var id = this.$el.find('#input_login_id').val();
 			var pwd = this.$el.find('#input_login_pw').val();
-            console.log('id : '  + id);
-            console.log('pwd : '  + pwd);
             if(id === ''){
                 swal({
                   title: "",
