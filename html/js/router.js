@@ -77,7 +77,7 @@ define([
         window.orderCompleteView.render();
         setTimeout(function () {
           location.href = '/';
-        }, 3000);
+        }, 7000);
       },
       allaction:function() {
         console.log('nopage');
