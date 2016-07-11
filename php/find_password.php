@@ -45,7 +45,7 @@ if ($id != null && $phone != null) {
             $key = rand(100000, 999999);
             $rest = new coolsms($sms_key, $sms_secret);
             $options->to = $phone;
-            $options->from = "01020851601";
+            $options->from = "024064726";
             $options->text = "샐러드그램 인증 번호는 [".$key."] 입니다.";
             $result = $rest->send($options)->getResult();
             if ($result->result_code != '00') {
