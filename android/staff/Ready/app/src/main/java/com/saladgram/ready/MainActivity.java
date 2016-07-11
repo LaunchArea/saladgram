@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject signInJson = new JSONObject();
 
                 signInJson.put("id", "saladgram");
-                signInJson.put("password", "saladgram");
+                signInJson.put("password", "saladgramadmin1!");
                 RequestBody body = RequestBody.create(JSON, signInJson.toString());
 
                 String url = "https://saladgram.com/api/sign_in.php";
@@ -489,7 +489,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject signInJson = new JSONObject();
 
                 signInJson.put("id", "saladgram");
-                signInJson.put("password", "saladgram");
+                signInJson.put("password", "saladgramadmin1!");
                 RequestBody body = RequestBody.create(JSON, signInJson.toString());
 
                 String url = "https://saladgram.com/api/sign_in.php";

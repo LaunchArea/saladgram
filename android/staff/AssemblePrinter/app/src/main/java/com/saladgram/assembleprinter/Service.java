@@ -140,7 +140,7 @@ public class Service {
 
         try {
             signInJson.put("id", "saladgram");
-            signInJson.put("password", "saladgram");
+            signInJson.put("password", "saladgramadmin1!");
             RequestBody body = RequestBody.create(JSON, signInJson.toString());
 
             String url = "https://saladgram.com/api/sign_in.php";

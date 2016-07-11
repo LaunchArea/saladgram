@@ -38,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -597,7 +598,7 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject signInJson = new JSONObject();
 
                 signInJson.put("id","saladgram");
-                signInJson.put("password", "saladgram");
+                signInJson.put("password", "saladgramadmin1!");
                 RequestBody body = RequestBody.create(JSON, signInJson.toString());
 
                 String url = "https://saladgram.com/api/sign_in.php";
@@ -626,14 +627,18 @@ public class MainActivity extends AppCompatActivity {
                 m.put("order_time", System.currentTimeMillis()/1000);
                 m.put("reservation_time", 0);
 
-                List<HashMap<String,Object>> arr = new LinkedList<>();
+                JSONArray jArray = new JSONArray();
 
                 for(SaleItem each : mItems) {
-                    HashMap<String,Object> item = new HashMap<String,Object>();
+                    JSONObject item = new JSONObject();
                     switch(each.menuItem.type) {
                         case SALAD:
                             item.put("order_item_type", 1);
-                            item.put("salad_items", each.menuItem.data.get("salad_items"));
+                            JSONArray si = new JSONArray();
+                            for(Object o : (ArrayList)each.menuItem.data.get("salad_items")) {
+                                si.put(new JSONObject((Map) o));
+                            }
+                            item.put("salad_items", si);
                             item.put("package_type", each.takeout ? OrderItem.PackageType.TAKE_OUT.ordinal() + 1 : OrderItem.PackageType.DINE_IN.ordinal() + 1);
                             break;
                         case SOUP:
@@ -661,9 +666,8 @@ public class MainActivity extends AppCompatActivity {
                     item.put("price",each.getPricePerEach());
                     item.put("calorie", each.getCaloriePerEach());
 
-                    arr.add(item);
+                    jArray.put(item);
                 }
-                m.put("order_items", arr);
                 boolean allSelf = true;
                 for(SaleItem each : mItems) {
                     switch(each.menuItem.type) {
@@ -680,6 +684,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 JSONObject orderJson = new JSONObject(m);
+                orderJson.put("order_items", jArray);
                 body = RequestBody.create(JSON, orderJson.toString());
                 Log.d("yns", orderJson.toString(2));
                 url = "https://www.saladgram.com/api/place_order.php";
