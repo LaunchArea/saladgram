@@ -44,7 +44,7 @@ public class Order {
 
     public String getOrderItemSummary() {
         if (orderItemSummary == null) {
-            int[] arr = new int[4];
+            int[] arr = new int[6];
             for (OrderItem item : orderItems) {
                 arr[item.type.ordinal()]++;
             }
@@ -58,6 +58,8 @@ public class Order {
                         case 1: text = "스"; break;
                         case 2: text = "아"; break;
                         case 3: text = "음"; break;
+                        case 4: text = "샐샐"; break;
+                        case 5: text = "샐스"; break;
                     }
                     buf.append(text + cnt + " ");
                 }

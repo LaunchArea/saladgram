@@ -24,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 import com.saladgram.model.*;
 import com.saladgram.model.MenuItem;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -144,8 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
         mSaleClickListener = new RecyclerViewClickListener() {
             @Override
-            public void onItemClick(View view, int position) {
-                checkAddedItem(mSaleList.get(position));
+            public void onItemClick(View view, int position) {checkAddedItem(mSaleList.get(position));
             }
 
             @Override
@@ -821,19 +821,25 @@ public class MainActivity extends AppCompatActivity {
         map.put("mSubTotal", mSubTotal);
         map.put("mTotal", mTotal);
 
-        ArrayList<HashMap<String,Object>> arr = new ArrayList<>();
-        for (SaleItem each : mSaleList) {
-            HashMap<String, Object> m = new HashMap<String, Object>();
-            m.put("name", each.menuItem.name);
-            m.put("price", each.getTotalPrice());
-            m.put("takeout", each.takeout);
-            m.put("amount", each.amount);
-            m.put("quantity", each.quantity);
-            arr.add(m);
-        }
-        map.put("saleMirrorItemList", arr);
+        JSONObject jMap = new JSONObject(map);
+        JSONArray jArray = new JSONArray();
+        try {
+            for (SaleItem each : mSaleList) {
+            JSONObject jo = new JSONObject();
+            jo.put("name", each.menuItem.name);
+            jo.put("price", each.getTotalPrice());
+            jo.put("takeout", each.takeout);
+            jo.put("amount", each.amount);
+            jo.put("quantity", each.quantity);
+            jArray.put(jo);
 
-        final String message = new JSONObject(map).toString();
+        }
+            jMap.put("saleMirrorItemList", jArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final String message = jMap.toString();
         AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
 
             @Override

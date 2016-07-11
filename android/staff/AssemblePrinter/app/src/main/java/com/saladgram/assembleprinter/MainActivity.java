@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     boolean first = true;
-    private void checkReadyItemAndPrint() {
+    private synchronized void checkReadyItemAndPrint() {
 
         LinkedList<Order> clone = new LinkedList<Order>();
         clone.addAll(Service.orderList);

@@ -73,7 +73,7 @@ public class Service {
     }
 
     public synchronized static void update() throws IOException, JSONException {
-        fetch("https://www.saladgram.com/api/orders.php?id=saladgram&status=1&reservation_time=3");
+        fetch("https://www.saladgram.com/api/orders.php?id=saladgram&status=1&reservation_time=40");
     }
 
     public synchronized static void stop() {
