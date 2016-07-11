@@ -98,7 +98,7 @@ if ($id == "saladgram") {
         $where = 1;
     }
     if ($_GET['reservation_time']) {
-        $time = time() + ($_GET['reservation_time'] * 3600);
+        $time = time() + ($_GET['reservation_time'] * 60);
         if ($where) {
             $query = $query."and reservation_time < $time ";
         } else {
