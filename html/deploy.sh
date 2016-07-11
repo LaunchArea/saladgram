@@ -1,4 +1,18 @@
-TARGET=/usr/share/nginx/html/test
+if [ $# == 0 ]; then
+    echo "./deploy.sh [test | operation]"
+    exit 0
+fi
+
+if [ $1 == "test" ]; then
+    TARGET=/usr/share/nginx/html/test
+elif [ $1 == "operation" ]; then
+    TARGET=/usr/share/nginx/html
+else
+    echo "Invalid target"
+    exit 0
+fi
+
+echo "TARGET = $TARGET"
 
 sudo cp *.html $TARGET
 sudo cp -R assets $TARGET
