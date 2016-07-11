@@ -2,7 +2,7 @@
 
 require 'vendor/autoload.php';
 
-$db_host = "saladgram-mysql.cue6club2lsf.ap-northeast-2.rds.amazonaws.com";
+$db_host = "saladgram.cue6club2lsf.ap-northeast-2.rds.amazonaws.com";
 $db_user = "saladgram";
 $db_password = "saladgram";
 $db_name = "saladgram";
