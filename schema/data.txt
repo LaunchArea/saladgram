@@ -58,8 +58,8 @@ insert into salad_items values(39, 6, '레몬 오일', '', 'www.saladgram.com/im
 
 
 # soups
-insert into soups values(0, '양송이 크림스프', '진한 크림과 부드러운 양송이 ', 'www.saladgram.com/images/soup_639x480/mushroom.png', 'www.saladgram.com/images/soup_639x480/mushroom.png', 140, 200, 'g', 81, 2000, 1, 0);
-insert into soups values(1, '토마토 야채스프', ' ', 'www.saladgram.com/images/soup_639x480/tomato.png', 'www.saladgram.com/images/soup_639x480/tomato.png', 140, 200, 'g', 54, 2000, 1, 0);
+insert into soups values(0, '양송이 크림스프', '양송이향이 깊고 진한 부드러운 크림 스프', 'www.saladgram.com/images/soup_639x480/mushroom.png', 'www.saladgram.com/images/soup_639x480/mushroom.png', 140, 200, 'g', 81, 2000, 1, 0);
+insert into soups values(1, '토마토 야채스프', '무농약 캄파리 토마토로 오래 끓여 시원하고 깔끔한 토마토 스프', 'www.saladgram.com/images/soup_639x480/tomato.png', 'www.saladgram.com/images/soup_639x480/tomato.png', 140, 200, 'g', 54, 2000, 1, 0);
 insert into soups values(2, '브로콜리 치즈 스프', '양송이 크림', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', 150, 200, 'ml', 100, 2000, 1, 1);
 
 # others
@@ -70,10 +70,10 @@ insert into others values(3, '삶은달걀', '', 'www.saladgram.com/images/salad
 insert into others values(4, '파마산', '고소함으로 샐러드의 맛을 더욱 풍부하게', 'www.saladgram.com/images/salad.png', 'www.saladgram.com/images/salad.png', '100g', 125, 200, 1, 1);
 
 # beverages
-insert into beverages values(0, '콜라', '코카콜라', 'www.saladgram.com/images/beverage_639x480/coke.png', 'www.saladgram.com/images/beverage_639x480/coke.png', '355ml', 160, 1500, 1, 0);
-insert into beverages values(1, '사이다', '칠성사이다', 'www.saladgram.com/images/beverage_639x480/cider.png', 'www.saladgram.com/images/beverage_639x480/cider.png', '355ml', 150, 1500, 1, 0);
-insert into beverages values(2, '트래비 플레인', 'Sparkling water', 'www.saladgram.com/images/beverage_639x480/treviplain.png', 'www.saladgram.com/images/beverage_639x480/treviplain.png', '500ml', 0, 1500, 1, 0);
-insert into beverages values(3, '트래비 라임', 'Natural lime flavor', 'www.saladgram.com/images/beverage_639x480/trevilime.png', 'www.saladgram.com/images/beverage_639x480/trevilime.png', '500ml', 0, 1500, 1, 0);
+insert into beverages values(0, '코카콜라', '코카콜라', 'www.saladgram.com/images/beverage_639x480/coke.png', 'www.saladgram.com/images/beverage_639x480/coke.png', '355ml', 160, 1500, 1, 0);
+insert into beverages values(1, '칠성사이다', '칠성사이다', 'www.saladgram.com/images/beverage_639x480/cider.png', 'www.saladgram.com/images/beverage_639x480/cider.png', '355ml', 150, 1500, 1, 0);
+insert into beverages values(2, '트래비 플레인', '트래비 플레인', 'www.saladgram.com/images/beverage_639x480/treviplain.png', 'www.saladgram.com/images/beverage_639x480/treviplain.png', '500ml', 0, 1500, 1, 0);
+insert into beverages values(3, '트래비 라임', '트래비 라임', 'www.saladgram.com/images/beverage_639x480/trevilime.png', 'www.saladgram.com/images/beverage_639x480/trevilime.png', '500ml', 0, 1500, 1, 0);
 
 # holidays
 insert into holidays values('2016-08-15');
