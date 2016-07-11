@@ -371,8 +371,7 @@ define(['jquery', 'underscore', 'backbone'
                                 },
                                 success: function(res) {
                                     console.log('유저 포인트 가져오기 성공');
-                                    var test = '{"reward":5000,"rewards":[{"id":"real3334","time":1464604400,"reward_type":1,"description":"Open Event 적립금","amount":5000},{"id":"real3334","time":1464604400,"order_id":3,"reward_type":3,"description":"구매 적립금","amount":300}]}';
-                                    var results = JSON.parse(test);
+                                    var results = JSON.parse(res);
                                     var reward = results.reward;
                                     var rewards = results.rewards;
                                     console.log('reward : ' + reward);
