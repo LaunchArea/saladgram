@@ -125,7 +125,7 @@ define(['jquery', 'underscore', 'backbone'
                     }else{
                         swal({
                           title: "",
-                          text: JSON.parse(res).message,
+                          text: "이미 회원 가입된 번호입니다",
                           confirmButtonClass: "btn-warning",
                         });
                     }
