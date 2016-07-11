@@ -375,8 +375,8 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             protected void onPostExecute(Integer integer) {
                                 super.onPostExecute(integer);
-                                mSelectedItems.clear();
                                 Toast.makeText(getActivity(),"SHIP " + mSelectedItems.size() + " by " + strName,Toast.LENGTH_SHORT).show();
+                                mSelectedItems.clear();
                                 refreshUI();
                             }
                         };
