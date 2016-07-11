@@ -1885,11 +1885,11 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                 }
 			}
 			var discount = window.orderInfoModel.get('discount');
-			if(gross_price > mFirstDiscountMinPrice){
+			if(gross_price >= mFirstDiscountMinPrice){
 				discount = discount + mFirstDiscountRate;
-			}else if(gross_price > mSecondDiscountMinPrice){
+			}else if(gross_price >= mSecondDiscountMinPrice){
 				discount = discount + mSecondDiscountRate;
-			}else if(gross_price > mThirdDiscountMinPrice){
+			}else if(gross_price >= mThirdDiscountMinPrice){
 				discount = discount + mThirdDiscountRate;
 			};
 			var discount_price = gross_price;
@@ -2071,11 +2071,11 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			        window.orderInfoModel.set('reward_use',useMyPoint);
 			        var totalPrice = window.orderInfoModel.get('total_price');
 					var discount = window.orderInfoModel.get('discount');
-					if(totalPrice > mFirstDiscountMinPrice){
+					if(totalPrice >= mFirstDiscountMinPrice){
 						discount = discount + mFirstDiscountRate;
-					}else if(totalPrice > mSecondDiscountMinPrice){
+					}else if(totalPrice >= mSecondDiscountMinPrice){
 						discount = discount + mSecondDiscountRate;
-					}else if(totalPrice > mThirdDiscountMinPrice){
+					}else if(totalPrice >= mThirdDiscountMinPrice){
 						discount = discount + mThirdDiscountRate;
 					};
 					var discountPrice = totalPrice;
