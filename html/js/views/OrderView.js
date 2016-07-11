@@ -801,7 +801,10 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					var displayText = '바로주문';
 					if(reservationTimeStamp !== ''){
 						var timeText = window.utils.getDateTextByTimeStamp(reservationTimeStamp, 'full');
-	                    displayText = timeText+' 도착예정';
+	                    displayText = timeText+' 배송예정';
+                        if (orderType === ORDER_TYPE_PICKUP) {
+                            displayText = timeText+' 픽업예정';
+                        }
 					}
 					var orderTypeText = '배송예정시간'
 					if(orderType === ORDER_TYPE_PICKUP){
