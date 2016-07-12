@@ -81,16 +81,45 @@ public class MainActivity extends AppCompatActivity {
     private void doPrint(Order order) {
         StringBuffer buffer = new StringBuffer();
 
-        buffer.append("" + order.id + "/" + order.orderType.name().toLowerCase() + "\n");
-        buffer.append("주소 : " + order.addr + "\n");
-        buffer.append("결제 : " + order.paymentType.name() + " " + order.actual_price + "원\n");
-        if (order.reservation_time.getTime() > 0) {
-            buffer.append("예약 : " + formatTime(order.reservation_time) + "\n");
+        buffer.append("주문번호 : " + order.id + " (" + order.orderType.name().toLowerCase() + ")\n");
+        buffer.append("고객정보 : " + (order.user_id != null ? order.user_id : ("none" + " ")) + " / " + (order.phone != null ? order.phone : "none"));
+        buffer.append("\n");
+        buffer.append("주    소 : " + order.addr + "\n");
+        buffer.append("결제방법 : ");
+        switch (order.paymentType) {
+            case INIPAY:
+                buffer.append("결제완료 (인터넷)");
+            case AT_DELIVERY:
+                buffer.append("수령시 결제");
+                break;
+            case REWARD_ONLY:
+                buffer.append("결제완료 (리워드)");
+                break;
+            case AT_PICK_UP:
+                buffer.append("픽업시 결제");
+                break;
+            case CARD:
+            case CASH:
+            case CASH_RECEIPT:
+            case DELIVER_CARD:
+            case DELIVER_CASH:
+            case DELIVER_CASH_RECEIPT:
+                buffer.append(order.paymentType.name());
         }
         buffer.append("\n");
+
+        if (order.order_time.getTime() > 0) {
+            buffer.append("주문시간 : " + formatTime(order.order_time));
+        }
+        if (order.reservation_time.getTime() != order.order_time.getTime()) {
+            buffer.append(" (" + formatTime(order.reservation_time)+ " 예약)");
+        }
+        buffer.append("\n\n");
+        buffer.append("주문내역\n");
         for (OrderItem item : order.orderItems) {
-            buffer.append(item.name + " ");
-            buffer.append(item.amount != null ? item.amount : " ");
+            buffer.append("    ");
+            buffer.append(item.name);
+            buffer.append(item.amount != null ? (" " + item.amount) : "");
             buffer.append(" x " + item.quantity + "\n");
         }
         buffer.append("\n\n\n\n\n");
@@ -98,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         PrinterService.doPrint(buffer.toString());
     }
 
-    SimpleDateFormat fmt = new SimpleDateFormat("MM/dd HH:mm:ss");
+    SimpleDateFormat fmt = new SimpleDateFormat("MM/dd HH:mm");
     private String formatTime(Date reservation_time) {
         return fmt.format(reservation_time);
     }
