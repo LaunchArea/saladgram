@@ -53,6 +53,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
         private final TextView detail2;
         private final TextView detail3;
         private final TextView address;
+        private final TextView extra_info;
 
 
         public SimpleViewHolder(View view, RecyclerViewClickListener listener) {
@@ -67,6 +68,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
             detail2 = (TextView) view.findViewById(R.id.detail2);
             detail3 = (TextView) view.findViewById(R.id.detail3);
             address = (TextView) view.findViewById(R.id.address);
+            extra_info = (TextView) view.findViewById(R.id.extra_info);
 
             mListener = listener;
             view.setOnClickListener(this);
@@ -106,15 +108,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
         holder.id.setText("" + order.id);
         holder.order_type.setText(order.orderType.name().toLowerCase());
         holder.order_time.setText(relativeTime(order.order_time) + " 주문");
+        holder.order_time.setVisibility(View.GONE);
 
-        if (order.reservation_time.getTime() > 0) {
-            holder.reservation_time.setText(relativeTime(order.reservation_time) + " 까지");
-            holder.reservation_time.setVisibility(View.VISIBLE);
-            holder.order_time.setVisibility(View.GONE);
-        } else {
-            holder.reservation_time.setVisibility(View.GONE);
-            holder.order_time.setVisibility(View.VISIBLE);
-        }
+        boolean reserve = order.reservation_time.getTime() != order.order_time.getTime();
+        holder.reservation_time.setText((reserve ? "예약 " : "") + sdf.format(order.reservation_time) + "(" + relativeTime(order.reservation_time)+")");
+
         holder.payment_type.setText(order.paymentType.name());
 
         String[] details = new String[3];
@@ -140,6 +138,15 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
         } else {
             holder.address.setText("");
         }
+        StringBuffer extraInfo = new StringBuffer();
+
+        extraInfo.append("id : " + order.user_id + " phone : " + order.phone + "\n---------------------------\n");
+        extraInfo.append("총금액 :" + order.total_price + "\n");
+        extraInfo.append("리워드사용 :" + order.reward_use + "\n");
+        extraInfo.append("계산금액 :" + order.actual_price + "\n---------------------------");
+
+        holder.extra_info.setText(extraInfo.toString());
+
         if(mSelectedIds.contains(order.id)) {
             holder.bg.setBackgroundResource(android.R.color.darker_gray);
         } else {
