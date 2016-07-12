@@ -2,6 +2,7 @@ package com.saladgram.assembleprinter;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bxl.config.editor.BXLConfigLoader;
 import java.util.List;
@@ -37,12 +38,14 @@ public class PrinterService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(sContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         try {
             bxlConfigLoader.openFile();
         } catch (Exception e) {
             e.printStackTrace();
             bxlConfigLoader.newFile();
+            Toast.makeText(sContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         bxlConfigLoader.removeAllEntries();
         bxlConfigLoader.addEntry("SRP-350III", BXLConfigLoader.DEVICE_CATEGORY_POS_PRINTER, "SRP-350III",BXLConfigLoader.DEVICE_BUS_USB, "");
@@ -50,6 +53,7 @@ public class PrinterService {
             bxlConfigLoader.saveFile();
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(sContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -64,16 +68,19 @@ public class PrinterService {
             posPrinter.cutPaper(90);
         } catch (JposException e) {
             e.printStackTrace();
+            Toast.makeText(sContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         try {
             posPrinter.release();
         } catch (JposException e) {
             e.printStackTrace();
+            Toast.makeText(sContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         try {
             posPrinter.close();
         } catch (JposException e) {
             e.printStackTrace();
+            Toast.makeText(sContext, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

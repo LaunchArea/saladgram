@@ -3,13 +3,18 @@ package com.saladgram.assembleprinter;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,10 +31,12 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,13 +46,42 @@ public class MainActivity extends AppCompatActivity {
             if(intent.getAction() == Service.ACTION_FETCH_FAILED) {
                 Toast.makeText(context, intent.getStringExtra("reason"), Toast.LENGTH_SHORT).show();
             } else if (intent.getAction() == Service.ACTION_FETCH_DONE) {
-                int now = Service.orderList.size();
                 checkReadyItemAndPrint();
             }
+            updateListViewData();
         }
     };
 
-    HashMap<Integer, Order.Status> mStatus = new HashMap<>();
+    private void updateListViewData() {
+        if (mAdapter != null) {
+            List<Integer> ids = new LinkedList<>();
+            List<String> datas = new LinkedList<>();
+
+            for(Integer each : mStatus.keySet()) {
+                ids.add(each);
+            }
+            Collections.sort(ids, Collections.<Integer>reverseOrder());
+
+            for(Integer each : ids) {
+                PrintStatus v = mStatus.get(each);
+                Order order = mOrderBackup.get(each);
+                datas.add("" + each  +
+                        " " + v.name() +
+                        "\t" + order.user_id +
+                        "\t" + order.orderType.name() +
+                        "\t" + order.getOrderItemSummary()
+                        );
+            }
+            mAdapter.setList(datas);
+            mAdapter.notifyDataSetChanged();
+        }
+    }
+
+    enum PrintStatus {SKIP, WAITING, PRINT}
+
+    HashMap<Integer, PrintStatus> mStatus = new HashMap<>();
+    private ListView listView;
+    private OrderAdapter mAdapter;
 
 
     @Override
@@ -56,24 +92,68 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(Service.ACTION_FETCH_FAILED);
         filter.addAction(Service.ACTION_FETCH_DONE);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
+
+
+        setupListView();
+
+    }
+
+    private void setupListView() {
+        listView = (ListView) findViewById(R.id.list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                int itemPosition     = position;
+
+                String  itemValue    = (String) listView.getItemAtPosition(position);
+
+                int order_id = Integer.parseInt(itemValue.split(" ")[0]);
+                // Show Alert
+                showPrintAgainDialog(order_id);
+            }
+
+        });
+        mAdapter = new OrderAdapter(this);
+        listView.setAdapter(mAdapter);
+    }
+
+    private void showPrintAgainDialog(final int order_id) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("" + order_id + " 를 다시 인쇄합니까?");
+
+        builder.setNeutralButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                doPrint(mOrderBackup.get(order_id));
+                mStatus.put(order_id, PrintStatus.PRINT);
+            }
+        });
+        builder.show();
     }
 
     boolean first = true;
+    Map<Integer, Order> mOrderBackup = new HashMap<Integer, Order>();
     private synchronized void checkReadyItemAndPrint() {
 
         LinkedList<Order> clone = new LinkedList<Order>();
         clone.addAll(Service.orderList);
+        for(Order each : clone) {
+            mOrderBackup.put(each.id, each);
+        }
         if (first) {
             first = false;
             for(Order each : clone) {
-                mStatus.put(each.id, each.status);
+                mStatus.put(each.id, PrintStatus.SKIP);
             }
             return;
         }
         for(Order each : clone) {
             if (!mStatus.containsKey(each.id)) {
                 doPrint(each);
-                mStatus.put(each.id, each.status);
+                mStatus.put(each.id, PrintStatus.PRINT);
             }
         }
     }
