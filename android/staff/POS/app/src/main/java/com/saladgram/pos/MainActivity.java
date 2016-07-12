@@ -12,6 +12,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.*;
 import android.widget.ArrayAdapter;
@@ -34,10 +35,13 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import okhttp3.MediaType;
@@ -209,6 +213,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 reset();
                 refreshSaleAmount();
+            }
+        });
+
+        findViewById(R.id.pickup).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handlePickUp();
             }
         });
     }
@@ -845,6 +856,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         final String message = jMap.toString();
+
+        sendMessageToMirror(message);
+
+    }
+
+    private void sendMessageToMirror(final String message) {
         AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
 
             @Override
@@ -873,5 +890,280 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         task.execute();
+    }
+
+    private void handlePickUp() {
+        PickupListFetchTask task = new PickupListFetchTask(this){
+            @Override
+            protected void onPostExecute(List<Order> orders) {
+                super.onPostExecute(orders);
+                if(orders == null) {
+                    Toast.makeText(MainActivity.this, "Can't load order list", Toast.LENGTH_SHORT).show();
+                } else {
+                    showPickupList(orders);
+                }
+            }
+        };
+        task.execute();
+    }
+
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.KOREA);
+    private CharSequence relativeTime(Date reservation_time) {
+        long now = System.currentTimeMillis();
+        return DateUtils.getRelativeTimeSpanString(reservation_time.getTime(), now, 0L, DateUtils.FORMAT_ABBREV_ALL);
+    }
+
+    private void showPickupList(final List<Order> orders) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.select_dialog_singlechoice);
+        for(Order order : orders) {
+            boolean reserve = order.reservation_time.getTime() != order.order_time.getTime();
+            String time = (reserve ? "예약 " : "") + sdf.format(order.reservation_time) + "(" + relativeTime(order.reservation_time) + ")";
+            arrayAdapter.add(order.id + "("+order.status+")" + " " + order.user_id + " " + order.phone + "\n" +time+ " " + order.getOrderItemSummary());
+        }
+
+        builderSingle.setAdapter(
+                arrayAdapter,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Order theOrder = orders.get(which);
+                        processPaymentStep(theOrder);
+                    }
+                });
+        builderSingle.show();
+    }
+
+    private void processPaymentStep(Order theOrder) {
+        sendPickupPayinfoToMirror(theOrder);
+        choosePaymentTypeAndConfirmDone(theOrder);
+    }
+
+
+    private void sendPickupPayinfoToMirror(Order theOrder) {
+        if (mMirrorIP == null) {
+            return;
+        }
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("mCashReceived", 0);
+        map.put("mDiscount", theOrder.discount);
+        map.put("mPoint", theOrder.reward_use);
+        map.put("mSubTotal", theOrder.total_price);
+        map.put("mTotal", theOrder.actual_price);
+
+        JSONObject jMap = new JSONObject(map);
+        JSONArray jArray = new JSONArray();
+        try {
+                JSONObject jo = new JSONObject();
+                jo.put("name", (theOrder.user_id != null ? (theOrder.user_id + "님 주문 - ") : "픽업 - ")
+                        + theOrder.getOrderItemSummaryLong()+"");
+                jo.put("price", theOrder.total_price);
+                jo.put("takeout", false);
+                jo.put("amount", 0);
+                jo.put("quantity", 1);
+                jArray.put(jo);
+            jMap.put("saleMirrorItemList", jArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final String message = jMap.toString();
+
+        sendMessageToMirror(message);
+    }
+
+    private void choosePaymentTypeAndConfirmDone(final Order order) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setNeutralButton("카드", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                confirmDone(order, Order.PaymentType.DELIVER_CARD);
+            }
+        });
+        builder.setPositiveButton("현금", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                confirmDone(order, Order.PaymentType.DELIVER_CASH);
+            }
+        });
+        builder.setNegativeButton("현금영수증", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                confirmDone(order, Order.PaymentType.DELIVER_CASH_RECEIPT);
+            }
+        });
+        builder.show();
+    }
+
+    private void confirmDone(final Order order, final Order.PaymentType paymentType) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        String message = "done " + order.id + (paymentType == null ? "" : " with " + paymentType.name());
+        message += "\n\n계산금액 : " + order.actual_price;
+        builder.setMessage(message);
+        builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                UpdateStatusTask task = new UpdateStatusTask(getActivity(), order, paymentType) {
+                    @Override
+                    protected void onPostExecute(Integer code) {
+                        super.onPostExecute(code);
+                        Toast.makeText(getActivity(), "" + (code == 200 ? "Success" : code), Toast.LENGTH_SHORT).show();
+                        reset();
+                        refreshSaleAmount();
+                    }
+                };
+                task.execute();
+            }
+        });
+        builder.show();
+    }
+
+    class UpdateStatusTask extends ProgressAsyncTask<Void, Void, Integer> {
+        final MediaType JSON
+                = MediaType.parse("application/json; charset=utf-8");
+        private final Order mOrder;
+        private final Order.PaymentType mPaymentType;
+
+        public UpdateStatusTask(Context context, Order order, Order.PaymentType paymentType) {
+            super(context);
+            this.mOrder = order;
+            this.mPaymentType = paymentType;
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            OkHttpClient client = new OkHttpClient();
+
+            try {
+                JSONObject signInJson = new JSONObject();
+
+                signInJson.put("id", "saladgram");
+                signInJson.put("password", "saladgramadmin1!");
+                RequestBody body = RequestBody.create(JSON, signInJson.toString());
+
+                String url = "https://saladgram.com/api/sign_in.php";
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(body)
+                        .build();
+
+                Response response = null;
+                response = client.newCall(request).execute();
+                if (response.code() != 200) {
+                    return response.code();
+                }
+                String jwt = new JSONObject(response.body().string()).getString("jwt");
+
+                HashMap<String, Object> m = new HashMap<>();
+
+                m.put("order_id", mOrder.id);
+                m.put("paid", mOrder.json.getInt("actual_price"));
+                m.put("status", Order.Status.DONE.ordinal() + 1);
+                if (mPaymentType != null) {
+                    m.put("payment_type", mPaymentType.ordinal() + 1);
+                }
+
+                JSONObject json = new JSONObject(m);
+                body = RequestBody.create(JSON, json.toString());
+                Log.d("yns", json.toString(2));
+                url = "https://www.saladgram.com/api/update_order.php";
+                request = new Request.Builder()
+                        .header("jwt", jwt)
+                        .url(url)
+                        .post(body)
+                        .build();
+
+                response = client.newCall(request).execute();
+                Log.d("yns", response.body().string());
+
+                return response.code();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return -1;
+        }
+    }
+
+    class PickupListFetchTask extends ProgressAsyncTask<Void,Void,List<Order>> {
+
+        public PickupListFetchTask(Context context) {
+            super(context);
+        }
+
+        final MediaType JSON
+                = MediaType.parse("application/json; charset=utf-8");
+        @Override
+        protected List<Order> doInBackground(Void... params) {
+            OkHttpClient client = new OkHttpClient();
+
+            try {
+                JSONObject signInJson = new JSONObject();
+
+                signInJson.put("id","saladgram");
+                signInJson.put("password", "saladgramadmin1!");
+                RequestBody body = RequestBody.create(JSON, signInJson.toString());
+
+                String url = "https://saladgram.com/api/sign_in.php";
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(body)
+                        .build();
+
+                Response response = null;
+                response = client.newCall(request).execute();
+                if (response.code() != 200) {
+                    Toast.makeText(MainActivity.this, ""+response.code(), Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+                String jwt = new JSONObject(response.body().string()).getString("jwt");
+
+                url = "https://www.saladgram.com/api/orders.php?id=saladgram&status=2&order_type=1";
+                request = new Request.Builder()
+                        .header("jwt",jwt)
+                        .url(url)
+                        .get()
+                        .build();
+
+                List<Order> orderList = new LinkedList<>();
+                response = client.newCall(request).execute();
+                if (response.code() == 200) {
+                    String result = response.body().string();
+                    JSONArray orders = new JSONArray(result);
+                    for (int i = 0; i < orders.length(); i++) {
+                        Order order = new Order(orders.getJSONObject(i));
+                        JSONArray orderItems = orders.getJSONObject(i).getJSONArray("order_items");
+                        for (int j = 0; j < orderItems.length(); j++) {
+                            OrderItem orderItem = new OrderItem(orderItems.getJSONObject(j));
+                            order.orderItems.add(orderItem);
+                            if (orderItems.getJSONObject(j).has("salad_items")) {
+                                JSONArray saladItems = orderItems.getJSONObject(j).getJSONArray("salad_items");
+                                for (int k = 0; k < saladItems.length(); k++) {
+                                    SaladItem saladItem = new SaladItem(saladItems.getJSONObject(k));
+                                    orderItem.saladItems.add(saladItem);
+                                }
+                            }
+                        }
+                        orderList.add(order);
+                    }
+                    return orderList;
+                } else {
+                    Toast.makeText(MainActivity.this, ""+response.code(), Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }
