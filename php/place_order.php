@@ -78,6 +78,9 @@ $actual_price = $data['actual_price'];
 $payment_type = $data['payment_type'];
 $order_time = time();
 $reservation_time = $data['reservation_time'];
+if (!$reservation_time) {
+    $reservation_time = $order_time;
+}
 
 $query = "insert into orders values(NULL, NULL, NULL, $order_type, ";
 if ($id) {
