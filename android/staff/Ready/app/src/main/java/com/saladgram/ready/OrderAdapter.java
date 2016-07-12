@@ -107,16 +107,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
         Order order = mList.get(position);
         holder.id.setText("" + order.id);
         holder.order_type.setText(order.orderType.name().toLowerCase());
-        holder.order_time.setText(relativeTime(order.order_time) + " 주문");
 
-        if (order.reservation_time.getTime() > 0) {
-            holder.reservation_time.setText(relativeTime(order.reservation_time) + " 까지");
-            holder.reservation_time.setVisibility(View.VISIBLE);
-            holder.order_time.setVisibility(View.GONE);
-        } else {
-            holder.reservation_time.setVisibility(View.GONE);
-            holder.order_time.setVisibility(View.VISIBLE);
-        }
+        boolean reserve = order.reservation_time.getTime() != order.order_time.getTime();
+        holder.reservation_time.setText((reserve ? "예약 " : "") + sdf.format(order.reservation_time) + "(" + relativeTime(order.reservation_time)+")");
+        holder.order_time.setVisibility(View.GONE);
+
         holder.payment_type.setText(order.paymentType.name());
 
         String[] details = new String[3];
@@ -138,9 +133,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
         holder.detail3.setText(details[2]);
 
         if (order.addr != null) {
-            holder.address.setText(order.addr);
+            holder.address.setText("" + order.user_id + "\n" + order.addr);
         } else {
-            holder.address.setText("");
+            holder.address.setText("" + order.user_id + "");
         }
         if(mSelectedIds.contains(order.id)) {
             holder.bg.setBackgroundResource(android.R.color.darker_gray);

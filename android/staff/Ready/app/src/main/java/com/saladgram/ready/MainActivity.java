@@ -298,7 +298,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (order.paymentType == Order.PaymentType.AT_PICK_UP) {
-            choosePaymentTypeAndConfirmDone(order);
+            Toast.makeText(this, "계산대에서 진행 (결제 필요)", Toast.LENGTH_SHORT).show();
+            return;
         } else {
             confirmDone(order, null);
         }
