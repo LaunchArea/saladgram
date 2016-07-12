@@ -14,6 +14,7 @@ public class Order {
 
     public JSONObject json;
     private String orderItemSummary = null;
+    private String orderItemSummaryLong = null;
 
     public Order(JSONObject each) throws JSONException {
         this.json = each;
@@ -26,6 +27,7 @@ public class Order {
         total_price = each.optInt("total_price", 0);
         phone = each.optString("phone", null);
         user_id = each.optString("id", null);
+        discount = each.optInt("discount", 0);
 
         switch (each.getInt("order_type")) {
             case 1: orderType = OrderType.PICK_UP; break;
@@ -50,7 +52,7 @@ public class Order {
         if (orderItemSummary == null) {
             int[] arr = new int[6];
             for (OrderItem item : orderItems) {
-                arr[item.type.ordinal()]++;
+                arr[item.type.ordinal()] += item.quantity;
             }
             StringBuffer buf = new StringBuffer();
             for (int i =0; i < arr.length; i++) {
@@ -71,6 +73,33 @@ public class Order {
             orderItemSummary = buf.toString();
         }
         return orderItemSummary;
+    }
+
+    public String getOrderItemSummaryLong() {
+        if (orderItemSummaryLong == null) {
+            int[] arr = new int[6];
+            for (OrderItem item : orderItems) {
+                arr[item.type.ordinal()] += item.quantity;
+            }
+            StringBuffer buf = new StringBuffer();
+            for (int i =0; i < arr.length; i++) {
+                int cnt = arr[i];
+                if (cnt > 0) {
+                    String text = "";
+                    switch(i) {
+                        case 0: text = "샐러드"; break;
+                        case 1: text = "스프"; break;
+                        case 2: text = "기타"; break;
+                        case 3: text = "음료"; break;
+                        case 4: text = "샐샐"; break;
+                        case 5: text = "샐스"; break;
+                    }
+                    buf.append(text + " x " + cnt);
+                }
+            }
+            orderItemSummaryLong = buf.toString();
+        }
+        return orderItemSummaryLong;
     }
 
     public enum OrderType {PICK_UP, DELIVERY, SUBSCRIBE, DINE_IN, TAKE_OUT}
@@ -100,6 +129,7 @@ public class Order {
     public int reward_use;
     public int total_price;
     public int actual_price;
+    public int discount;
     public List<OrderItem> orderItems = new LinkedList<>();
 
 }
