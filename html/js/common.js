@@ -131,3 +131,9 @@ window.utils = {
     // }
 };
 
+if (typeof console === "undefined") {
+    var console = {
+        log: function (logMsg) { }
+    };
+}
+
