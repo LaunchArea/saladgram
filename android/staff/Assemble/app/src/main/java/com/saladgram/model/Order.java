@@ -22,6 +22,7 @@ public class Order {
         reservation_time = new Date(each.getLong("reservation_time") * 1000);
         addr = each.optString("addr", null);
         actual_price = each.getInt("actual_price");
+        user_id = each.optString("id", null);
 
         switch (each.getInt("order_type")) {
             case 1: orderType = OrderType.PICK_UP; break;
@@ -78,6 +79,7 @@ public class Order {
         DELIVER_CARD,
         DELIVER_CASH,
         DELIVER_CASH_RECEIPT,
+        INIPAY,
         AT_PICK_UP,
         AT_DELIVERY,
         REWARD_ONLY
@@ -90,6 +92,7 @@ public class Order {
     public Date reservation_time;
     public Status status;
     public String addr;
+    public String user_id;
     public int actual_price;
     public List<OrderItem> orderItems = new LinkedList<>();
 

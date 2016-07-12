@@ -58,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/basic"
         android:layout_marginLeft="16dp"
+        android:textSize="30sp"
         android:layout_centerVertical="true"
         android:lineSpacingExtra="10dp"
         />
@@ -68,6 +69,7 @@
             android:layout_toRightOf="@id/detail1"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
+            android:textSize="30sp"
             android:lineSpacingExtra="10dp"
             />
 
@@ -78,6 +80,7 @@
             android:layout_toRightOf="@id/detail2"
             android:layout_centerVertical="true"
             android:layout_marginLeft="16dp"
+            android:textSize="30sp"
             android:lineSpacingExtra="10dp"
             />
 </RelativeLayout>

@@ -194,6 +194,10 @@ public class MainActivity extends AppCompatActivity {
             mOrderItemAdapter.setList(mSelectedOrder.orderItems);
             mOrderItemAdapter.notifyDataSetChanged();
             tvSelectedOrderId.setText(""+mSelectedOrder.id + " " + mSelectedOrder.orderType.name());
+        } else {
+            mOrderItemAdapter.setList(new LinkedList<OrderItem>());
+            mOrderItemAdapter.notifyDataSetChanged();
+            tvSelectedOrderId.setText("");
         }
 
         int[] arr = new int[6];
@@ -214,15 +218,18 @@ public class MainActivity extends AppCompatActivity {
         } else {
             btnReady.setText("READY");
         }
+
+        btnReady.setEnabled(mSelectedOrder != null);
     }
 
     private void postReady() {
+
         UpdateStatusTask task = new UpdateStatusTask(getActivity(), mSelectedOrder) {
             @Override
             protected void onPostExecute(Integer code) {
                 super.onPostExecute(code);
                 if(code == 200) {
-                    if (mOrderList.size() > 0) {
+                    if (mOrderList.size() > 1) {
                         mSelectedId = mOrderList.get(0).id;
                     } else {
                         mSelectedId = -1;

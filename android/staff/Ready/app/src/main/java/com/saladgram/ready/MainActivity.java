@@ -306,6 +306,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void choosePaymentTypeAndConfirmDone(final Order order) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
         builder.setNeutralButton("카드", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

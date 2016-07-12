@@ -77,6 +77,7 @@ public class Order {
         DELIVER_CARD,
         DELIVER_CASH,
         DELIVER_CASH_RECEIPT,
+        INIPAY,
         AT_PICK_UP,
         AT_DELIVERY,
         REWARD_ONLY

@@ -2,6 +2,7 @@ package com.saladgram.assemble;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.saladgram.model.Order;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -42,6 +44,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
         private final TextView time;
         private final TextView items;
         private final View bg;
+        private final TextView user_id;
 
 
         public SimpleViewHolder(View view, RecyclerViewClickListener listener) {
@@ -50,6 +53,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
             id = (TextView) view.findViewById(R.id.id);
             type = (TextView) view.findViewById(R.id.type);
             time = (TextView) view.findViewById(R.id.time);
+            user_id = (TextView) view.findViewById(R.id.user_id);
             items = (TextView) view.findViewById(R.id.items);
             mListener = listener;
             view.setOnClickListener(this);
@@ -83,13 +87,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
     }
 
     SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.KOREA);
+    private CharSequence relativeTime(Date reservation_time) {
+        long now = System.currentTimeMillis();
+        return DateUtils.getRelativeTimeSpanString(reservation_time.getTime(), now, 0L, DateUtils.FORMAT_ABBREV_ALL);
+    }
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         Order item = mList.get(position);
         holder.id.setText("" + item.id);
         holder.type.setText(item.orderType.name().toLowerCase());
-        holder.time.setText(sdf.format(item.order_time));
+        boolean reserve = item.reservation_time.getTime() != item.order_time.getTime();
+        holder.time.setText((reserve ? "예약 " : "") + sdf.format(item.reservation_time) + "(" + relativeTime(item.reservation_time)+")");
         holder.items.setText(item.getOrderItemSummary());
+        holder.user_id.setText(item.user_id + "/" + item.addr);
         if(mSelectedId == item.id) {
             holder.bg.setBackgroundResource(android.R.color.darker_gray);
         } else {
