@@ -322,15 +322,15 @@ html,body{height:100%;}
 }
 .carousel .item-02 .carousel-desktop{
   position: absolute;
-  top:70%;
-  right:20%;
-  width:21.8%;
+  top:73%;
+  right:18%;
+  width:23%;
 }
 .carousel .item-03 .carousel-desktop{
   position: absolute;
-  top:25%;
-  right:34.4%;
-  width:31.2%;
+  top:28%;
+  right:35.5%;
+  width:29%;
 }
 
 .carousel-inner{
@@ -577,15 +577,15 @@ html,body{height:100%;}
   }
   .carousel .item-02 .carousel-mobile{
     position: absolute;
-    top:65%;
-    left:22.5%;
+    top:23%;
+    left:20%;
     width:54.5%;
   }
   .carousel .item-03 .carousel-mobile{
     position: absolute;
-    top:15%;
-    left:12.7%;
-    width:74.6%;
+    top:25%;
+    left:15%;
+    width:70%;
   }
   .btn-carousel{
     width: 90%;
