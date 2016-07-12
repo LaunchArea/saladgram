@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private int mSubTotal;
     private int mTotal;
     private boolean mToGo = true;
-    private static String mMirrorIP = "192.168.0.15";
+    private static String mMirrorIP = "192.168.0.30";
 
     private Order.PaymentType mPaymentType;
     private View.OnClickListener mSelfClickListener = new View.OnClickListener() {
@@ -624,8 +624,8 @@ public class MainActivity extends AppCompatActivity {
                 m.put("discount", (int)mDiscount);
                 m.put("reward_use", mPoint);
                 m.put("payment_type", mPaymentType.ordinal() + 1);
-                m.put("order_time", System.currentTimeMillis()/1000);
-                m.put("reservation_time", 0);
+//                m.put("order_time", System.currentTimeMillis()/1000);
+//                m.put("reservation_time", 0);
 
                 JSONArray jArray = new JSONArray();
 
