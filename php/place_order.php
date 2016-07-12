@@ -76,7 +76,10 @@ $discount = $data['discount'];
 $reward_use = $data['reward_use'];
 $actual_price = $data['actual_price'];
 $payment_type = $data['payment_type'];
-$order_time = time();
+$order_time = $data['order_time'];
+if (!$order_time) {
+    $order_time = time();
+}
 $reservation_time = $data['reservation_time'];
 if (!$reservation_time) {
     $reservation_time = $order_time;
