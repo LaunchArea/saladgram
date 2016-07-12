@@ -21,7 +21,10 @@ public class Order {
         order_time = new Date(each.getLong("order_time") * 1000);
         reservation_time = new Date(each.getLong("reservation_time") * 1000);
         addr = each.optString("addr", null);
-        actual_price = each.getInt("actual_price");
+        actual_price = each.optInt("actual_price", 0);
+        reward_use = each.optInt("reward_use", 0);
+        total_price = each.optInt("total_price", 0);
+        phone = each.optString("phone", null);
         user_id = each.optString("id", null);
 
         switch (each.getInt("order_type")) {
@@ -93,6 +96,9 @@ public class Order {
     public Status status;
     public String addr;
     public String user_id;
+    public String phone;
+    public int reward_use;
+    public int total_price;
     public int actual_price;
     public List<OrderItem> orderItems = new LinkedList<>();
 
