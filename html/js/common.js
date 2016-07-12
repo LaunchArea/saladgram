@@ -103,7 +103,12 @@ window.utils = {
 
     getCookie: function(cname) {
         if (typeof(Storage) !== "undefined") {
-            return sessionStorage.getItem(cname);
+            var cvalue = sessionStorage.getItem(cname);
+            if (cvalue == null) {
+                return "";
+            } else {
+                return cvalue;
+            }
         } else {
             var name = cname + "=";
             var ca = document.cookie.split(';');
