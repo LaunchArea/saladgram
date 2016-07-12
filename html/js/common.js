@@ -91,44 +91,45 @@ window.utils = {
         return displayText;
     },
     setCookie: function(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays*24*60*60*1000));
-        var expires = "expires="+d.toUTCString();
-        document.cookie = cname + "=" + cvalue + "; " + expires;
+        if (typeof(Storage) !== "undefined") {
+            sessionStorage.setItem(cname, cvalue);
+        } else {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays*24*60*60*1000));
+            var expires = "expires="+d.toUTCString();
+            document.cookie = cname + "=" + cvalue + "; " + expires;
+        }
     },
 
     getCookie: function(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
+        if (typeof(Storage) !== "undefined") {
+            return sessionStorage.getItem(cname);
+        } else {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for(var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
             }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
+            return "";
         }
-        return "";
     },
     deleteCookie: function(cname) {
-        //어제 날짜를 쿠키 소멸 날짜로 설정해서 삭제처리
-        var expireDate = new Date();
-        expireDate.setDate( expireDate.getDate() - 1 );
-        var expires = "expires="+expireDate.toGMTString();
-        document.cookie = cname + "=; " + expires;
+        if (typeof(Storage) !== "undefined") {
+            return sessionStorage.removeItem(cname);
+        } else {
+            //어제 날짜를 쿠키 소멸 날짜로 설정해서 삭제처리
+            var expireDate = new Date();
+            expireDate.setDate( expireDate.getDate() - 1 );
+            var expires = "expires="+expireDate.toGMTString();
+            document.cookie = cname + "=; " + expires;
+        }
     },
-    // checkCookie: function() {
-    //     var user = getCookie("username");
-    //     if (user != "") {
-    //         alert("Welcome again " + user);
-    //     } else {
-    //         user = prompt("Please enter your name:", "");
-    //         if (user != "" && user != null) {
-    //             setCookie("username", user, 365);
-    //         }
-    //     }
-    // }
 };
 
 if (typeof console === "undefined") {
