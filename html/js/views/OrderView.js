@@ -2172,6 +2172,8 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							// 	location.href = '/'
 							// });
 							window.cancelOrder = true;
+                            var order_id = resParset['order_id'];
+                            window.orderInfoModel.set({order_id: order_id});
 							location.href="/#ordercomplete"
 		                },
 		                error:function(error){

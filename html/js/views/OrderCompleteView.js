@@ -10,6 +10,7 @@ define(['jquery', 'underscore', 'backbone','views/NavigationView'
                 actual_price : window.orderInfoModel.get('actual_price'),
                 reservation_time : window.orderInfoModel.get('reservation_time'),
                 order_time : window.orderInfoModel.get('order_time'),
+                order_id : window.orderInfoModel.get('order_id'),
             });
             console.log(JSON.stringify(window.orderInfoModel));
 			this.$el.html(template);
