@@ -87,10 +87,13 @@ if (!$reservation_time) {
 
 $query = "insert into orders values(NULL, NULL, NULL, $order_type, ";
 if ($id) {
-    $query = $query."'$id', NULL, ";
+    $query = $query."'$id', ";
 } else {
-    $query = $query."NULL, '$phone', ";
+    $query = $query."NULL, ";
 }
+
+$query = $query."'$phone', ";
+
 if ($addr) {
     $query = $query."'$addr', ";
 } else {
