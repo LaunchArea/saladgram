@@ -129,7 +129,9 @@ if (!$result) {
             $order = array();
             $order['order_id'] = (int)$row['order_id'];
             $order['order_type'] = (int)$row['order_type'];
-            if ($row['id']) {
+            if ($id != 'saladgram') {
+                $order['id'] = $row['order_id'];
+            } else if ($row['id']) {
                 $order['id'] = $row['id'];
             }
             $order['phone'] = $row['phone'];
