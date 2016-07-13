@@ -170,7 +170,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						//멤버일경우 최근 주문 리스트를 가져와서 저장
 						if(userType === 'member'){
 							
-							window.orderInfoModel.unset('phone');
+							window.orderInfoModel.set('phone', phone);
 							window.orderInfoModel.set('id', id);
 							window.orderInfoModel.set('addr', addr);
 
