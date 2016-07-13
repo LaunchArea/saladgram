@@ -18,7 +18,6 @@ define(['jquery', 'underscore', 'backbone','text!templates/user/myPageTemplate.h
                 for(var i=0; i < userBeforeOrders.length; i++){
                     var reservationTime = userBeforeOrders[i].get('reservation_time');
                     var displayText = window.utils.getDateTextByTimeStamp(reservationTime,'date');
-                    var displayTextㄽ = displayText;
 
                     var displayOrderType = '';
                     var orderType = userBeforeOrders[i].get('order_type');
@@ -27,12 +26,13 @@ define(['jquery', 'underscore', 'backbone','text!templates/user/myPageTemplate.h
                             displayOrderType = "픽업";
                             break;
                         case ORDER_TYPE_DELIVERY:
-                            displayOrderType = "배달주문";
+                            displayOrderType = "배달";
                             break;
                         case ORDER_TYPE_SUBSCRIBE:
                             displayOrderType = "정기배송";
                             break;
                     };
+                    displayOrderType = " 주문 번호 : " + userBeforeOrders[i].get('order_id') + " / " + displayOrderType;
                     userBeforeOrders[i].set('reservation_text',displayText);
                     userBeforeOrders[i].set('order_type_text',displayOrderType);
                 };
