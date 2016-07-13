@@ -940,7 +940,12 @@ public class MainActivity extends AppCompatActivity {
 
     private void processPaymentStep(Order theOrder) {
         sendPickupPayinfoToMirror(theOrder);
-        choosePaymentTypeAndConfirmDone(theOrder);
+
+        if (theOrder.paymentType == Order.PaymentType.AT_PICK_UP) {
+            choosePaymentTypeAndConfirmDone(theOrder);
+        } else {
+            confirmDone(theOrder, theOrder.paymentType);
+        }
     }
 
 
@@ -981,19 +986,19 @@ public class MainActivity extends AppCompatActivity {
         builder.setNeutralButton("카드", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                confirmDone(order, Order.PaymentType.DELIVER_CARD);
+                confirmDone(order, Order.PaymentType.CARD);
             }
         });
         builder.setPositiveButton("현금", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                confirmDone(order, Order.PaymentType.DELIVER_CASH);
+                confirmDone(order, Order.PaymentType.CASH);
             }
         });
         builder.setNegativeButton("현금영수증", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                confirmDone(order, Order.PaymentType.DELIVER_CASH_RECEIPT);
+                confirmDone(order, Order.PaymentType.CASH_RECEIPT);
             }
         });
         builder.show();
@@ -1031,7 +1036,7 @@ public class MainActivity extends AppCompatActivity {
         private final Order mOrder;
         private final Order.PaymentType mPaymentType;
 
-        public UpdateStatusTask(Context context, Order order, Order.PaymentType paymentType) {
+        public  UpdateStatusTask(Context context, Order order, Order.PaymentType paymentType) {
             super(context);
             this.mOrder = order;
             this.mPaymentType = paymentType;
