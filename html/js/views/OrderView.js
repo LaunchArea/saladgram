@@ -2027,26 +2027,6 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                     var currentTimeStamp = currentDate.getTime() / 1000;
                     var reservationDate = window.orderInfoModel.get('reservation_time');
                     var orderTime = window.orderInfoModel.get('order_time');
-                    if(orderTime !== 'now'){
-	                    if(currentTimeStamp > reservationDate){
-							swal({
-			                  title: "",
-			                  text: MES_WRAN_RESERVE_TIME,
-			                  confirmButtonClass: "btn-warning",
-			                },
-		                    function(){
-		                        mOrderView.changeStep(1);
-		                    });		
-			                return;			
-						}else{
-							console.log('예약 할 수 있습니다');
-						};
-					}else{
-						//orderTime이 now면 주문직전에 현재 시간을 넣어준다
-	                    
-						window.orderInfoModel.set({order_time:  currentTimeStamp });
-						window.orderInfoModel.set({reservation_time: currentTimeStamp});
-					}
 
                     var myOwnPoint = parseInt(window.userCollection.models[0].get('user_info').reward);
 			        var useMyPoint = parseInt($('#input_user_my_point').val());
@@ -2133,6 +2113,27 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					};
 
 					window.orderInfoModel.set({order_items: orderItemsCollection});
+
+                    if(orderTime !== 'now'){
+                        if(currentTimeStamp > reservationDate){
+                            swal({
+                                title: "",
+                                text: MES_WRAN_RESERVE_TIME,
+                                confirmButtonClass: "btn-warning",
+                            },
+                            function(){
+                                mOrderView.changeStep(1);
+                            });
+                            return;
+                        }else{
+                            console.log('예약 할 수 있습니다');
+                        };
+                    }else{
+                        //orderTime이 now면 주문직전에 현재 시간을 넣어준다
+                        window.orderInfoModel.set({order_time:  currentTimeStamp });
+                        window.orderInfoModel.set({reservation_time: currentTimeStamp});
+                    }
+
 					//주문 직전 orderinfomodel을 placeOrderCollection에 추가 
 					placeOrderCollection.add(window.orderInfoModel);
 					console.log("placeOrderCollection: " + JSON.stringify(placeOrderCollection));
