@@ -2085,6 +2085,16 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					
 					var discountCutPrice = Math.floor(discountPrice/100) * 100;
 					var actualPrice = discountCutPrice - useMyPoint;
+                    if (actualPrice < 0) {
+                        swal({
+                            title: "",
+                            text: "구매 금액보다 많은 적립금을 사용하실 수 없습니다",
+                            confirmButtonClass: "btn-warning",
+                        });
+                        return;
+                    } else if (actualPrice == 0) {
+                        window.orderInfoModel.set({payment_type: 10});
+                    }
 					window.orderInfoModel.set({actual_price: actualPrice});
 					var placeOrderCollection = new PlaceOrderCollection();
 
