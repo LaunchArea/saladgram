@@ -131,9 +131,9 @@ if (!$result) {
             $order['order_type'] = (int)$row['order_type'];
             if ($row['id']) {
                 $order['id'] = $row['id'];
-            } else {
-                $order['phone'] = $row['phone'];
             }
+            $order['phone'] = $row['phone'];
+
             if ($row['addr']) {
                 $order['addr'] = $row['addr'];
             }
