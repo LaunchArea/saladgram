@@ -186,6 +186,7 @@ if (!mysqli_commit($db_conn)) {
 $array = array();
 $array['success'] = true;
 $array['message'] = "Order placed succesfully.";
+$array['order_id'] = $order_id;
 print(json_encode($array));
 
 mysqli_close($db_conn);
