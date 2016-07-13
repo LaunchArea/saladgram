@@ -177,7 +177,10 @@ public class MainActivity extends AppCompatActivity {
     private void confirmDone(final Order order, final Order.PaymentType paymentType) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         String message = "done " + order.id + (paymentType == null ? "" : " with " + paymentType.name());
-        message += "\n\n계산금액 : " + order.actual_price;
+        message += "\n소계 : " + order.total_price;
+        message += "\n할인 : " + order.discount;
+        message += "\n리워드 : " + order.reward_use;
+        message += "\n계산금액 : " + order.actual_price;
         builder.setMessage(message);
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
