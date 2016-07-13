@@ -133,6 +133,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                     }
                 } else if (reservationDate != null && currentDate.getDate() == reservationDate.getDate()) {
                     // 당일 예약
+                    var reservationHour = reservationDate.getHours();
                     if (this.isSaturday(reservationDate)) {
                         if (reservationHour < 9 || reservationHour >= 14) {
                             return "토요일 영업 시간은 오전 9시부터 오후 2시까지 입니다";
