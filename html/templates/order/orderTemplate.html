@@ -71,6 +71,7 @@
 							<img src="https://<%= salad.thumbnail %>"> 
 							<p class="col-xs-12 item-name"><%= salad.name %></p>
 							
+                            <div class="col-xs-12 item-amount-cal-container">
 							<p class="col-xs-6 item-amout-cal">
 								<% if(typeof salad.calorie !== 'undefined' && salad.calorie !== null && salad.calorie !== ''){%>
 								<%= salad.amount %> / <%= salad.calorie %>kcal
@@ -83,6 +84,7 @@
 								<% } %>
 								</p>
 							</div>
+                            </div>
 							<p class="col-xs-12 item-des"><%= salad.description %></p>
 				        </div>
 

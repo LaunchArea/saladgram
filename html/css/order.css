@@ -756,20 +756,30 @@
 	color:#2b2b2b;
 	margin-top:10px;
 }
+.order-item-wrap .item-amount-cal-container{
+    padding-left:0px;
+    padding-right:0px;
+}
 .order-item-wrap .item-amout-cal{
 	font-weight: 200;
 	padding-right:0;
 	font-size:9.5px;
 	color:#898989;
 	min-height: 15px;
+    padding-top:2px;
+    float:left;
+    width:60%;
 }
 .order-item-wrap .item-price{
 	padding-left:0;
+	padding-right:5px;
 	text-align: right;
 	font-weight: 500;
 	font-size:12px;
 	color:#2b2b2b;
 	min-height: 15px;
+    float:right;
+    width:40%;
 }
 .order-item-wrap .item-des{
 	margin-top:10px;
