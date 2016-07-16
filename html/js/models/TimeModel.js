@@ -201,7 +201,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                     if (orderType == ORDER_TYPE_PICKUP && !this.isSaturday(currentDate) && currentDate.getHours() >= 21) {
                         return "픽업 웹주문 가능 시간은 오후 9시까지 입니다";
                     }
-                    if (orderType == ORDER_TYPE_PICKUP && this.isSaturday(currentDate) && currentDate.getHours() >= 14) {
+                    if (this.isSaturday(currentDate) && currentDate.getHours() >= 14) {
                         return "토요일 영업 시간은 오전 9시부터 오후 2시까지 입니다";
                     }
                     if (orderType == ORDER_TYPE_DELIVERY && currentDate.getHours() >= 14) {
