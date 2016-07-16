@@ -174,6 +174,30 @@ foreach ($order_items as &$item) {
     }
 }
 
+if ($reward_use != 0) {
+    $reward_query = "insert into rewards values('$id', $order_time, $order_id, 2, '적립금 사용', -$reward_use)";
+    $result = mysqli_query($db_conn, $reward_query);
+    if (!$result) {
+        $array = array();
+        $array['success'] = false;
+        $array['message'] = mysqli_error($db_conn);
+        print(json_encode($array));
+        http_response_code(500);
+        return;
+    }
+    $reward_query = "update users set reward = reward - $reward_use where id = '$id'";
+    $result = mysqli_query($db_conn, $reward_query);
+    if (!$result) {
+        $array = array();
+        $array['success'] = false;
+        $array['message'] = mysqli_error($db_conn);
+        print(json_encode($array));
+        http_response_code(500);
+        return;
+    }
+}
+
+
 if (!mysqli_commit($db_conn)) {
     $array = array();
     $array['success'] = false;
