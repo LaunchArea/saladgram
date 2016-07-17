@@ -72,6 +72,8 @@ var MES_MIN_DELIVERY_PRICE = "최소 배달금액은 "+mMinDeliveryPrice+"원 �
 var MES_VALID_USE_REWARD = "보유하신 적립금만큼만 사용 가능합니다";
 var MES_MIN_UNIT_USE_REWARD = "적립금은 100원 단위로 사용 가능합니다";
 
+var MES_PRIVACY_USAGE = "전화번호, 주소등은 배달시에만 사용됩니다.";
+
 window.utils = {
 
     getDateTextByTimeStamp: function(timestamp, returnType) {

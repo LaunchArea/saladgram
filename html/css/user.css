@@ -172,6 +172,11 @@
 .detail_salad_order .modal-backdrop{
 	display: none;
 }
+.btn-show-privacy-usage{
+    position: relative;
+    top: -7px;
+    left: 3%;
+}
 #myPageRewardModal .modal-backdrop{
 	display:none;
 }

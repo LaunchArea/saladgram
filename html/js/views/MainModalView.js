@@ -98,8 +98,10 @@ define(['jquery', 'underscore', 'backbone'
 			//find
 			"click button#btn_find_id": "findId",
 			"click button#btn_find_pw_auth_num": "findPw",
-			"click button#btn_change_pw": "changePw"
+			"click button#btn_change_pw": "changePw",
 
+            //etc
+            "click a.btn-show-privacy-usage": "showPrivacyUsage"
         },
         ajaxCheckPhone: function(phone, checkPhoneBtn) {
             if(phone === ''){
@@ -972,8 +974,15 @@ define(['jquery', 'underscore', 'backbone'
                     console.log('error : ' + JSON.stringify(error));
                 }
             });
+        },
+        showPrivacyUsage: function() {
+        	console.log('showPrivacyUsage');
+            swal({
+              title: "",
+              text: MES_PRIVACY_USAGE,
+              confirmButtonClass: "btn-primary",
+            });
         }
-
     });
     return mainModalView;
 });
