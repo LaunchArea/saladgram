@@ -23,8 +23,7 @@ if (!$data) {
 }
 
 if (!array_key_exists('id', $data) ||
-    !array_key_exists('password', $data) ||
-    !array_key_exists('autologin', $data)) {
+    !array_key_exists('password', $data)) {
     http_response_code(400); // Bad Request
     return;
 }
@@ -32,7 +31,11 @@ if (!array_key_exists('id', $data) ||
 
 $id = $data['id'];
 $password = $data['password'];
-$autologin = $data['autologin'];
+$autologin = false;
+
+if(array_key_exists('autologin', $data)) {
+    $autologin = $data['autologin'];
+}
 
 $db_conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 if (mysqli_connect_errno($db_conn)) {
