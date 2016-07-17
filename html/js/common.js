@@ -92,7 +92,12 @@ window.utils = {
     },
     setCookie: function(cname, cvalue, exdays) {
         if (typeof(Storage) !== "undefined") {
-            sessionStorage.setItem(cname, cvalue);
+            autologin = localStorage.autologinchecked;
+            if (autologin) {
+                localStorage.setItem(cname, cvalue);
+            } else {
+                sessionStorage.setItem(cname, cvalue);
+            }
         } else {
             var d = new Date();
             d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -103,7 +108,13 @@ window.utils = {
 
     getCookie: function(cname) {
         if (typeof(Storage) !== "undefined") {
-            var cvalue = sessionStorage.getItem(cname);
+            var cvalue = null;
+            autologin = localStorage.autologinchecked;
+            if (autologin) {
+                cvalue = localStorage.getItem(cname);
+            } else {
+                cvalue = sessionStorage.getItem(cname);
+            }
             if (cvalue == null) {
                 return "";
             } else {
@@ -126,7 +137,12 @@ window.utils = {
     },
     deleteCookie: function(cname) {
         if (typeof(Storage) !== "undefined") {
-            return sessionStorage.removeItem(cname);
+            autologin = localStorage.autologinchecked;
+            if (autologin) {
+                return localStorage.removeItem(cname);
+            } else {
+                return sessionStorage.removeItem(cname);
+            }
         } else {
             //어제 날짜를 쿠키 소멸 날짜로 설정해서 삭제처리
             var expireDate = new Date();

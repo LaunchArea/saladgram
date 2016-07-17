@@ -65,6 +65,13 @@ define(['jquery', 'underscore', 'backbone'
                     $(this).modal('handleUpdate'); //Update backdrop on modal show
                     $(this).scrollTop(0); //reset modal to top position
                 });
+
+                //autologin 불러오기
+                $('#loginModal').on('shown.bs.modal', function (e) {
+                    if(typeof(Storage) !== "undefined") {
+                        $('#input_checkbox_auto_login')[0].checked = localStorage.autologinchecked;
+                    }
+                });
             }
         },
         events: {
@@ -275,6 +282,14 @@ define(['jquery', 'underscore', 'backbone'
             var that = this;
 			var id = this.$el.find('#input_login_id').val();
 			var pwd = this.$el.find('#input_login_pw').val();
+            var autologin = this.$el.find('#input_checkbox_auto_login')[0].checked;
+            if(typeof(Storage) !== "undefined") {
+                if(autologin) {
+                    localStorage.setItem("autologinchecked", true);
+                } else {
+                    localStorage.removeItem("autologinchecked");
+                }
+            }
             if(id === ''){
                 swal({
                   title: "",
@@ -294,7 +309,7 @@ define(['jquery', 'underscore', 'backbone'
             $.support.cors = true;
 			$.ajax({
 			    url: mApiUrl + 'sign_in.php',
-			    data : "{\"id\":\""+id+"\",\"password\":\""+pwd+"\"}",
+			    data : "{\"id\":\""+id+"\",\"password\":\""+pwd+"\",\"autologin\":"+autologin+"}",
 			    method: 'POST',
 			    success: function(res) {
 					var jwt = JSON.parse(res).jwt;

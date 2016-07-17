@@ -117,6 +117,9 @@ define(['jquery', 'underscore', 'backbone','text!templates/mainNavigationTemplat
           window.utils.deleteCookie('saladgram_user_id');
           window.utils.deleteCookie('saladgram_jwt');
           location.href = '/';
+          if(typeof(Storage) !== "undefined") {
+              localStorage.removeItem("autologinchecked");
+          }
         }
     });
     return navigationView;
