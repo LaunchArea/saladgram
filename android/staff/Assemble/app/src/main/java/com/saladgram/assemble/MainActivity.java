@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,8 +27,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.saladgram.model.MenuItem;
 import com.saladgram.model.Order;
 import com.saladgram.model.OrderItem;
+import com.saladgram.model.SaleItem;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -163,6 +167,34 @@ public class MainActivity extends AppCompatActivity {
 
         mOrderItemAdapter = new OrderItemAdapter(this, mOrderItemClickListener);
         lvItems.setAdapter(mOrderItemAdapter);
+
+        findViewById(R.id.reservation_time_set_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setReservationTime();
+            }
+        });
+    }
+
+    private void setReservationTime() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("몇 분 전의 order까지 표시하나요? (분단위)");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setRawInputType(Configuration.KEYBOARD_12KEY);
+        input.setText(""+Service.getReservationTimeParam());
+        input.setSelection(input.getText().length());
+        alert.setView(input);
+        alert.setPositiveButton("변경", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //Put actions for OK button here
+                if(input.getText().length() > 0) {
+                    int time = Integer.parseInt(input.getText().toString());
+                    Service.setReservationTimeParam(time);
+                }
+            }
+        });
+        alert.show();
     }
 
     private Context getActivity() {

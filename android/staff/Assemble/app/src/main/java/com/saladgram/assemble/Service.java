@@ -47,6 +47,8 @@ public class Service {
     private static Context mContext;
     public static List<Order> orderList = new LinkedList<>();
 
+    private static int param_reservation_time = 40;
+
     public synchronized static void start(Context context) {
         mContext = context;
         if (delayFuture == null) {
@@ -73,7 +75,15 @@ public class Service {
     }
 
     public synchronized static void update() throws IOException, JSONException {
-        fetch("https://www.saladgram.com/api/orders.php?id=saladgram&status=1&reservation_time=40");
+        fetch("https://www.saladgram.com/api/orders.php?id=saladgram&status=1&reservation_time=" + param_reservation_time);
+    }
+
+    public static void setReservationTimeParam(int time) {
+        param_reservation_time = time;
+    }
+
+    public static int getReservationTimeParam() {
+        return param_reservation_time;
     }
 
     public synchronized static void stop() {
