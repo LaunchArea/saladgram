@@ -2126,6 +2126,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                     }
 
 					//주문 직전 orderinfomodel을 placeOrderCollection에 추가 
+                    window.orderInfoModel.unset('order_id');
 					placeOrderCollection.add(window.orderInfoModel);
 					console.log("placeOrderCollection: " + JSON.stringify(placeOrderCollection));
 					console.log("placeOrderCollection.models: " + JSON.stringify(placeOrderCollection.models));
@@ -2137,7 +2138,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                         // 온라인 결제
                         $.ajax({
                             type:"POST",
-                            url: mApiUrl + 'place_order.php',
+                            url: mApiUrl + 'place_order_inipay.php',
                             data : JSON.stringify(placeOrderCollection.models[0]),
                             processData: false,
                             contentType :'text/plain',
