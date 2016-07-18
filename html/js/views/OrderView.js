@@ -1977,7 +1977,14 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		},
 		/****************************************STEP 3****************************************/
 		//주문 결제 타입을 온라인(카드결제)로 변경
-		checkOrderTypeOnline: function(e){
+        checkOrderTypeOnline: function(e){
+            swal({
+                title: "",
+                text: "온라인 결제 서비스 준비중입니다",
+                confirmButtonClass: "btn-warning",
+            });
+            return;
+
 			$('#check_order_type_online').addClass('active');
 			$('#check_order_type_offline').removeClass('active');
 			var orderType = window.orderInfoModel.get('order_type');
