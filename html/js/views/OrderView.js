@@ -1979,21 +1979,10 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		/****************************************STEP 3****************************************/
 		//주문 결제 타입을 온라인(카드결제)로 변경
 		checkOrderTypeOnline: function(e){
-            swal({
-                title: "",
-                text: "온라인 결제 서비스 준비중입니다",
-                confirmButtonClass: "btn-warning",
-            });
-            return;
-
 			$('#check_order_type_online').addClass('active');
 			$('#check_order_type_offline').removeClass('active');
 			var orderType = window.orderInfoModel.get('order_type');
-            if (orderType == ORDER_TYPE_PICKUP) {
-                window.orderInfoModel.set({payment_type: 8});
-            } else if (orderType == ORDER_TYPE_DELIVERY) {
-                window.orderInfoModel.set({payment_type: 9});
-            }
+            window.orderInfoModel.set({payment_type: 7});
 		},
 		//주문 결제 타입을 오프라인(직접결제)로 변경
 		checkOrderTypeOffline: function(e){
@@ -2082,6 +2071,11 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					var itemsModel = window.orderItemsCollection.models;
 					var itemCount = itemsModel.length;
 					console.log('itemCount : '  + itemCount);
+                    var orderName = itemsModel[0].get('name');
+                    if (itemCount != 1) {
+                        orderName = orderName + " 외";
+                    }
+                    window.orderInfoModel.set({order_name: orderName});
 					for(var i=0; i < itemCount; i++){
 						console.log('i : ' + i);
 						var oneItem = itemsModel[i];
@@ -2142,62 +2136,119 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 
 					var jwt = window.userCollection.models[0].get('jwt');
 					
-					$.ajax({
-		                type:"POST",
-		                url: mApiUrl + 'place_order.php',
-		                data : JSON.stringify(placeOrderCollection.models[0]),
-		                crossDomain: true,
-		                processData: false,
-		                contentType :'text/plain',
-		                headers: {
-		                    "jwt":jwt
-		                },
-		                success: function(res) {
-		                    console.log('주문하기 성공');
-		                    console.log('res : ' + res);
-		                    var resParset = JSON.parse(res);
-							// mOrderView.$el.prepend(_.template(orderCompleteTemplate)());
-							// $('#orderCompleteModal').modal({
-							// 	show: true,
-							// });
-							// $('#orderCompleteModal').show();
+                    if (window.orderInfoModel.get('payment_type') == 7) {
+                        // 온라인 결제
+                        $.ajax({
+                            type:"POST",
+                            url: mApiUrl + 'place_order.php',
+                            data : JSON.stringify(placeOrderCollection.models[0]),
+                            processData: false,
+                            contentType :'text/plain',
+                            headers: {
+                                "jwt":jwt
+                            },
+                            success: function(res) {
+                                console.log('주문하기 성공');
+                                console.log('res : ' + res);
+                                var resParset = JSON.parse(res);
 
-							// swal({
-							// 	title: "",
-							// 	text: "주문을 성공했습니다",
-							// 	confirmButtonClass: "btn-success",
-							// },
-							// function(isConfirm) {
-							// 	window.cancelOrder = true;
-							// 	location.href = '/'
-							// });
-							window.cancelOrder = true;
-                            var order_id = resParset['order_id'];
-                            window.orderInfoModel.set({order_id: order_id});
-							location.href="/#ordercomplete"
-		                },
-		                error:function(error){
-                            if (error['status'] == 440) {
+                                //window.cancelOrder = true;
+                                var order_id = resParset['order_id'];
+                                window.orderInfoModel.set({order_id: order_id});
+                                console.log(JSON.stringify(window.orderInfoModel));
+                                //location.href="/#ordercomplete"
+                                var userType = window.userCollection.models[0].get('user_type');
+                                var userName = '게스트';
+                                if (userType == 'member') {
+                                    userName = window.userCollection.models[0].get('user_info').name;
+                                }
+                                var iframe = document.createElement('iframe');
+                                var paymentSrc = 'https://www.saladgram.com/inicis/INIStdPayRequest.php';
+                                paymentSrc = paymentSrc + '?goodname=' + window.orderInfoModel.get('order_name');
+                                paymentSrc = paymentSrc + '&oid=' + window.orderInfoModel.get('order_id');
+                                paymentSrc = paymentSrc + '&price=' + window.orderInfoModel.get('actual_price');
+                                paymentSrc = paymentSrc + '&buyername=' + userName;
+                                paymentSrc = paymentSrc + '&buyertel=' + window.orderInfoModel.get('phone');
+                                paymentSrc = paymentSrc + '&buyeremail=js@saladgram.com';
+                                console.log(paymentSrc);
+
+                                //iframe.style.display = "none";
+                                iframe.style.position = 'absolute';
+                                iframe.style.zIndex = 1500;
+                                iframe.style.top = 0;
+                                iframe.style.left = 0;
+                                iframe.style.height = '100%';
+                                iframe.style.width = '100%';
+                                iframe.style.backgroundColor = 'transparent';
+                                iframe.src = paymentSrc;
+                                document.body.appendChild(iframe);
+                            },
+                            error:function(error){
+                                if (error['status'] == 440) {
+                                    swal({
+                                        title: "",
+                                        text: "장시간 입력이 없어 로그아웃되었습니다",
+                                        confirmButtonClass: "btn-warning",
+                                    },
+                                    function(isConfirm) {
+                                        window.utils.deleteCookie('saladgram_user_id');
+                                        window.utils.deleteCookie('saladgram_jwt');
+                                        location.href = '/';
+                                    });
+                                }
                                 swal({
                                     title: "",
-                                    text: "장시간 입력이 없어 로그아웃되었습니다",
+                                    text: "주문에 실패했습니다"+ JSON.parse(res).message,
                                     confirmButtonClass: "btn-warning",
-                                },
-                                function(isConfirm) {
-                                    window.utils.deleteCookie('saladgram_user_id');
-                                    window.utils.deleteCookie('saladgram_jwt');
-                                    location.href = '/';
                                 });
+                                console.log('주문하기 실패!!!');
+                                console.log('error : ' + JSON.stringify(error));
                             }
-		                	swal({
-								title: "",
-								text: "주문에 실패했습니다"+ JSON.parse(res).message,
-								confirmButtonClass: "btn-warning",
-							});
-		                    console.log('주문하기 실패!!!');
-		                    console.log('error : ' + JSON.stringify(error));
-		                }
-		            });
+		                });
+
+                    } else {
+                        // 현장 결제
+                        $.ajax({
+                            type:"POST",
+                            url: mApiUrl + 'place_order.php',
+                            data : JSON.stringify(placeOrderCollection.models[0]),
+                            processData: false,
+                            contentType :'text/plain',
+                            headers: {
+                                "jwt":jwt
+                            },
+                            success: function(res) {
+                                console.log('주문하기 성공');
+                                console.log('res : ' + res);
+                                var resParset = JSON.parse(res);
+                                window.cancelOrder = true;
+                                var order_id = resParset['order_id'];
+                                window.orderInfoModel.set({order_id: order_id});
+                                location.href="/#ordercomplete"
+                            },
+                            error:function(error){
+                                if (error['status'] == 440) {
+                                    swal({
+                                        title: "",
+                                        text: "장시간 입력이 없어 로그아웃되었습니다",
+                                        confirmButtonClass: "btn-warning",
+                                    },
+                                    function(isConfirm) {
+                                        window.utils.deleteCookie('saladgram_user_id');
+                                        window.utils.deleteCookie('saladgram_jwt');
+                                        location.href = '/';
+                                    });
+                                }
+                                swal({
+                                    title: "",
+                                    text: "주문에 실패했습니다"+ JSON.parse(res).message,
+                                    confirmButtonClass: "btn-warning",
+                                });
+                                console.log('주문하기 실패!!!');
+                                console.log('error : ' + JSON.stringify(error));
+                            }
+                        });
+                    }
                 },
                 error:function(error){
                 	swal({

@@ -718,7 +718,6 @@ define(['jquery', 'underscore', 'backbone'
                 type:"POST",
                 url: mApiUrl + 'change_password.php',
                 data : data,
-                crossDomain: true,
                 processData: false,
                 contentType :'text/plain',
                 success: function(res) {
@@ -941,7 +940,6 @@ define(['jquery', 'underscore', 'backbone'
                 type:"POST",
                 url: mApiUrl + 'sign_up.php',
                 data : data,
-                crossDomain: true,
                 processData: false,
                 contentType :'text/plain',
                 headers: {
