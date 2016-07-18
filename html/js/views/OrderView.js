@@ -2074,7 +2074,9 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                     if (itemCount != 1) {
                         orderName = orderName + " 외";
                     }
-                    window.orderInfoModel.set({order_name: orderName});
+                    if (typeof orderName !== "undefined") {
+                        window.orderInfoModel.set({order_name: orderName});
+                    }
 					for(var i=0; i < itemCount; i++){
 						console.log('i : ' + i);
 						var oneItem = itemsModel[i];
@@ -2164,7 +2166,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                                 paymentSrc = paymentSrc + '&price=' + window.orderInfoModel.get('actual_price');
                                 paymentSrc = paymentSrc + '&buyername=' + userName;
                                 paymentSrc = paymentSrc + '&buyertel=' + window.orderInfoModel.get('phone');
-                                paymentSrc = paymentSrc + '&buyeremail=js@saladgram.com';
+                                paymentSrc = paymentSrc + '&buyeremail=';
                                 console.log(paymentSrc);
 
                                 //iframe.style.display = "none";
