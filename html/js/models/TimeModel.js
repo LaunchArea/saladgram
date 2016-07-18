@@ -214,7 +214,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
         dateFormat: function(date) {
             var year = date.getFullYear();
             var month = date.getMonth() + 1;
-            var day = date.getUTCDate();
+            var day = date.getDate();
 
             if (month < 10) {
                 month = '0' + month;

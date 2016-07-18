@@ -80,7 +80,7 @@ window.utils = {
         var date = new Date(timestamp*1000);
         var textYear = date.getFullYear();
         var textMonth = date.getMonth() + 1;
-        var textDay = date.getUTCDate();
+        var textDay = date.getDate();
         var textHours = date.getHours();
         var textMins = date.getMinutes();
         var displayText;
