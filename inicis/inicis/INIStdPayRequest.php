@@ -98,7 +98,7 @@ $siteDomain = "https://www.saladgram.com/inicis"; //가맹점 도메인 입력
             <input type="hidden"  style="width:100%;" name="nointerest" value="<?php echo $cardNoInterestQuota ?>" >
             <input type="hidden"  style="width:100%;" name="quotabase" value="<?php echo $cardQuotaBase ?>" >	
             <input type="hidden"  style="width:100%;" name="vbankRegNo" value="" >
-            <input type="hidden"  style="width:100%;" name="merchantData" value="" >
+            <input type="hidden"  style="width:100%;" name="merchantData" value="<?php echo $oid ?>" >
         </form>
     </body>
 </html>
