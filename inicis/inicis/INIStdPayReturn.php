@@ -30,6 +30,7 @@
         <?php
         require_once('../libs/INIStdPayUtil.php');
         require_once('../libs/HttpClient.php');
+        require_once('order.php');
 
         $util = new INIStdPayUtil();
 
@@ -132,7 +133,12 @@
                           [중요!] 승인내용에 이상이 없음을 확인한 뒤 가맹점 DB에 해당건이 정상처리 되었음을 반영함
                           처리중 에러 발생시 망취소를 한다.
                          * **************************************************************************** */
-
+                        $order_id = confirm_order($_REQUEST['merchantData']);
+                        if ($order_id) {
+                            print "주문 완료. 최종 주문번호 : ".$order_id;
+                        } else {
+                            print "주문 실패, 결제 롤백";
+                        }
                         echo "<tr><th class='td01'><p>거래 성공 여부</p></th>";
                         echo "<td class='td02'><p>성공</p></td></tr>";
                     } else {
