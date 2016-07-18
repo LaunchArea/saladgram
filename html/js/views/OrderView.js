@@ -775,8 +775,8 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					}else{
                         var orderTimeChecked = window.times.checkOrderTime(orderType, currentDate, null);
 						if(orderTimeChecked === true){
-							window.orderInfoModel.set({order_time:  'now' });
-							window.orderInfoModel.set({reservation_time: 'now'});
+							window.orderInfoModel.set({order_time: 0});
+							window.orderInfoModel.set({reservation_time: 0});
 						}else{
 							swal({
 			                  title: "",
@@ -793,7 +793,6 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						disCount = disCount + mDiscountRateByPickup;
 					}else if(orderType === ORDER_TYPE_SUBSCRIBE){
 						disCount = disCount + mDiscountRateBySubscribe;
-						// window.orderInfoModel.set({order_time:  'now' });
 					};
 					window.orderInfoModel.set({order_type: orderType});
 					window.orderInfoModel.set({discount: disCount});
@@ -2108,7 +2107,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 
 					window.orderInfoModel.set({order_items: orderItemsCollection});
 
-                    if(orderTime !== 'now'){
+                    if(orderTime != 0) {
                         if(currentTimeStamp > reservationDate){
                             swal({
                                 title: "",
@@ -2122,10 +2121,6 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                         }else{
                             console.log('예약 할 수 있습니다');
                         };
-                    }else{
-                        //orderTime이 now면 주문직전에 현재 시간을 넣어준다
-                        window.orderInfoModel.set({order_time:  currentTimeStamp });
-                        window.orderInfoModel.set({reservation_time: currentTimeStamp});
                     }
 
 					//주문 직전 orderinfomodel을 placeOrderCollection에 추가 
