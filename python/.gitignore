@@ -1,0 +1,5 @@
+!.gitkeep
+*.py[cod]
+.DS_Store
+*.swp
+build/
