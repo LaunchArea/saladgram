@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.saladgram.model.MenuItem;
 import com.saladgram.model.OrderItem;
 import com.saladgram.model.SaladItem;
+import com.saladgram.model.Utils;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -108,6 +109,15 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
         holder.detail3.setText("");
             switch(item.type) {
                 case SALAD:
+                    boolean diff = false;
+                    MenuItem menuItem = mapMenuList.get(item.name);
+                    if (menuItem != null) {
+                        if (menuItem.jsonSaladItems != null && item.jsonSaladItems != null &&
+                                !Utils.jsonArrayEquals(menuItem.jsonSaladItems, item.jsonSaladItems)) {
+                            holder.name.setBackgroundColor(Color.RED);
+                            diff = true;
+                        }
+                    }
                     String[] details = new String[3];
                     for(int i = 0; i < details.length; i++) {
                         details[i] = "";
@@ -124,12 +134,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
                     holder.detail2.setText(details[1]);
                     holder.detail3.setText(details[2]);
 
-                    MenuItem menuItem = mapMenuList.get(item.name);
-                    if (menuItem != null) {
-                        if (menuItem.jsonSaladItems != null && item.jsonSaladItems != null && !menuItem.jsonSaladItems.toString().equals(item.jsonSaladItems.toString())) {
-                            holder.name.setBackgroundColor(Color.RED);
-                        }
-                    }
+
                     break;
                 case SOUP:
                 case OTHERS:
