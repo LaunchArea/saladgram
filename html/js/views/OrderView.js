@@ -764,7 +764,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							window.orderInfoModel.set({order_time:  currentTimeStamp });
 							window.orderInfoModel.set({reservation_time: reservationTimeStamp});
                             window.orderInfoModel.set({is_tomorrow: parseInt(dates)});
-                            var soldOutItems = $('#step_2_navbar_contents').find('.soldout-div');
+                            var soldOutItems = $('#order_full_wrap').find('.soldout-div');
                             console.log(JSON.stringify(soldOutItems));
                             for (var i = 0; i < soldOutItems.length; i++) {
                                 if (window.orderInfoModel.get('is_tomorrow')) {
@@ -788,7 +788,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							window.orderInfoModel.set({order_time: 0});
 							window.orderInfoModel.set({reservation_time: 0});
                             window.orderInfoModel.set({is_tomorrow: 0});
-                            var soldOutItems = $('#step_2_navbar_contents').find('.soldout-div');
+                            var soldOutItems = $('#order_full_wrap').find('.soldout-div');
                             console.log(JSON.stringify(soldOutItems));
                             for (var i = 0; i < soldOutItems.length; i++) {
                                 soldOutItems.eq(i).show();
