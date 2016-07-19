@@ -114,6 +114,7 @@ public class Service {
                     order.orderItems.add(orderItem);
 
                     if (orderItems.getJSONObject(j).has("salad_items")) {
+                        orderItem.jsonSaladItems = orderItems.getJSONObject(j).getJSONArray("salad_items");
                         JSONArray saladItems = orderItems.getJSONObject(j).getJSONArray("salad_items");
                         for (int k = 0; k < saladItems.length(); k++) {
                             SaladItem saladItem = new SaladItem(saladItems.getJSONObject(k));

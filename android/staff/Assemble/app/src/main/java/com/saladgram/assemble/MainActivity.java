@@ -27,11 +27,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.saladgram.model.MenuItem;
 import com.saladgram.model.Order;
 import com.saladgram.model.OrderItem;
 import com.saladgram.model.SaleItem;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,6 +45,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -72,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+    private List<com.saladgram.model.MenuItem> mMenuList = new LinkedList<>();
+
     private int previousCount = -1;
     private TextView tvOrderSummary;
     private RecyclerView lvOrders;
@@ -101,6 +107,8 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(Service.ACTION_FETCH_FAILED);
         filter.addAction(Service.ACTION_FETCH_DONE);
         LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
+
+        new MenuListFetchTask(this).execute();
     }
 
     private void initView() {
@@ -224,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (mSelectedOrder != null) {
             mOrderItemAdapter.setList(mSelectedOrder.orderItems);
+            mOrderItemAdapter.setMenuList(mMenuList);
             mOrderItemAdapter.notifyDataSetChanged();
             tvSelectedOrderId.setText(""+mSelectedOrder.id + " " + mSelectedOrder.orderType.name());
         } else {
@@ -371,5 +380,87 @@ public class MainActivity extends AppCompatActivity {
 
     private static CharSequence formatTime(Date reservation_time) {
         return new SimpleDateFormat("MM/dd HH:mm:ss", Locale.KOREA).format(reservation_time);
+    }
+
+    class MenuListFetchTask extends ProgressAsyncTask<Void,Void,String> {
+
+        public MenuListFetchTask(Context context) {
+            super(context);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            OkHttpClient client = new OkHttpClient();
+
+
+            String url = "https://saladgram.com/api/menu_list.php";
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            Response response = null;
+            try {
+                response = client.newCall(request).execute();
+                return response.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            if (result != null) {
+                HashMap<String, ArrayList<HashMap<String, Object>>> map = new Gson().fromJson(result, new TypeToken<HashMap<String, ArrayList<HashMap<String, Object>>>>() {
+                }.getType());
+                buildMenuList(map.get("salads"), MenuItem.Type.SALAD);
+                buildMenuList(map.get("soups"), MenuItem.Type.SOUP);
+                buildMenuList(map.get("others"), MenuItem.Type.OTHER);
+                buildMenuList(map.get("beverages"), MenuItem.Type.BEVERAGE);
+
+                setJsonSaladItems(result);
+            }
+        }
+
+        private void setJsonSaladItems(String result) {
+            try {
+                JSONObject root = new JSONObject(result);
+                JSONArray arr = root.getJSONArray("salads");
+                for(int i = 0; i < arr.length(); i++) {
+                    JSONObject salad = arr.getJSONObject(i);
+                    for(MenuItem item : mMenuList) {
+                        if (item.name.equals(salad.getString("name"))) {
+                            item.jsonSaladItems = salad.getJSONArray("salad_items");
+                            break;
+                        }
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void buildMenuList(ArrayList<HashMap<String, Object>> list, MenuItem.Type type) {
+            for(HashMap<String, Object> each : list) {
+//                if (each.containsKey("hide") && ((Double)each.get("hide")).intValue() == 1) {
+//                    continue;
+//                }
+                MenuItem item = new MenuItem();
+                item.data = each;
+                item.name = (String) each.get("name");
+                item.price = each.containsKey("price") ? ((Double)each.get("price")).intValue() : -1;
+                item.available = ((Double)each.get("available")).intValue() == 1;
+                item.type = type;
+                item.amount = (String) each.get("amount");
+
+                item.checkSize = (type == MenuItem.Type.SOUP);
+                item.checkToGo = (type == MenuItem.Type.SALAD);
+                if (item.price != -1) {
+                    mMenuList.add(item);
+                }
+            }
+        }
     }
 }

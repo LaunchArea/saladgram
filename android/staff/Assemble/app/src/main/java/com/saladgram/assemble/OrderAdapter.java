@@ -8,13 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.saladgram.model.MenuItem;
 import com.saladgram.model.Order;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by yns on 5/31/16.
@@ -35,7 +38,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
     public void setSelectedId(int selectedId) {
         mSelectedId = selectedId;
     }
-
 
     public static class SimpleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private final RecyclerViewClickListener mListener;

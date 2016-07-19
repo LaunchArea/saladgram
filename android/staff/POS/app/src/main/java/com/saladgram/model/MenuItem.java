@@ -1,5 +1,7 @@
 package com.saladgram.model;
 
+import org.json.JSONArray;
+
 import java.util.HashMap;
 
 public class MenuItem {
@@ -21,4 +23,6 @@ public class MenuItem {
     public boolean checkWeight = false;
     public boolean checkToGo = false;
     public boolean checkSize = false;
+
+    public JSONArray jsonSaladItems = null;
 }

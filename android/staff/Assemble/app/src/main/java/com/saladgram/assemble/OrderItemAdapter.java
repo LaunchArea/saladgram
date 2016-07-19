@@ -1,17 +1,21 @@
 package com.saladgram.assemble;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.saladgram.model.MenuItem;
 import com.saladgram.model.OrderItem;
 import com.saladgram.model.SaladItem;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by yns on 5/31/16.
@@ -22,10 +26,18 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
     private final Context mContext;
     private final RecyclerViewClickListener mListener;
     private List<OrderItem> mList = new LinkedList<>();
+    private Map<String, MenuItem> mapMenuList = new HashMap<>();
 
     public void setList(List<OrderItem> list) {
         this.mList = list;
         notifyDataSetChanged();
+    }
+
+    public void setMenuList(List<MenuItem> menuList) {
+        mapMenuList.clear();
+        for(MenuItem item : menuList) {
+            mapMenuList.put(item.name, item);
+        }
     }
 
 
@@ -109,6 +121,17 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
                     holder.detail1.setText(details[0]);
                     holder.detail2.setText(details[1]);
                     holder.detail3.setText(details[2]);
+
+                    MenuItem menuItem = mapMenuList.get(item.name);
+                    if (menuItem != null) {
+                        if (menuItem.jsonSaladItems != null && item.jsonSaladItems != null && !menuItem.jsonSaladItems.toString().equals(item.jsonSaladItems.toString())) {
+                            holder.name.setBackgroundColor(Color.RED);
+                        } else {
+                            holder.name.setBackgroundColor(Color.WHITE);
+                        }
+                    } else {
+                        holder.name.setBackgroundColor(Color.WHITE);
+                    }
                     break;
                 case SOUP:
                 case OTHERS:

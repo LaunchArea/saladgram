@@ -1,5 +1,6 @@
 package com.saladgram.model;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -41,4 +42,6 @@ public class OrderItem {
     public PackageType packageType;
 
     public List<SaladItem> saladItems = new LinkedList<>();
+
+    public JSONArray jsonSaladItems = null;
 }

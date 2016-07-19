@@ -646,10 +646,10 @@ public class MainActivity extends AppCompatActivity {
                         case SALAD:
                             item.put("order_item_type", 1);
                             JSONArray si = new JSONArray();
-                            for(Object o : (ArrayList)each.menuItem.data.get("salad_items")) {
-                                si.put(new JSONObject((Map) o));
-                            }
-                            item.put("salad_items", si);
+                            //for(Object o : (ArrayList)each.menuItem.data.get("salad_items")) {
+                            //    si.put(new JSONObject((Map) o));
+                            //}
+                            item.put("salad_items", each.menuItem.jsonSaladItems);
                             item.put("package_type", each.takeout ? OrderItem.PackageType.TAKE_OUT.ordinal() + 1 : OrderItem.PackageType.DINE_IN.ordinal() + 1);
                             break;
                         case SOUP:
@@ -756,7 +756,7 @@ public class MainActivity extends AppCompatActivity {
                 buildMenuList(map.get("soups"), MenuItem.Type.SOUP);
                 buildMenuList(map.get("others"), MenuItem.Type.OTHER);
                 buildMenuList(map.get("beverages"), MenuItem.Type.BEVERAGE);
-
+                setJsonSaladItems(result);
                 initializeUI();
             }
         }
@@ -779,6 +779,25 @@ public class MainActivity extends AppCompatActivity {
                 if (item.price != -1) {
                     mMenuList.add(item);
                 }
+            }
+        }
+
+        private void setJsonSaladItems(String result) {
+            try {
+                JSONObject root = new JSONObject(result);
+                JSONArray arr = root.getJSONArray("salads");
+                for(int i = 0; i < arr.length(); i++) {
+                    JSONObject salad = arr.getJSONObject(i);
+                    for(MenuItem item : mMenuList) {
+                        if (item.name.equals(salad.getString("name"))) {
+                            item.jsonSaladItems = salad.getJSONArray("salad_items");
+                            break;
+                        }
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
     }
