@@ -97,6 +97,8 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
     @Override
     public void onBindViewHolder(SimpleViewHolder holder, final int position) {
         OrderItem item = mList.get(position);
+        holder.name.setBackgroundColor(Color.WHITE);
+
         holder.name.setText(item.name);
         holder.type.setText(item.type.name().toLowerCase());
         holder.quantity.setText("x " + item.quantity);
@@ -126,11 +128,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
                     if (menuItem != null) {
                         if (menuItem.jsonSaladItems != null && item.jsonSaladItems != null && !menuItem.jsonSaladItems.toString().equals(item.jsonSaladItems.toString())) {
                             holder.name.setBackgroundColor(Color.RED);
-                        } else {
-                            holder.name.setBackgroundColor(Color.WHITE);
                         }
-                    } else {
-                        holder.name.setBackgroundColor(Color.WHITE);
                     }
                     break;
                 case SOUP:
