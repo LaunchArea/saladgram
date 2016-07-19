@@ -1311,6 +1311,10 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			if($(e.currentTarget).hasClass('item-selected')){
 				return;
 			}
+            if($(e.currentTarget).attr('available') == 0 && window.orderInfoModel.get('is_tomorrow') == 0) {
+                return;
+            }
+
 			$(e.currentTarget).addClass('item-selected');
 			$(e.currentTarget).find('.item-amount').html('x1');
 
