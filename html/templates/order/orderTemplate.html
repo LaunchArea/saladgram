@@ -56,9 +56,9 @@
 				  	_.each(salads, function(salad) {
 					  	if(salad.hide !== 1){
 				  	%>
-				  		<div id="salads_wrap_<%= salad.item_id %>" orderItmeType="salads" itemId='<%= salad.item_id %>' class="col-xs-6 col-md-4 order-item-wrap salad-item-wrap" >
+                    <div id="salads_wrap_<%= salad.item_id %>" available=<%= salad.available %> orderItmeType="salads" itemId='<%= salad.item_id %>' class="col-xs-6 col-md-4 order-item-wrap salad-item-wrap" >
 				  			<%
-								if(salad.available === 0){
+                                if(salad.available === 0){
 				  			%>
 					  			<div class='soldout-div'>
 					  				<p>sold out</p>
@@ -102,7 +102,7 @@
 				  	_.each(soups, function(soup) {
 					  	if(soup.hide !== 1){
 				  	%>
-				  		<div id="soups_wrap_<%= soup.item_id %>" orderItmeType="soups" itemId='<%= soup.item_id %>' amountType="<%= soup.amount_type %>" class="col-xs-6 col-md-4 order-item-wrap order-item-soup-wrap">
+                    <div id="soups_wrap_<%= soup.item_id %>" available=<%= soup.available %> orderItmeType="soups" itemId='<%= soup.item_id %>' amountType="<%= soup.amount_type %>" class="col-xs-6 col-md-4 order-item-wrap order-item-soup-wrap">
 				  			<%
 								if(soup.available === 0){
 				  			%>
@@ -157,7 +157,7 @@
 				  	_.each(others, function(other) {
 					  	if(other.hide !== 1){
 				  	%>
-				  		<div id="others_wrap_<%= other.item_id %>" orderItmeType="others" itemId='<%= other.item_id %>' class="col-xs-6 col-md-4 order-item-wrap">
+                    <div id="others_wrap_<%= other.item_id %>" available=<%= other.available %> orderItmeType="others" itemId='<%= other.item_id %>' class="col-xs-6 col-md-4 order-item-wrap">
 				  			<%
 								if(other.available === 0){
 				  			%>
@@ -193,7 +193,7 @@
 				  	_.each(beverages, function(beverage) {
 					  	if(beverage.hide !== 1){
 				  	%>
-				  		<div id="beverages_wrap_<%= beverage.item_id %>" orderItmeType="beverages" itemId='<%= beverage.item_id %>'  class="col-xs-6 col-md-4 order-item-wrap">
+                    <div id="beverages_wrap_<%= beverage.item_id %>" available=<%= beverage.available %> orderItmeType="beverages" itemId='<%= beverage.item_id %>'  class="col-xs-6 col-md-4 order-item-wrap">
 				  			<%
 								if(beverage.available === 0){
 				  			%>

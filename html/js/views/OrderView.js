@@ -763,6 +763,16 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						if(orderTimeChecked === true){
 							window.orderInfoModel.set({order_time:  currentTimeStamp });
 							window.orderInfoModel.set({reservation_time: reservationTimeStamp});
+                            window.orderInfoModel.set({is_tomorrow: parseInt(dates)});
+                            var soldOutItems = $('#step_2_navbar_contents').find('.soldout-div');
+                            console.log(JSON.stringify(soldOutItems));
+                            for (var i = 0; i < soldOutItems.length; i++) {
+                                if (window.orderInfoModel.get('is_tomorrow')) {
+                                    soldOutItems.eq(i).hide();
+                                } else {
+                                    soldOutItems.eq(i).show();
+                                }
+                            }
 						}else{
 							swal({
 			                  title: "",
@@ -777,6 +787,12 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						if(orderTimeChecked === true){
 							window.orderInfoModel.set({order_time: 0});
 							window.orderInfoModel.set({reservation_time: 0});
+                            window.orderInfoModel.set({is_tomorrow: 0});
+                            var soldOutItems = $('#step_2_navbar_contents').find('.soldout-div');
+                            console.log(JSON.stringify(soldOutItems));
+                            for (var i = 0; i < soldOutItems.length; i++) {
+                                soldOutItems.eq(i).show();
+                            }
 						}else{
 							swal({
 			                  title: "",
@@ -1209,6 +1225,11 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			var menuWrap = $(e.currentTarget);
 			var itemId = parseInt(menuWrap.attr("itemId"));
 			var orderItmeType = menuWrap.attr("orderItmeType");
+            var available = menuWrap.attr("available");
+            if (available == 0 && window.orderInfoModel.get('is_tomorrow') == 0) {
+                return;
+            }
+
 			console.log('itemId : ' +itemId);
 			console.log('orderItmeType : ' +orderItmeType);
 			if(orderItmeType !== 'soups'){	//soup는 추가버튼이후 mousedown_menu을 넣는다
@@ -2134,6 +2155,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 
 					//주문 직전 orderinfomodel을 placeOrderCollection에 추가 
                     window.orderInfoModel.unset('order_id');
+                    window.orderInfoModel.unset('is_tomorrow');
 					placeOrderCollection.add(window.orderInfoModel);
 					console.log("placeOrderCollection: " + JSON.stringify(placeOrderCollection));
 					console.log("placeOrderCollection.models: " + JSON.stringify(placeOrderCollection.models));
