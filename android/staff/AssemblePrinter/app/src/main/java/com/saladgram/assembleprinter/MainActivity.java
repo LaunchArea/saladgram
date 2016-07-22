@@ -162,13 +162,31 @@ public class MainActivity extends AppCompatActivity {
         StringBuffer buffer = new StringBuffer();
 
         buffer.append("주문번호 : " + order.id + " (" + order.orderType.name().toLowerCase() + ")\n");
-        buffer.append("고객정보 : " + (order.user_id != null ? order.user_id : ("none" + " ")) + " / " + (order.phone != null ? order.phone : "none"));
+        String phone = "";
+        if (order.phone != null) {
+            if (order.phone.length() > 7) {
+                StringBuilder sb = new StringBuilder(order.phone);
+                sb.setCharAt(3,'x');
+                sb.setCharAt(4,'x');
+                sb.setCharAt(5,'x');
+                sb.setCharAt(6,'x');
+                phone = sb.toString();
+            } else {
+                phone = order.phone;
+            }
+        } else {
+            phone = "none";
+        }
+        buffer.append("고객정보 : " + (order.user_id != null ? order.user_id : ("none" + " ")) + " / " + phone);
         buffer.append("\n");
-        buffer.append("주    소 : " + order.addr + "\n");
+        if (order.orderType == Order.OrderType.DELIVERY || order.orderType == Order.OrderType.SUBSCRIBE) {
+            buffer.append("주    소 : " + order.addr + "\n");
+        }
         buffer.append("결제방법 : ");
         switch (order.paymentType) {
             case INIPAY:
                 buffer.append("결제완료 (인터넷)");
+                break;
             case AT_DELIVERY:
                 buffer.append("수령시 결제");
                 break;
@@ -194,6 +212,19 @@ public class MainActivity extends AppCompatActivity {
         if (order.reservation_time.getTime() != order.order_time.getTime()) {
             buffer.append(" (" + formatTime(order.reservation_time)+ " 예약)");
         }
+
+        buffer.append("\n");
+        if(order.total_price != order.actual_price) {
+            buffer.append("소계 : " + order.total_price + "\n");
+        }
+        if(order.discount > 0) {
+            buffer.append("할인 : " + order.discount + "\n");
+        }
+        if(order.reward_use > 0) {
+            buffer.append("리워드사용 : " + order.reward_use + "\n");
+        }
+        buffer.append("계산금액 : " + order.actual_price+ "\n");
+
         buffer.append("\n\n");
         buffer.append("주문내역\n");
         for (OrderItem item : order.orderItems) {
