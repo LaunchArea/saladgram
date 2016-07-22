@@ -13,6 +13,9 @@ import com.saladgram.model.OrderItem;
 import com.saladgram.model.SaladItem;
 import com.saladgram.model.Utils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,11 +44,11 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
         }
     }
 
-
     public static class SimpleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private final RecyclerViewClickListener mListener;
         private final TextView name;
         private final TextView type;
+        private final TextView detail0;
         private final TextView detail1;
         private final TextView quantity;
         private final TextView detail2;
@@ -59,6 +62,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
             type = (TextView) view.findViewById(R.id.type);
             package_type = (TextView) view.findViewById(R.id.package_type);
 
+            detail0 = (TextView) view.findViewById(R.id.detail0);
             detail1 = (TextView) view.findViewById(R.id.detail1);
             detail2 = (TextView) view.findViewById(R.id.detail2);
             detail3 = (TextView) view.findViewById(R.id.detail3);
@@ -105,34 +109,57 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
         holder.quantity.setText("x " + item.quantity);
         holder.package_type.setVisibility(item.packageType == OrderItem.PackageType.DINE_IN ? View.VISIBLE : View.GONE);
 
+        holder.detail0.setText("");
         holder.detail2.setText("");
         holder.detail3.setText("");
             switch(item.type) {
                 case SALAD:
                     boolean diff = false;
                     MenuItem menuItem = mapMenuList.get(item.name);
+                    Map<String, Integer> mapStandardAmount = new HashMap<>();
                     if (menuItem != null) {
                         if (menuItem.jsonSaladItems != null && item.jsonSaladItems != null &&
                                 !Utils.jsonArrayEquals(menuItem.jsonSaladItems, item.jsonSaladItems)) {
                             holder.name.setBackgroundColor(Color.RED);
                             diff = true;
+                            for (int i = 0; i < menuItem.jsonSaladItems.length(); i++) {
+                                try {
+                                    JSONObject jo = menuItem.jsonSaladItems.getJSONObject(i);
+                                    mapStandardAmount.put(""+jo.getInt("item_id"), jo.getInt("amount"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
                     }
-                    String[] details = new String[3];
+                    String[] details = new String[4];
                     for(int i = 0; i < details.length; i++) {
                         details[i] = "";
                     }
                     for(SaladItem each : item.saladItems) {
-                        details[0] += (each.name + "\n");
-                        details[1] += ("" + each.amount + "\n");
-                        details[2] += (each.type.toString().substring(0,1) + "\n");
+                        if (diff) {
+                            Integer standardAmount = mapStandardAmount.get("" + each.id);
+                            if (standardAmount == null) {
+                                details[0] += "N\n";
+                            } else if((""+standardAmount).equalsIgnoreCase(each.amount)) {
+                                details[0] += (" \n");
+                            } else {
+                                details[0] += ("!!!\n");
+                            }
+                        } else {
+                            details[0] += (" \n");
+                        }
+                        details[1] += (each.name + "\n");
+                        details[2] += ("" + each.amount + "\n");
+                        details[3] += ("x " + each.amount_type / 2.f + "\n");
                     }
                     for(int i = 0; i < details.length; i++) {
                         details[i] = details[i].substring(0, details[i].length()-1);
                     }
-                    holder.detail1.setText(details[0]);
-                    holder.detail2.setText(details[1]);
-                    holder.detail3.setText(details[2]);
+                    holder.detail0.setText(details[0]);
+                    holder.detail1.setText(details[1]);
+                    holder.detail2.setText(details[2]);
+                    holder.detail3.setText(details[3]);
 
 
                     break;

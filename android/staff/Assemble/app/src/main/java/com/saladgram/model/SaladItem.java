@@ -11,6 +11,7 @@ import java.util.List;
  * Created by yns on 5/31/16.
  */
 public class SaladItem {
+
     public SaladItem(JSONObject item) throws JSONException {
         id = item.getInt("item_id");
         amount = item.getString("amount");
@@ -23,6 +24,7 @@ public class SaladItem {
             case 5: type = Type.OTHERS; break;
             case 6: type = Type.DRESSINGS; break;
         }
+        amount_type = item.getInt("amount_type");
     }
 
     public enum Type {BASE, VEGETABLES, FRUITS, PROTEINS, OTHERS, DRESSINGS}
@@ -30,6 +32,7 @@ public class SaladItem {
     public String name;
     public Type type;
     public String amount;
+    public int amount_type;
 
     private final static Comparator comparator = new Comparator<SaladItem>() {
         @Override

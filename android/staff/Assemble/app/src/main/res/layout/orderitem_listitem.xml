@@ -13,7 +13,7 @@
         android:layout_marginBottom="1dp"
         >
     <LinearLayout
-        android:layout_width="120dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_centerVertical="true"
@@ -48,20 +48,30 @@
         android:textColor="@color/colorAccent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginRight="16dp"
+        android:layout_marginRight="8dp"
         android:textStyle="bold"
         />
 
     <TextView
-        android:id="@+id/detail1"
+        android:id="@+id/detail0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/basic"
-        android:layout_marginLeft="16dp"
         android:textSize="30sp"
+        android:textColor="@color/colorAccent"
         android:layout_centerVertical="true"
         android:lineSpacingExtra="10dp"
         />
+        <TextView
+            android:id="@+id/detail1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/detail0"
+            android:layout_marginLeft="4dp"
+            android:textSize="30sp"
+            android:layout_centerVertical="true"
+            android:lineSpacingExtra="10dp"
+            />
         <TextView
             android:id="@+id/detail2"
             android:layout_width="wrap_content"
@@ -83,5 +93,6 @@
             android:textSize="30sp"
             android:lineSpacingExtra="10dp"
             />
+
 </RelativeLayout>
 </FrameLayout>
