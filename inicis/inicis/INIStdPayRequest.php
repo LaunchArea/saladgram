@@ -28,9 +28,9 @@ $buyeremail = $_GET['buyeremail'];
 // 1.전문 필드 값 설정(***가맹점 개발수정***)
 //############################################
 // 여기에 설정된 값은 Form 필드에 동일한 값으로 설정
-$mid = "INIpayTest";  // 가맹점 ID(가맹점 수정후 고정)					
+$mid = "saladgram0";  // 가맹점 ID(가맹점 수정후 고정)
 //인증
-$signKey = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS"; // 가맹점에 제공된 웹 표준 사인키(가맹점 수정후 고정)
+$signKey = "Q1JMM3drQlUwb2d1WGgyU1Vmb0JUdz09"; // 가맹점에 제공된 웹 표준 사인키(가맹점 수정후 고정)
 $timestamp = $SignatureUtil->getTimestamp();   // util에 의해서 자동생성
 
 //$orderNumber = $mid . "_" . $SignatureUtil->getTimestamp(); // 가맹점 주문번호(가맹점에서 직접 설정)
