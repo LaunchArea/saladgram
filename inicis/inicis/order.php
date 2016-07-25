@@ -195,5 +195,6 @@ function confirm_order($oid) {
     }
 
     mysqli_close($db_conn);
-    return $order_id;
+    $data['order_id'] = $order_id;
+    return $data;
 }

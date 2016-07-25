@@ -12,9 +12,11 @@ define([
   'views/OurstoryView',
   'views/StoreView',
   'views/OrderView',
-  'views/OrderCompleteView'
+  'views/OrderCompleteView',
+  'models/OrderInfoModel',
+  'models/TimeModel'
 ], function($, _, Backbone, NavigationView, CarouselView, MainView, MainModalView
-  , UserView, MenuView, OurstoryView, StoreView, OrderView, OrderCompleteView) {
+  , UserView, MenuView, OurstoryView, StoreView, OrderView, OrderCompleteView, OrderInfoModel, TimeModel) {
 
   var AppRouter = Backbone.Router.extend({
     routes: {
@@ -24,6 +26,7 @@ define([
       'store':    'store', 
       'order':    'order', 
       'ordercomplete':    'ordercomplete', 
+      'ordercomplete?*queryString' : 'ordercomplete',
       '*action' : 'allaction', 
       menu:function() {
         $('#saladgram_footer').removeClass('hidden');
@@ -60,7 +63,34 @@ define([
         }
         window.orderView.render();
       },
-      ordercomplete:function() {
+      ordercomplete:function(queryString) {
+        if (queryString) {
+             queryString = queryString.substring( queryString.indexOf('?') + 1 );
+             var params = {};
+             var queryParts = decodeURI(queryString).split(/&/g);
+             _.each(queryParts, function(val) {
+                 var parts = val.split('=');
+                 if (parts.length >= 1) {
+                     var val = undefined;
+                     if (parts.length == 2) {
+                         val = parts[1];
+                     }
+                     params[parts[0]] = val;
+                 }
+             });
+             if(typeof window.orderInfoModel === "undefined"){
+                 window.orderInfoModel = new OrderInfoModel();
+                 window.times = new TimeModel();
+             };
+             window.orderInfoModel.set('order_type', params['order_type']);
+             window.orderInfoModel.set('payment_type', params['payment_type']);
+             window.orderInfoModel.set('addr', params['addr']);
+             window.orderInfoModel.set('actual_price', params['actual_price']);
+             window.orderInfoModel.set('reservation_time', params['reservation_time']);
+             window.orderInfoModel.set('order_time', params['order_time']);
+             window.orderInfoModel.set('order_id', params['order_id']);
+             console.log(JSON.stringify(params));
+        }
         console.log('ordercomplete');
         $('#saladgram_footer').addClass('hidden');
         if(typeof window.naviView === "undefined"){

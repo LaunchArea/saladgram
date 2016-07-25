@@ -2003,11 +2003,9 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
         checkOrderTypeOnline: function(e){
             swal({
                 title: "",
-                text: "온라인 결제 서비스 준비중입니다",
+                text: "카드사 심사중으로 결제 및 주문이 완료되지 않습니다",
                 confirmButtonClass: "btn-warning",
             });
-            return;
-
 			$('#check_order_type_online').addClass('active');
 			$('#check_order_type_offline').removeClass('active');
 			var orderType = window.orderInfoModel.get('order_type');
@@ -2181,7 +2179,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                                 console.log('res : ' + res);
                                 var resParset = JSON.parse(res);
 
-                                //window.cancelOrder = true;
+                                window.cancelOrder = true;
                                 var order_id = resParset['order_id'];
                                 window.orderInfoModel.set({order_id: order_id});
                                 console.log(JSON.stringify(window.orderInfoModel));
@@ -2191,26 +2189,51 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                                 if (userType == 'member') {
                                     userName = window.userCollection.models[0].get('user_info').name;
                                 }
-                                var iframe = document.createElement('iframe');
-                                var paymentSrc = 'https://www.saladgram.com/inicis/INIStdPayRequest.php';
-                                paymentSrc = paymentSrc + '?goodname=' + window.orderInfoModel.get('order_name');
-                                paymentSrc = paymentSrc + '&oid=' + window.orderInfoModel.get('order_id');
-                                paymentSrc = paymentSrc + '&price=' + window.orderInfoModel.get('actual_price');
-                                paymentSrc = paymentSrc + '&buyername=' + userName;
-                                paymentSrc = paymentSrc + '&buyertel=' + window.orderInfoModel.get('phone');
-                                paymentSrc = paymentSrc + '&buyeremail=';
-                                console.log(paymentSrc);
+                                if(navigator.userAgent.match(/Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/)) {
+                                    var iframe = document.createElement('iframe');
+                                    var paymentSrc = 'https://www.saladgram.com/inicis/mobile.php';
+                                    paymentSrc = paymentSrc + '?goodname=' + window.orderInfoModel.get('order_name');
+                                    paymentSrc = paymentSrc + '&oid=' + window.orderInfoModel.get('order_id');
+                                    paymentSrc = paymentSrc + '&price=' + window.orderInfoModel.get('actual_price');
+                                    paymentSrc = paymentSrc + '&buyername=' + userName;
+                                    paymentSrc = paymentSrc + '&buyertel=' + window.orderInfoModel.get('phone');
+                                    paymentSrc = paymentSrc + '&mname=샐러드그램';
+                                    paymentSrc = paymentSrc + '&buyeremail=';
+                                    console.log(paymentSrc);
 
-                                //iframe.style.display = "none";
-                                iframe.style.position = 'absolute';
-                                iframe.style.zIndex = 1500;
-                                iframe.style.top = 0;
-                                iframe.style.left = 0;
-                                iframe.style.height = '100%';
-                                iframe.style.width = '100%';
-                                iframe.style.backgroundColor = 'transparent';
-                                iframe.src = paymentSrc;
-                                document.body.appendChild(iframe);
+                                    //iframe.style.display = "none";
+                                    iframe.style.position = 'absolute';
+                                    iframe.style.zIndex = 1500;
+                                    iframe.style.top = 0;
+                                    iframe.style.left = 0;
+                                    iframe.style.height = '100%';
+                                    iframe.style.width = '100%';
+                                    iframe.style.backgroundColor = 'transparent';
+                                    iframe.src = paymentSrc;
+                                    document.body.appendChild(iframe);
+
+                                } else {
+                                    var iframe = document.createElement('iframe');
+                                    var paymentSrc = 'https://www.saladgram.com/inicis/INIStdPayRequest.php';
+                                    paymentSrc = paymentSrc + '?goodname=' + window.orderInfoModel.get('order_name');
+                                    paymentSrc = paymentSrc + '&oid=' + window.orderInfoModel.get('order_id');
+                                    paymentSrc = paymentSrc + '&price=' + window.orderInfoModel.get('actual_price');
+                                    paymentSrc = paymentSrc + '&buyername=' + userName;
+                                    paymentSrc = paymentSrc + '&buyertel=' + window.orderInfoModel.get('phone');
+                                    paymentSrc = paymentSrc + '&buyeremail=';
+                                    console.log(paymentSrc);
+
+                                    //iframe.style.display = "none";
+                                    iframe.style.position = 'absolute';
+                                    iframe.style.zIndex = 1500;
+                                    iframe.style.top = 0;
+                                    iframe.style.left = 0;
+                                    iframe.style.height = '100%';
+                                    iframe.style.width = '100%';
+                                    iframe.style.backgroundColor = 'transparent';
+                                    iframe.src = paymentSrc;
+                                    document.body.appendChild(iframe);
+                                }
                             },
                             error:function(error){
                                 if (error['status'] == 440) {
@@ -2253,7 +2276,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                                 window.cancelOrder = true;
                                 var order_id = resParset['order_id'];
                                 window.orderInfoModel.set({order_id: order_id});
-                                location.href="/#ordercomplete"
+                                location.href="/#ordercomplete";
                             },
                             error:function(error){
                                 if (error['status'] == 440) {

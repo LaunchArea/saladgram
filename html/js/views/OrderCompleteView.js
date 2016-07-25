@@ -6,6 +6,7 @@ define(['jquery', 'underscore', 'backbone','views/NavigationView'
         render: function() {
 			var template = _.template(orderCompleteTemplate) ({
                 order_type : window.orderInfoModel.get('order_type'),
+                payment_type : window.orderInfoModel.get('payment_type'),
                 addr : window.orderInfoModel.get('addr'),
                 actual_price : window.orderInfoModel.get('actual_price'),
                 reservation_time : window.orderInfoModel.get('reservation_time'),
@@ -13,6 +14,7 @@ define(['jquery', 'underscore', 'backbone','views/NavigationView'
                 order_id : window.orderInfoModel.get('order_id'),
             });
             console.log(JSON.stringify(window.orderInfoModel));
+            $('#navbar_order_center_title').html("주문 완료");
 			this.$el.html(template);
         },
     });

@@ -30,31 +30,31 @@ table, img {border:none}
 
 </style>
 <script type="application/x-javascript">
-    
+
     addEventListener("load", function()
     {
         setTimeout(updateLayout, 0);
     }, false);
- 
+
     var currentWidth = 0;
-    
+
     function updateLayout()
     {
         if (window.innerWidth != currentWidth)
         {
             currentWidth = window.innerWidth;
- 
+
             var orient = currentWidth == 320 ? "profile" : "landscape";
             document.body.setAttribute("orient", orient);
             setTimeout(function()
             {
                 window.scrollTo(0, 1);
-            }, 100);            
+            }, 100);
         }
     }
- 
+
     setInterval(updateLayout, 400);
-    
+
 </script>
 
 <script language=javascript>
@@ -72,20 +72,20 @@ function on_web()
 	var order_form = document.ini;
 	var wallet = window.open("", "BTPG_WALLET", features);
 	<!--
-	if (wallet == null) 
+	if (wallet == null)
 	{
 		if ((webbrowser.indexOf("Windows NT 5.1")!=-1) && (webbrowser.indexOf("SV1")!=-1)) 
 		{    // Windows XP Service Pack 2
 			alert("팝업이 차단되었습니다. 브라우저의 상단 노란색 [알림 표시줄]을 클릭하신 후 팝업창 허용을 선택하여 주세요.");
-		} 
-		else 
+		}
+		else
 		{
 			alert("팝업이 차단되었습니다.");
 		}
 		return false;
 	}
     -->
-	
+
 	order_form.target = "BTPG_WALLET";
 	order_form.action = "https://mobile.inicis.com/smart/wcard/";
 	order_form.submit();
@@ -110,7 +110,7 @@ function onSubmit()
         <input type="hidden" name="P_MNAME" value="<?php echo $mname_euckr ?>">
         <input type="hidden" name="P_MOBILE" value="<?php echo $buyertel ?>">
         <input type="hidden" name="P_EMAIL" value="<?php echo $buyeremail ?>">
-        <input type="hidden" name="P_MID" value="INIpayTest"> 
+        <input type="hidden" name="P_MID" value="INIpayTest">
         <input type=hidden name="P_NEXT_URL" value="<?php echo $siteDomain.'/mobile_return.php'?>">
         <input type=hidden name="P_NOTI_URL" value="https://mobile.inicis.com/rnoti/rnoti.php">
         <input type=hidden name="P_HPP_METHOD" value="1">
