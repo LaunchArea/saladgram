@@ -12,8 +12,8 @@ $goodname_euckr = iconv("UTF-8", "EUC-KR", $goodname);
 $buyername_euckr = iconv("UTF-8", "EUC-KR", $buyername);
 $mname_euckr = iconv("UTF-8", "EUC-KR", $mname);
 
-$mid = "INIpayTest";
-// $mid = "saladgram0";
+//$mid = "INIpayTest";
+$mid = "saladgram0";
 $siteDomain = "https://www.saladgram.com/inicis";
 
 ?>
@@ -110,7 +110,7 @@ function onSubmit()
         <input type="hidden" name="P_MNAME" value="<?php echo $mname_euckr ?>">
         <input type="hidden" name="P_MOBILE" value="<?php echo $buyertel ?>">
         <input type="hidden" name="P_EMAIL" value="<?php echo $buyeremail ?>">
-        <input type="hidden" name="P_MID" value="INIpayTest">
+        <input type="hidden" name="P_MID" value="<?php echo $mid ?>">
         <input type=hidden name="P_NEXT_URL" value="<?php echo $siteDomain.'/mobile_return.php'?>">
         <input type=hidden name="P_NOTI_URL" value="https://mobile.inicis.com/rnoti/rnoti.php">
         <input type=hidden name="P_HPP_METHOD" value="1">

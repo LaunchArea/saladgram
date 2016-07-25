@@ -4,8 +4,8 @@ require_once('order.php');
 $P_STATUS = $_POST['P_STATUS'];
 $P_REQ_URL = $_POST['P_REQ_URL'];
 $P_TID = $_POST['P_TID'];
-$P_MID = 'INIpayTest';
-// $P_MID = 'saladgram0';
+// $P_MID = 'INIpayTest';
+$P_MID = 'saladgram0';
 $server_output = "";
 $order_data = NULL;
 

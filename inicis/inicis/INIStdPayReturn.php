@@ -59,8 +59,8 @@ $order_data = FALSE;
 
                 $mid = $_REQUEST["mid"];     // 가맹점 ID 수신 받은 데이터로 설정
 
-                // $signKey = "Q1JMM3drQlUwb2d1WGgyU1Vmb0JUdz09"; // 가맹점에 제공된 키(이니라이트키) (가맹점 수정후 고정) !!!절대!! 전문 데이터로 설정금지
-                $signKey = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS"; // 가맹점에 제공된 웹 표준 사인키(가맹점 수정후 고정)
+                $signKey = "Q1JMM3drQlUwb2d1WGgyU1Vmb0JUdz09"; // 가맹점에 제공된 키(이니라이트키) (가맹점 수정후 고정) !!!절대!! 전문 데이터로 설정금지
+                //$signKey = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS"; // 가맹점에 제공된 웹 표준 사인키(가맹점 수정후 고정)
 
                 $timestamp = $util->getTimestamp();   // util에 의해서 자동생성
 
