@@ -28,7 +28,7 @@ $order_data = FALSE;
     </head>
     <body onload="orderComplete();"  bgcolor="#FFFFFF" text="#242424" leftmargin=0 topmargin=15 marginwidth=0 marginheight=0 bottommargin=0 rightmargin=0>
         <div style="padding:10px;width:100%;font-size:14px;color: #ffffff;background-color: #000000;text-align: center">
-            이니시스 표준결제 인증결과 수신 / 승인요청, 승인결과 표시 샘플
+            온라인 결제
         </div>
         <?php
         require_once('../libs/INIStdPayUtil.php');
