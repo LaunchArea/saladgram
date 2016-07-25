@@ -68,7 +68,7 @@ $siteDomain = "https://www.saladgram.com/inicis"; //가맹점 도메인 입력
         </style>
 
         <!-- 이니시스 표준결제 js -->
-        <script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+        <script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
 
         <script type="text/javascript">
             INIStdPay.pay('SendPayForm_id');
