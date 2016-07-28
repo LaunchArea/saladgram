@@ -24,10 +24,12 @@
         <% }
             if (payment_type == 7) { %>
             <br>결제 방법 : 온라인 결제 (결제 완료)
+            <br>결제 금액 : <%= actual_price %>원</p>
+            <% } else if (payment_type == 10) { %>
+            <br>결제 방법 : 적립금 결제 (결제 완료)
             <% } else { %>
             <br>결제 방법 : 현장 결제
+            <br>결제 금액 : <%= actual_price %>원</p>
             <% } %>
-        <br>결제 금액 : <%= actual_price %>원</p>
-
     </div>
 </div>
