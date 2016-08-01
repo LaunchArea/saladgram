@@ -42,7 +42,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -80,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             onClickSelf(v);
         }
     };
+    private UserInfo mUserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +180,13 @@ public class MainActivity extends AppCompatActivity {
                 setPoint();
             }
         });
+        findViewById(R.id.set_point).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onPointLongClick();
+                return false;
+            }
+        });
         findViewById(R.id.set_discount).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -224,6 +231,28 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void onPointLongClick() {
+        if(mUserInfo == null) {
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        try {
+            builder.setMessage(mUserInfo.json.toString(2));
+        } catch (JSONException e) {
+            builder.setMessage(e.getMessage());
+            e.printStackTrace();
+        }
+        builder.setPositiveButton("충전", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        handleRewardPut();
+                    }
+                });
+        builder.show();
+
+    }
+
     private void checkAddedItem(final SaleItem saleItem) {
         if(saleItem.menuItem.type == MenuItem.Type.SALAD || saleItem.menuItem.type == MenuItem.Type.SELF_SALAD) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
@@ -263,6 +292,33 @@ public class MainActivity extends AppCompatActivity {
                     }
                     mSaleAdapter.notifyDataSetChanged();
                     refreshSaleAmount();
+                }
+            }
+        });
+        alert.show();
+    }
+
+    private void handleRewardPut() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("충전금액입력");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setRawInputType(Configuration.KEYBOARD_12KEY);
+        alert.setView(input);
+        alert.setPositiveButton("충전", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //Put actions for OK button here
+                if(input.getText().length() > 0) {
+                    int amount = Integer.parseInt(input.getText().toString());
+                    RewardPutTask task = new RewardPutTask(MainActivity.this, mUserInfo, amount) {
+                        @Override
+                        protected void onPostExecute(Integer code) {
+                            super.onPostExecute(code);
+                            Toast.makeText(getActivity(), "" + (code != null && code == 200 ? "Success" : "error " + code), Toast.LENGTH_SHORT).show();
+                            refetchUserInfo();
+                        }
+                    };
+                    task.execute();
                 }
             }
         });
@@ -387,27 +443,61 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setPoint() {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle("조회했다 치고, 사용할 포인트를 입력");
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        input.setRawInputType(Configuration.KEYBOARD_12KEY);
-        alert.setView(input);
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                //Put actions for OK button here
-                if(input.getText().length() > 0) {
-                    mPoint = Integer.parseInt(input.getText().toString());
-                    refreshSaleAmount();
+        if (mUserInfo == null) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("전화번호 끝자리 입력");
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_NUMBER);
+            input.setRawInputType(Configuration.KEYBOARD_12KEY);
+            alert.setView(input);
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    //Put actions for OK button here
+                    if (input.getText().length() > 0) {
+                        String userId = input.getText().toString();
+                        UserListFetchTask task = new UserListFetchTask(MainActivity.this, userId){
+                            @Override
+                            protected void onPostExecute(List<UserInfo> users) {
+                                super.onPostExecute(users);
+                                if(users == null) {
+                                    Toast.makeText(MainActivity.this, "Can't load user list", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    showUserList(users);
+                                }
+                            }
+                        };
+                        task.execute();
+                    }
                 }
-            }
-        });
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
-                //Put actions for CANCEL button here, or leave in blank
-            }
-        });
-        alert.show();
+            });
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                }
+            });
+            alert.show();
+        } else {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("사용할 포인트 입력");
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_NUMBER);
+            input.setRawInputType(Configuration.KEYBOARD_12KEY);
+            alert.setView(input);
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    //Put actions for OK button here
+                    if (input.getText().length() > 0) {
+                        mPoint = Integer.parseInt(input.getText().toString());
+                        refreshSaleAmount();
+                    }
+                }
+            });
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    //Put actions for CANCEL button here, or leave in blank
+                }
+            });
+            alert.show();
+        }
     }
 
     private void checkToGo(final SaleItem saleItem) {
@@ -542,15 +632,14 @@ public class MainActivity extends AppCompatActivity {
         mPoint = 0;
         mPaymentType = null;
         mToGo = true;
+        mUserInfo = null;
     }
 
     private void refreshSaleAmount() {
         findViewById(R.id.pay_card).setEnabled(mSaleList.size()>0);
         findViewById(R.id.pay_cash).setEnabled(mSaleList.size()>0);
         findViewById(R.id.set_discount).setEnabled(mSaleList.size()>0);
-        findViewById(R.id.set_point).setEnabled(mSaleList.size()>0);
         findViewById(R.id.togo).setEnabled(mSaleList.size()>0);
-
 
         mSubTotal = 0;
         mTotal = 0;
@@ -571,6 +660,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.cash_received)).setText(String.valueOf(mCashReceived) + "원");
         ((TextView)findViewById(R.id.change)).setText(String.valueOf(change) + "원");
         ((TextView)findViewById(R.id.togo)).setText(mToGo?"togo? O" : "TOGO? X");
+        ((TextView)findViewById(R.id.set_point)).setText(mUserInfo != null? mUserInfo.id+"\n"+mUserInfo.reward : "set Point");
 
         sendToMirror();
     }
@@ -629,7 +719,14 @@ public class MainActivity extends AppCompatActivity {
 
 //                m.put("order_type", mToGo ? 5 : 4);
                 m.put("order_type", Order.OrderType.TAKE_OUT.ordinal() + 1);
-                m.put("id", "saladgram");
+
+                if(mUserInfo == null) {
+                    m.put("id", "saladgram");
+                } else {
+                    m.put("id", mUserInfo.id);
+                    m.put("phone", mUserInfo.phone);
+                    m.put("addr", mUserInfo.addr);
+                }
                 m.put("total_price", mSubTotal);
                 m.put("actual_price", mTotal);
                 m.put("discount", (int)mDiscount);
@@ -684,14 +781,12 @@ public class MainActivity extends AppCompatActivity {
                     switch(each.menuItem.type) {
                         case SELF_SALAD:
                         case SELF_SOUP:
+                        case BEVERAGE:
                             break;
                         default:
                             allSelf = false;
                             break;
                     }
-                }
-                if(allSelf) {
-                    m.put("status", Order.Status.DONE.ordinal() + 1);
                 }
 
                 JSONObject orderJson = new JSONObject(m);
@@ -707,8 +802,18 @@ public class MainActivity extends AppCompatActivity {
 
                 response = null;
                 response = client.newCall(request).execute();
-                Log.d("yns",response.body().string());
-                return response.code();
+                String resBody = response.body().string();
+                Log.d("yns",resBody);
+                if (response.code() != 200) {
+                    return response.code();
+                } else {
+                    if (allSelf) {
+                        return makeItDone(client, jwt, new JSONObject(resBody).getInt("order_id"));
+                    } else {
+                        return response.code();
+                    }
+                }
+
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -716,6 +821,29 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             return -1;
+        }
+
+        private int makeItDone(OkHttpClient client, String jwt, int orderId) throws JSONException, IOException {
+
+            HashMap<String, Object> m = new HashMap<>();
+
+            m.put("order_id", orderId);
+            m.put("status", Order.Status.DONE.ordinal() + 1);
+
+            JSONObject json = new JSONObject(m);
+            RequestBody body = RequestBody.create(JSON, json.toString());
+            Log.d("yns", json.toString(2));
+            String url = "https://www.saladgram.com/api/update_order.php";
+            Request request = new Request.Builder()
+                    .header("jwt", jwt)
+                    .url(url)
+                    .post(body)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            Log.d("yns", response.body().string());
+
+            return response.code();
         }
     }
 
@@ -957,6 +1085,30 @@ public class MainActivity extends AppCompatActivity {
         builderSingle.show();
     }
 
+    private void showUserList(final List<UserInfo> users) {
+        AlertDialog.Builder builderSingle = new AlertDialog.Builder(getActivity());
+
+        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                getActivity(),
+                android.R.layout.select_dialog_singlechoice);
+        for(UserInfo user : users) {
+            arrayAdapter.add(user.id + "/" + user.name + "/" + user.reward);
+        }
+
+        builderSingle.setAdapter(
+                arrayAdapter,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mUserInfo = users.get(which);
+                        refreshSaleAmount();
+                    }
+                });
+        builderSingle.show();
+    }
+
+
     private void processPaymentStep(Order theOrder) {
         sendPickupPayinfoToMirror(theOrder);
 
@@ -1038,7 +1190,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     protected void onPostExecute(Integer code) {
                         super.onPostExecute(code);
-                        Toast.makeText(getActivity(), "" + (code == 200 ? "Success" : code), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "" + (code != null && code == 200 ? "Success" : "error "+code), Toast.LENGTH_SHORT).show();
                         reset();
                         refreshSaleAmount();
                     }
@@ -1181,7 +1333,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     return orderList;
                 } else {
-                    Toast.makeText(MainActivity.this, ""+response.code(), Toast.LENGTH_SHORT).show();
                     return null;
                 }
 
@@ -1193,4 +1344,216 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    class UserListFetchTask extends ProgressAsyncTask<Void,Void,List<UserInfo>> {
+
+        private final String phone;
+
+        public UserListFetchTask(Context context, String phone) {
+            super(context);
+            this.phone = phone;
+        }
+
+        final MediaType JSON
+                = MediaType.parse("application/json; charset=utf-8");
+        @Override
+        protected List<UserInfo> doInBackground(Void... params) {
+            OkHttpClient client = new OkHttpClient();
+
+            try {
+                JSONObject signInJson = new JSONObject();
+
+                signInJson.put("id","saladgram");
+                signInJson.put("password", "saladgramadmin1!");
+                RequestBody body = RequestBody.create(JSON, signInJson.toString());
+
+                String url = "https://saladgram.com/api/sign_in.php";
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(body)
+                        .build();
+
+                Response response = null;
+                response = client.newCall(request).execute();
+                if (response.code() != 200) {
+                    Toast.makeText(MainActivity.this, ""+response.code(), Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+                String jwt = new JSONObject(response.body().string()).getString("jwt");
+
+                url = "https://www.saladgram.com/api/user_list.php?phone="+phone;
+                request = new Request.Builder()
+                        .header("jwt",jwt)
+                        .url(url)
+                        .get()
+                        .build();
+
+                List<UserInfo> userList = new LinkedList<>();
+                response = client.newCall(request).execute();
+                if (response.code() == 200) {
+                    String result = response.body().string();
+                    Log.d("yns", result);
+                    JSONArray users = new JSONArray(result);
+                    for (int i = 0; i < users.length(); i++) {
+                        UserInfo user = new UserInfo(users.getJSONObject(i));
+                        userList.add(user);
+                    }
+                    return userList;
+                } else {
+                    return null;
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    class RewardPutTask extends ProgressAsyncTask<Void,Void,Integer> {
+
+
+        private final UserInfo userInfo;
+        private final int amount;
+
+        public RewardPutTask(Context context, UserInfo info, int amount) {
+            super(context);
+            this.userInfo = info;
+            this.amount = amount;
+        }
+
+        final MediaType JSON
+                = MediaType.parse("application/json; charset=utf-8");
+        @Override
+        protected Integer doInBackground(Void... params) {
+            OkHttpClient client = new OkHttpClient();
+
+            try {
+                JSONObject signInJson = new JSONObject();
+
+                signInJson.put("id","saladgram");
+                signInJson.put("password", "saladgramadmin1!");
+                RequestBody body = RequestBody.create(JSON, signInJson.toString());
+
+                String url = "https://saladgram.com/api/sign_in.php";
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(body)
+                        .build();
+
+                Response response = null;
+                response = client.newCall(request).execute();
+                if (response.code() != 200) {
+                    Toast.makeText(MainActivity.this, ""+response.code(), Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+                String jwt = new JSONObject(response.body().string()).getString("jwt");
+
+                HashMap<String, Object> m = new HashMap<>();
+
+                m.put("id", userInfo.id);
+                m.put("paid", amount);
+
+                JSONObject json = new JSONObject(m);
+                body = RequestBody.create(JSON, json.toString());
+                Log.d("yns", json.toString(2));
+                url = "https://www.saladgram.com/api/prepay_reward.php";
+                request = new Request.Builder()
+                        .header("jwt", jwt)
+                        .url(url)
+                        .post(body)
+                        .build();
+
+                response = client.newCall(request).execute();
+                Log.d("yns", response.body().string());
+                return response.code();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private void refetchUserInfo() {
+        UserInfoFetchTask task = new UserInfoFetchTask(getActivity(), mUserInfo.id) {
+            @Override
+            protected void onPostExecute(UserInfo userInfo) {
+                super.onPostExecute(userInfo);
+                if (userInfo == null) {
+                    Toast.makeText(MainActivity.this, "Can't load user info", Toast.LENGTH_SHORT).show();
+                } else {
+                    mUserInfo = userInfo;
+                    refreshSaleAmount();
+                }
+            }
+        };
+        task.execute();
+    }
+
+    class UserInfoFetchTask extends ProgressAsyncTask<Void,Void,UserInfo> {
+
+        private final String mId;
+
+        public UserInfoFetchTask(Context context, String id) {
+            super(context);
+            mId = id;
+        }
+
+        final MediaType JSON
+                = MediaType.parse("application/json; charset=utf-8");
+        @Override
+        protected UserInfo doInBackground(Void... params) {
+            OkHttpClient client = new OkHttpClient();
+
+            try {
+                JSONObject signInJson = new JSONObject();
+
+                signInJson.put("id","saladgram");
+                signInJson.put("password", "saladgramadmin1!");
+                RequestBody body = RequestBody.create(JSON, signInJson.toString());
+
+                String url = "https://saladgram.com/api/sign_in.php";
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(body)
+                        .build();
+
+                Response response = null;
+                response = client.newCall(request).execute();
+                if (response.code() != 200) {
+                    Toast.makeText(MainActivity.this, ""+response.code(), Toast.LENGTH_SHORT).show();
+                    return null;
+                }
+                String jwt = new JSONObject(response.body().string()).getString("jwt");
+
+                url = "https://www.saladgram.com/api/user_info.php?id="+mId;
+                request = new Request.Builder()
+                        .header("jwt",jwt)
+                        .url(url)
+                        .get()
+                        .build();
+
+                response = client.newCall(request).execute();
+                if (response.code() == 200) {
+                    String result = response.body().string();
+                    Log.d("yns", result);
+                    JSONObject jo = new JSONObject(result);
+                    return new UserInfo(jo.getJSONObject("user_info"));
+                } else {
+                    return null;
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
 }

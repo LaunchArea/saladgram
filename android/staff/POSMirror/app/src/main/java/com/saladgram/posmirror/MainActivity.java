@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerViewClickListener mSaleClickListener;
     private SaleMirrorItemAdapter mSaleAdapter;
     private int mCashReceived = 0;
-    private double mDiscount = 5;
+    private double mDiscount = 0;
     private int mPoint = 0;
     private int mSubTotal;
     private int mTotal;

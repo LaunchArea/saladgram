@@ -52,6 +52,7 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:text="포인트"
+            android:textSize="10sp"
             />
         <Button
             android:id="@+id/togo"
