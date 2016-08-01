@@ -1948,11 +1948,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			});
 	    	this.$el.find('#step_4_wrap').html(template);
 
-            if (orderType == ORDER_TYPE_PICKUP) {
-                window.orderInfoModel.set({payment_type: 8});
-            } else if (orderType == ORDER_TYPE_DELIVERY) {
-                window.orderInfoModel.set({payment_type: 9});
-            }
+            window.orderInfoModel.set({payment_type: 7});
 
 	    	var userId = window.userCollection.models[0].get('user_info').id;
 			var jwt = window.userCollection.models[0].get('jwt');
@@ -2001,11 +1997,6 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		/****************************************STEP 3****************************************/
 		//주문 결제 타입을 온라인(카드결제)로 변경
         checkOrderTypeOnline: function(e){
-            swal({
-                title: "",
-                text: "카드사 심사중으로 결제 및 주문이 완료되지 않습니다",
-                confirmButtonClass: "btn-warning",
-            });
 			$('#check_order_type_online').addClass('active');
 			$('#check_order_type_offline').removeClass('active');
 			var orderType = window.orderInfoModel.get('order_type');

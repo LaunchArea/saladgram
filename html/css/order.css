@@ -1278,7 +1278,7 @@
 	text-align: center;
 }
 .order-complte-wrap p{
-	padding-top:10%;
+	padding-top:5%;
 	font-size:16px;
 	font-weight: 600;
 }
@@ -1582,6 +1582,9 @@
 		right:10px;
 	}
 
+    .order-complte-wrap{
+        padding-top: 78px;
+    }
 	
 }
 
