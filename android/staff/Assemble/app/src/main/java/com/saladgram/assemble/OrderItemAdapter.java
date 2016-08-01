@@ -151,7 +151,7 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
                         }
                         details[1] += (each.name + "\n");
                         details[2] += ("" + each.amount + "\n");
-                        details[3] += ("x " + each.amount_type / 2.f + "\n");
+                        details[3] += ("x" + amountTypeToMultiplier(each.amount_type) + "\n");
                     }
                     for(int i = 0; i < details.length; i++) {
                         details[i] = details[i].substring(0, details[i].length()-1);
@@ -174,6 +174,21 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
                     break;
             }
         }
+
+    private String amountTypeToMultiplier(int amount_type) {
+        switch (amount_type) {
+            case 1:
+                return ".5";
+            case 2:
+                return "1";
+            case 3:
+                return "1.5";
+            case 4:
+                return "2";
+            default:
+                return "?";
+        }
+    }
 
 
     @Override
