@@ -325,7 +325,12 @@
 				  	_.each(salad_items, function(salad_item) {
 					  	if(salad_item.hide !== 1 && salad_item.salad_item_type === i){
 				  	%>
-				  		<div salad_item_type="<%= salad_item.salad_item_type %>" salad_item_id="<%= salad_item.item_id %>" class="col-xs-6 col-md-15 order-item-wrap salad-item-in-salad-wrap">
+                    <div salad_item_type="<%= salad_item.salad_item_type %>" available=<%= salad_item.available %> salad_item_id="<%= salad_item.item_id %>" class="col-xs-6 col-md-15 order-item-wrap salad-item-in-salad-wrap">
+                            <% if (salad_item.available === 0) { %>
+                            <div class='soldout-div'>
+                                <p>sold out</p>
+                            </div>
+                            <% } %>
 				  			<div class='overlay-div' >
 				  				<div class='overlay-btn-wrap'>
 				  				<button class="col-xs-2 col-xs-offset-1 btn-item-amount item-amount-minus" btnVal="-1">

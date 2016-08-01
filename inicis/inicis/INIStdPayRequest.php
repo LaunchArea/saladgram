@@ -28,9 +28,12 @@ $buyeremail = $_GET['buyeremail'];
 // 1.전문 필드 값 설정(***가맹점 개발수정***)
 //############################################
 // 여기에 설정된 값은 Form 필드에 동일한 값으로 설정
-$mid = "INIpayTest";  // 가맹점 ID(가맹점 수정후 고정)					
+// $mid = "INIpayTest";  // 가맹점 ID(가맹점 수정후 고정)
+$mid = "saladgram0";  // 가맹점 ID(가맹점 수정후 고정)
+
 //인증
-$signKey = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS"; // 가맹점에 제공된 웹 표준 사인키(가맹점 수정후 고정)
+// $signKey = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS"; // 가맹점에 제공된 웹 표준 사인키(가맹점 수정후 고정)
+$signKey = "Q1JMM3drQlUwb2d1WGgyU1Vmb0JUdz09"; // 가맹점에 제공된 웹 표준 사인키(가맹점 수정후 고정)
 $timestamp = $SignatureUtil->getTimestamp();   // util에 의해서 자동생성
 
 //$orderNumber = $mid . "_" . $SignatureUtil->getTimestamp(); // 가맹점 주문번호(가맹점에서 직접 설정)
@@ -65,7 +68,7 @@ $siteDomain = "https://www.saladgram.com/inicis"; //가맹점 도메인 입력
         </style>
 
         <!-- 이니시스 표준결제 js -->
-        <script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+        <script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
 
         <script type="text/javascript">
             INIStdPay.pay('SendPayForm_id');
@@ -87,7 +90,7 @@ $siteDomain = "https://www.saladgram.com/inicis"; //가맹점 도메인 입력
             <input type="hidden" style="width:100%;" name="signature" value="<?php echo $sign ?>" >
             <input type="hidden"  style="width:100%;" name="returnUrl" value="<?php echo $siteDomain ?>/INIStdPayReturn.php" >
             <input type="hidden"  name="mKey" value="<?php echo $mKey ?>" >
-            <input type="hidden"  style="width:100%;" name="gopaymethod" value="Card" >
+            <input type="hidden"  style="width:100%;" name="gopaymethod" value="Card:DirectBank" >
             <input type="hidden"  style="width:100%;" name="offerPeriod" value="2015010120150331" >
             <input type="hidden" style="width:100%;" name="acceptmethod" value="HPP(1):no_receipt:va_receipt:vbanknoreg(0):vbank(20150611):below1000" >
             <input type="hidden" style="width:100%;" name="languageView" value="" >

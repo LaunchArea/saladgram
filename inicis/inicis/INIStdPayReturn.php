@@ -1,3 +1,6 @@
+<?php
+$order_data = FALSE;
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -23,9 +26,9 @@
             }
         </script>
     </head>
-    <body bgcolor="#FFFFFF" text="#242424" leftmargin=0 topmargin=15 marginwidth=0 marginheight=0 bottommargin=0 rightmargin=0>
+    <body onload="orderComplete();"  bgcolor="#FFFFFF" text="#242424" leftmargin=0 topmargin=15 marginwidth=0 marginheight=0 bottommargin=0 rightmargin=0>
         <div style="padding:10px;width:100%;font-size:14px;color: #ffffff;background-color: #000000;text-align: center">
-            이니시스 표준결제 인증결과 수신 / 승인요청, 승인결과 표시 샘플
+            온라인 결제
         </div>
         <?php
         require_once('../libs/INIStdPayUtil.php');
@@ -56,7 +59,8 @@
 
                 $mid = $_REQUEST["mid"];     // 가맹점 ID 수신 받은 데이터로 설정
 
-                $signKey = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS"; // 가맹점에 제공된 키(이니라이트키) (가맹점 수정후 고정) !!!절대!! 전문 데이터로 설정금지
+                $signKey = "Q1JMM3drQlUwb2d1WGgyU1Vmb0JUdz09"; // 가맹점에 제공된 키(이니라이트키) (가맹점 수정후 고정) !!!절대!! 전문 데이터로 설정금지
+                //$signKey = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS"; // 가맹점에 제공된 웹 표준 사인키(가맹점 수정후 고정)
 
                 $timestamp = $util->getTimestamp();   // util에 의해서 자동생성
 
@@ -133,11 +137,11 @@
                           [중요!] 승인내용에 이상이 없음을 확인한 뒤 가맹점 DB에 해당건이 정상처리 되었음을 반영함
                           처리중 에러 발생시 망취소를 한다.
                          * **************************************************************************** */
-                        $order_id = confirm_order($_REQUEST['merchantData']);
-                        if ($order_id) {
-                            print "주문 완료. 최종 주문번호 : ".$order_id;
-                        } else {
+                        $order_data = confirm_order($_REQUEST['merchantData']);
+                        if ($order_data === FALSE) {
                             print "주문 실패, 결제 롤백";
+                        } else {
+                            print "주문 완료. 최종 주문번호 : ".$order_data['order_id'];
                         }
                         echo "<tr><th class='td01'><p>거래 성공 여부</p></th>";
                         echo "<td class='td02'><p>성공</p></td></tr>";
@@ -571,5 +575,24 @@
             echo $s;
         }
         ?>
+<script>
+function orderComplete() {
+<?php
+        if ($order_data !== FALSE) {
+?>
+            var orderCompleteUrl = "/#ordercomplete?";
+            orderCompleteUrl = orderCompleteUrl + "order_type=<?php echo $order_data['order_type']; ?>";
+            orderCompleteUrl = orderCompleteUrl + "&payment_type=<?php echo $order_data['payment_type']; ?>";
+            orderCompleteUrl = orderCompleteUrl + "&addr=<?php echo $order_data['addr']; ?>";
+            orderCompleteUrl = orderCompleteUrl + "&actual_price=<?php echo $order_data['actual_price']; ?>";
+            orderCompleteUrl = orderCompleteUrl + "&reservation_time=<?php echo $order_data['reservation_time']; ?>";
+            orderCompleteUrl = orderCompleteUrl + "&order_time=<?php echo $order_data['order_time']; ?>";
+            orderCompleteUrl = orderCompleteUrl + "&order_id=<?php echo $order_data['order_id']; ?>";
+            location.href = orderCompleteUrl;
+<?php
+        }
+?>
+}
+</script>
 </body>
 </html>
