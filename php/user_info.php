@@ -29,7 +29,7 @@ if ($jwt == null) {
 
 try {
     $decoded = JWT::decode($jwt, $jwt_secret, array('HS256'));
-    if ($data['id'] != $decoded->id && $decoded->id != 'saladgram') {
+    if ($id != $decoded->id && $decoded->id != 'saladgram') {
         http_response_code(401); // Unauthorized
         return;
     }
