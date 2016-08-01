@@ -189,7 +189,8 @@ reward types {
     1: event,
     2: reward_use,
     3: reward,
-    4: cancel
+    4: cancel,
+    5: prepay
 }
 
 salad_item types {

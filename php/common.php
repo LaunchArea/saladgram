@@ -49,6 +49,7 @@ abstract class Types {
     const REWARD_USE = 2;
     const REWARD_REWARD = 3;
     const REWARD_CANCEL = 4;
+    const REWARD_PREPAY = 5;
 
     const SALAD_ITEM_BASE = 1;
     const SALAD_ITEM_VEGETABLE = 2;
