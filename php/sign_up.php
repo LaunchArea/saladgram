@@ -76,7 +76,7 @@ if (!$db_conn->autocommit(false)) {
 }
 
 $time = time();
-$query = "insert into rewards values('$id', $time, NULL, 1, 'Open Event 적립금', 3000)";
+$query = "insert into rewards values('$id', $time, NULL, ".Types::REWARD_EVENT.", 'Open Event 적립금', 3000)";
 $result = mysqli_query($db_conn, "$query");
 if (!$result) {
     $array = array();

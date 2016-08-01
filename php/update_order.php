@@ -108,7 +108,7 @@ if ($data['status']) {
             if ($actual_price != 0) {
                 $time = time();
                 $reward_reward = (int)($actual_price * 5 / 100);
-                $reward_query = "insert into rewards values('$reward_id', $time, ".$data['order_id'].", 3, '구매 적립', $reward_reward)";
+                $reward_query = "insert into rewards values('$reward_id', $time, ".$data['order_id'].", ".Types:REWARD_REWARD.", '구매 적립', $reward_reward)";
                 $result = mysqli_query($db_conn, $reward_query);
                 if (!$result) {
                     $array = array();
