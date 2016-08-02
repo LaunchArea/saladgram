@@ -25,6 +25,7 @@ create table orders (
     order_time int not null,
     reservation_time int not null,
     status int not null,
+    comment text
     primary key (order_id)
 );
 
