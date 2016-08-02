@@ -224,7 +224,9 @@ public class MainActivity extends AppCompatActivity {
             buffer.append("리워드사용 : " + order.reward_use + "\n");
         }
         buffer.append("계산금액 : " + order.actual_price+ "\n");
-
+        if(order.comment != null && order.comment.length() > 0) {
+            buffer.append("요청사항 : " + order.comment + "\n");
+        }
         buffer.append("\n\n");
         buffer.append("주문내역\n");
         for (OrderItem item : order.orderItems) {

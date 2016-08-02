@@ -47,7 +47,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
         private final TextView items;
         private final View bg;
         private final TextView user_id;
-
+        private final TextView comment;
 
         public SimpleViewHolder(View view, RecyclerViewClickListener listener) {
             super(view);
@@ -57,6 +57,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
             time = (TextView) view.findViewById(R.id.time);
             user_id = (TextView) view.findViewById(R.id.user_id);
             items = (TextView) view.findViewById(R.id.items);
+            comment = (TextView) view.findViewById(R.id.comment);
             mListener = listener;
             view.setOnClickListener(this);
             view.setOnLongClickListener(this);
@@ -102,6 +103,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.SimpleViewHo
         holder.time.setText((reserve ? "예약 " : "") + sdf.format(item.reservation_time) + "(" + relativeTime(item.reservation_time)+")");
         holder.items.setText(item.getOrderItemSummary());
         holder.user_id.setText(item.user_id + "/" + item.addr);
+        if(item.comment != null && item.comment.length() > 0) {
+            holder.comment.setText("" + item.comment);
+            holder.comment.setVisibility(View.VISIBLE);
+        } else {
+            holder.comment.setVisibility(View.GONE);
+        }
         if(mSelectedId == item.id) {
             holder.bg.setBackgroundResource(android.R.color.darker_gray);
         } else {

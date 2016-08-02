@@ -28,6 +28,7 @@ public class Order {
         phone = each.optString("phone", null);
         user_id = each.optString("id", null);
         discount = each.optInt("discount", 0);
+        comment = each.optString("comment", null);
 
         switch (each.getInt("order_type")) {
             case 1: orderType = OrderType.PICK_UP; break;
@@ -130,6 +131,7 @@ public class Order {
     public int total_price;
     public int actual_price;
     public int discount;
+    public String comment;
     public List<OrderItem> orderItems = new LinkedList<>();
 
 }

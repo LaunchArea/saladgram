@@ -1190,6 +1190,9 @@ public class MainActivity extends AppCompatActivity {
         message += "\n할인 : " + order.discount;
         message += "\n리워드 : " + order.reward_use;
         message += "\n계산금액 : " + order.actual_price;
+        if(order.comment != null && order.comment.length() > 0) {
+            message += "\n요청사항 : " + order.comment;
+        }
         builder.setMessage(message);
         builder.setPositiveButton("Done", new DialogInterface.OnClickListener() {
             @Override
