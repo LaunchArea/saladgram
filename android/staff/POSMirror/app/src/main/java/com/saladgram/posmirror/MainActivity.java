@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private int mSubTotal;
     private int mTotal;
     private Server mServer;
+    private int mTotalPoint = 0;
+    private String mUserId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +78,23 @@ public class MainActivity extends AppCompatActivity {
     private void refreshUI() {
         int change = mCashReceived > 0 ? -1 * (mTotal - mCashReceived) : 0;
 
+
+        findViewById(R.id.discount_layout).setVisibility(mDiscount > 0 ? View.VISIBLE : View.GONE);
+        findViewById(R.id.point_layout).setVisibility(mPoint > 0 ? View.VISIBLE : View.GONE);
+        findViewById(R.id.total_point_layout).setVisibility(mUserId != null ? View.VISIBLE : View.GONE);
+        findViewById(R.id.total_point_divider).setVisibility(mUserId != null ? View.VISIBLE : View.GONE);
+
         ((TextView) findViewById(R.id.subtotal)).setText(String.valueOf(mSubTotal) + "원");
         ((TextView) findViewById(R.id.discount)).setText(String.valueOf(mDiscount) + "%");
         ((TextView) findViewById(R.id.point)).setText(String.valueOf(mPoint));
         ((TextView) findViewById(R.id.total)).setText(String.valueOf(mTotal) + "원");
         ((TextView) findViewById(R.id.cash_received)).setText(String.valueOf(mCashReceived) + "원");
         ((TextView) findViewById(R.id.change)).setText(String.valueOf(change) + "원");
+
+        if(mUserId != null) {
+            ((TextView) findViewById(R.id.total_point_name)).setText("" + mUserId + "님");
+            ((TextView) findViewById(R.id.total_point)).setText("적립금 "+String.valueOf(mTotalPoint));
+        }
 
         mSaleAdapter.setList(mSaleList);
         mSaleAdapter.notifyDataSetChanged();
@@ -220,6 +233,8 @@ public class MainActivity extends AppCompatActivity {
             mPoint = json.getInt("mPoint");
             mSubTotal = json.getInt("mSubTotal");
             mTotal = json.getInt("mTotal");
+            mTotalPoint = json.optInt("mUserReward", 0);
+            mUserId = json.optString("mUserId", null);
 
             JSONArray arr = json.getJSONArray("saleMirrorItemList");
             for (int i = 0; i < arr.length(); i++) {

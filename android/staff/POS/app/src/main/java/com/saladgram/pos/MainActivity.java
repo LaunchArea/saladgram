@@ -477,7 +477,7 @@ public class MainActivity extends AppCompatActivity {
             alert.show();
         } else {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("사용할 포인트 입력");
+            alert.setTitle("사용할 포인트 입력. 최대 " + mUserInfo.reward);
             final EditText input = new EditText(this);
             input.setInputType(InputType.TYPE_CLASS_NUMBER);
             input.setRawInputType(Configuration.KEYBOARD_12KEY);
@@ -983,6 +983,10 @@ public class MainActivity extends AppCompatActivity {
         map.put("mPoint", mPoint);
         map.put("mSubTotal", mSubTotal);
         map.put("mTotal", mTotal);
+        if(mUserInfo != null) {
+            map.put("mUserId", mUserInfo.id);
+            map.put("mUserReward", mUserInfo.reward);
+        }
 
         JSONObject jMap = new JSONObject(map);
         JSONArray jArray = new JSONArray();
@@ -1130,6 +1134,10 @@ public class MainActivity extends AppCompatActivity {
         map.put("mPoint", theOrder.reward_use);
         map.put("mSubTotal", theOrder.total_price);
         map.put("mTotal", theOrder.actual_price);
+        if(mUserInfo != null) {
+            map.put("mUserId", mUserInfo.id);
+            map.put("mUserReward", mUserInfo.reward);
+        }
 
         JSONObject jMap = new JSONObject(map);
         JSONArray jArray = new JSONArray();

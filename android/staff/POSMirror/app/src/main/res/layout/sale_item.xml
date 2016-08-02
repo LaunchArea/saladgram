@@ -10,6 +10,8 @@
         android:minHeight="95dp"
         android:layout_marginBottom="1dp"
         android:background="@color/background"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         >
         <TextView
             android:id="@+id/name"
