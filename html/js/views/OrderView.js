@@ -1948,7 +1948,13 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			});
 	    	this.$el.find('#step_4_wrap').html(template);
 
-            window.orderInfoModel.set({payment_type: 7});
+            //window.orderInfoModel.set({payment_type: 7});
+            if (orderType == ORDER_TYPE_PICKUP) {
+                window.orderInfoModel.set({payment_type: 8});
+            } else if (orderType == ORDER_TYPE_DELIVERY) {
+                window.orderInfoModel.set({payment_type: 9});
+            }
+
 
 	    	var userId = window.userCollection.models[0].get('user_info').id;
 			var jwt = window.userCollection.models[0].get('jwt');
