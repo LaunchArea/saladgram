@@ -1,3 +1,5 @@
+<html>
+<body onload="orderComplete();">
 <?php
 require_once('order.php');
 
@@ -8,6 +10,7 @@ $P_TID = $_POST['P_TID'];
 $P_MID = 'saladgram0';
 $server_output = "";
 $order_data = FALSE;
+$order_canceled = FALSE;
 
 function makeParam($P_TID, $P_MID) {
     return "P_TID=".$P_TID."&P_MID=".$P_MID;
@@ -75,11 +78,15 @@ if($P_STATUS=="00" && chkTid($P_TID)) {
             print "주문 완료. 최종 주문번호 : ".$order_data['order_id'];
         }
     }
+} else {
+    if ($P_STATUS == "01") {
+        // 결제창 취소
+        $order_canceled = TRUE;
+    }
+    print "결제 인증 실패. 에러코드 : ".$P_STATUS;
 }
 ?>
 
-<html>
-<body onload="orderComplete();">
 <?php
 var_dump(iconv("EUC-KR", "UTF-8", $server_output));
 ?>
@@ -97,6 +104,11 @@ function orderComplete() {
             orderCompleteUrl = orderCompleteUrl + "&order_time=<?php echo $order_data['order_time']; ?>";
             orderCompleteUrl = orderCompleteUrl + "&order_id=<?php echo $order_data['order_id']; ?>";
             location.href = orderCompleteUrl;
+<?php
+        } else if ($order_canceled === TRUE) {
+?>
+            var el = top.document.getElementsByTagName('iframe');
+            el[0].parentNode.removeChild(el[0]);
 <?php
         }
 ?>
