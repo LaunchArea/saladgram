@@ -293,13 +293,17 @@ if (!$result) {
 }
 
 $subscription_id = $db_conn->insert_id;
+$comment = $data['comment'];
+if (!$comment) {
+    $comment = "";
+}
 foreach ($orders as &$order) {
     if ($order['holiday'] == 1){
         continue;
     }
     $actual_price = $order['total_price'] * (100 - $discount) / 100;
     $query = "insert into orders values(NULL, $subscription_id, NULL, 3, '".$subscription['id']."', NULL, '".$subscription['addr']."', ";
-    $query = $query.$order['total_price'].", $discount, 0, $actual_price, 8, $actual_price, $order_time, ".$order['reservation_time'].", ".Types::STATUS_TODO.")";
+    $query = $query.$order['total_price'].", $discount, 0, $actual_price, 8, $actual_price, $order_time, ".$order['reservation_time'].", ".Types::STATUS_TODO.", '$comment')";
 
     $result = mysqli_query($db_conn, $query);
     if (!$result) {

@@ -84,6 +84,10 @@ function confirm_order($oid) {
     $payment_type = $data['payment_type'];
     $order_time = $data['order_time'];
     $reservation_time = $data['reservation_time'];
+    $comment = $data['comment'];
+    if (!$comment) {
+        $comment = "";
+    }
 
     $query = "insert into orders values(NULL, NULL, NULL, $order_type, ";
     if ($id) {
@@ -101,7 +105,7 @@ function confirm_order($oid) {
     }
 
     $paid = ($actual_price / 100) * 100;
-    $query = $query."$total_price, $discount, $reward_use, $actual_price, $payment_type, $paid, $order_time, $reservation_time, ".Types::STATUS_TODO.")";
+    $query = $query."$total_price, $discount, $reward_use, $actual_price, $payment_type, $paid, $order_time, $reservation_time, ".Types::STATUS_TODO.", '$comment')";
 
     $db_conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
     if (mysqli_connect_errno($db_conn)) {

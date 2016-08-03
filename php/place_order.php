@@ -84,6 +84,10 @@ $reservation_time = $data['reservation_time'];
 if (!$reservation_time) {
     $reservation_time = $order_time;
 }
+$comment = $data['comment'];
+if (!$comment) {
+    $comment = "";
+}
 
 $query = "insert into orders values(NULL, NULL, NULL, $order_type, ";
 if ($id) {
@@ -104,9 +108,8 @@ $paid = 0;
 if ($payment_type == Types::PAYMENT_CARD || $payment_type == Types::PAYMENT_CASH || $payment_type == Types::PAYMENT_CASH_RECEIPT) {
     $paid = ($actual_price / 100) * 100;
 }
-// TODO : inipay
 
-$query = $query."$total_price, $discount, $reward_use, $actual_price, $payment_type, $paid, $order_time, $reservation_time, ".Types::STATUS_TODO.")";
+$query = $query."$total_price, $discount, $reward_use, $actual_price, $payment_type, $paid, $order_time, $reservation_time, ".Types::STATUS_TODO.", '$comment')";
 
 $db_conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 if (mysqli_connect_errno($db_conn)) {
