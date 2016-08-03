@@ -7,7 +7,7 @@ $P_TID = $_POST['P_TID'];
 // $P_MID = 'INIpayTest';
 $P_MID = 'saladgram0';
 $server_output = "";
-$order_data = NULL;
+$order_data = FALSE;
 
 function makeParam($P_TID, $P_MID) {
     return "P_TID=".$P_TID."&P_MID=".$P_MID;
