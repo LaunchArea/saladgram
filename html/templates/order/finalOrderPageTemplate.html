@@ -46,9 +46,17 @@
 				</div>
 				<div class="col-xs-12 point-wrap">
                     <p class="col-xs-12 ">100원 단위 미만 절사 후 <span><%= discount_cut_price  %></span>원</p>
-					<p class="col-xs-12 ">사용가능 적립금
-						<span id="order_my_point"><%= my_point %></span>
-                        원 | 적립금 사용 <span class="use-reward-input-wrap"><input id="input_user_my_point" type="number" value="0">원</span>
+                    <p class="col-xs-12 ">사용가능 적립금<span id="order_my_point"><%= my_point %></span>원</p>
+                    <p class="col-xs-12 ">적립금 사용 [<span class="use-reward-input-wrap"><input id="input_user_my_point" type="number" value="0">] 원</span></p>
+				</div>
+				<div class="col-xs-12 comment-wrap">
+				    <p class="col-xs-12 col-sm-2 comment-label">요청사항</p>
+                    <p class="col-xs-12 col-sm-10">
+			        <% if(order_type === 1){%>
+                        <input id="comment-input" placeholder="추가 요청사항이 있을시 말씀해주세요">
+			        <% }else if(order_type === 2){%>
+                        <input id="comment-input" placeholder="추가 요청사항이 있을시 말씀해주세요">
+			        <% }%>
 					</p>
 				</div>
 				<div class="col-xs-12 final-price ">

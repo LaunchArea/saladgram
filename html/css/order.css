@@ -1225,6 +1225,18 @@
 	border-bottom:1px solid #ddd;
 	padding: 10px 0 0;
 }
+#final_order_info_body .final-order-price-info-wrap .comment-wrap{
+	border-bottom:1px solid #ddd;
+	padding: 10px 0 0;
+    text-align: left;
+}
+#final_order_info_body .final-order-price-info-wrap .comment-wrap #comment-input{
+    text-align: left;
+    width:100%;
+}
+#final_order_info_body .final-order-price-info-wrap .comment-wrap .comment-label{
+    text-align: left;
+}
 #final_order_info_body .final-order-price-info-wrap .final-price{
 	text-align: center;
 	padding:20px 0;
@@ -1571,7 +1583,8 @@
 		/*padding:0 5px;*/
 	}
 	#final_order_info_body .final-order-price-info-wrap .use-reward-input-wrap #input_user_my_point{
-		width:80px;
+		width:60px;
+        text-align: center; 
 	}
 	#final_order_info_header .addr-display{
 		/*color:#111;*/
