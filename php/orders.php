@@ -151,6 +151,9 @@ if (!$result) {
             if ($row['deliverer_id']) {
                 $order['deliverer_id'] = $row['deliverer_id'];
             }
+            if ($row['comment']) {
+                $order['comment'] = $row['comment'];
+            }
         }
         $array = array();
         $array['order_item_type'] = (int)$row['order_item_type'];
