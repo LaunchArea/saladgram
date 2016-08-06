@@ -6,7 +6,7 @@ import pymysql
 import time
 
 def check_5min():
-    min = 10
+    min = 8
     connection = pymysql.connect(host = 'saladgram.cue6club2lsf.ap-northeast-2.rds.amazonaws.com',
                                  user = 'saladgram',
                                  passwd = 'saladgram',

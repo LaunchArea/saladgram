@@ -2043,6 +2043,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 
                     var myOwnPoint = parseInt(window.userCollection.models[0].get('user_info').reward);
 			        var useMyPoint = parseInt($('#input_user_my_point').val());
+			        var userComment = ($('#comment-input').val());
 			        if(myOwnPoint < useMyPoint){
 			        	swal({
 							title: "",
@@ -2062,6 +2063,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 
 			        //point를 가져오고 최종 가격을 다시한번 재 계산
 			        window.orderInfoModel.set('reward_use',useMyPoint);
+                    window.orderInfoModel.set('comment', userComment);
 			        var totalPrice = window.orderInfoModel.get('total_price');
 					var discount = window.orderInfoModel.get('discount');
 					if(totalPrice >= mFirstDiscountMinPrice){
