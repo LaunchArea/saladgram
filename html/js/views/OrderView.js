@@ -2186,7 +2186,14 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                                 if (userType == 'member') {
                                     userName = window.userCollection.models[0].get('user_info').name;
                                 }
-                                if(navigator.userAgent.match(/Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/)) {
+                                //if(navigator.userAgent.match(/Android|Mobile|iP(hone|od|ad)|BlackBerry|IEMobile|Kindle|NetFront|Silk-Accelerated|(hpw|web)OS|Fennec|Minimo|Opera M(obi|ini)|Blazer|Dolfin|Dolphin|Skyfire|Zune/)) {
+                                if(true) {
+                                    location.hash = "noBack";
+                                    $(window).on('hashchange', function() {
+                                        var el = top.document.getElementsByTagName('iframe');
+                                        el[0].parentNode.removeChild(el[0]);
+                                        location.hash = "noBack";
+                                    });
                                     var iframe = document.createElement('iframe');
                                     var paymentSrc = 'https://www.saladgram.com/inicis/mobile.php';
                                     paymentSrc = paymentSrc + '?goodname=' + window.orderInfoModel.get('order_name');
