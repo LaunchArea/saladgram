@@ -1900,7 +1900,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                 if (gross_price < 8000) {
 					swal({
 	                  title: "",
-	                  text: "7월 이벤트 : <strike>8000원</strike> 5000원 이상 배달 가능!",
+	                  text: "8월 이벤트 : <strike>8000원</strike> 5000원 이상 배달 가능!",
 	                  confirmButtonClass: "btn-warning",
                       html: true
 	                });
