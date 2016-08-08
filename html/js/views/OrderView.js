@@ -277,6 +277,14 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 						setHtmlView();
 						// console.log(JSON.stringify(window.menuCollection.models[0]));
 					}
+                    // 휴가 기간 안내
+                    if (currentDate.getMonth() + 1 == 8 && currentDate.getDate() <= 15) {
+                        swal({
+                            title: "휴무 안내",
+                            text: "8월12일 ~ 8월15일은 샐러드그램 휴가기간입니다",
+                            confirmButtonClass: "btn-warning",
+                        });
+                    }
                 },
                 error:function(error){
                     console.log('서버시간 체크 실패');

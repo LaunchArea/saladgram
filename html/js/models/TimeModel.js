@@ -59,6 +59,17 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
         },
         //영업날짜/시간인지 확인, 가능시 true 리턴, 불가능시 string reason 리턴
         checkOrderTime: function(orderType, currentDate, reservationDate){
+            // 휴가 기간 처리
+            if (reservationDate != null) {
+                if (reservationDate.getMonth() + 1 == 8 && (reservationDate.getDate() == 12 || reservationDate.getDate() == 13)) {
+                    return "8월12일 ~ 8월15일은 샐러드그램 휴가기간입니다";
+                }
+            } else {
+                if (currentDate.getMonth() + 1 == 8 && (currentDate.getDate() == 12 || currentDate.getDate() == 13)) {
+                    return "8월12일 ~ 8월15일은 샐러드그램 휴가기간입니다";
+                }
+            }
+
             if (orderType == ORDER_TYPE_DELIVERY) {
                 // 배달 주문
                 if (reservationDate != null && currentDate.getDate() != reservationDate.getDate()) {
