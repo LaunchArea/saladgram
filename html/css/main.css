@@ -325,9 +325,9 @@ html,body{height:100%;}
 }
 .carousel .item-00 .carousel-desktop{
   position: absolute;
-  top:70%;
-  left:35%;
-  width:30%;
+  top:37%;
+  left:12%;
+  width:26.7;
 }
 .carousel .item-01 .carousel-desktop{
   position: absolute;
@@ -594,9 +594,9 @@ html,body{height:100%;}
   }
   .carousel .item-00 .carousel-mobile{
     position: absolute;
-    top:40%;
-    left:12%;
-    width:40%;
+    top:37%;
+    left:6.5%;
+    width:66.7%;
   }
   .carousel .item-01 .carousel-mobile{
     position: absolute;
