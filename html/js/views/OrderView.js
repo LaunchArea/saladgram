@@ -145,7 +145,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							addr: addrText,
 							hours: window.times.get('hours'),
 							c_hours: currentHour,
-							mins: window.times.get('mins'),
+							mins: window.times.get('mins_pickup'),
 							c_mins: currentMins,
 						}));
 

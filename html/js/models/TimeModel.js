@@ -24,7 +24,8 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
         defaults: {
             // hours:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
             hours:[],
-            mins:[00,20,40,59]    //20분 단위
+            mins:[00,20,40,59],    //20분 단위
+            mins_pickup:[00,10,20,30,40,50,59]
         },
         isSaturday: function(date) {
             if ( date.getDay() == 6 ) {
