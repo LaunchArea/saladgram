@@ -56,7 +56,11 @@ define(['jquery', 'underscore', 'backbone','text!templates/mainNavigationTemplat
             $('#btn_nav_logout').removeClass('hide');
             $('#btn_nav_login').addClass('hide');
             $('#btn_nav_join').addClass('hide');
-            
+            console.log(window.location.href);
+            if (window.location.href.indexOf('#mypage') != -1) {
+                $('#myPageModal').modal('hide');
+                $('#myPageModal').modal('show');
+            }
           }else{
             console.log('no login!');
             $('#btn_nav_mypage').addClass('hide');

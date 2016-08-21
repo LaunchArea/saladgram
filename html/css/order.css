@@ -1299,6 +1299,22 @@
 	margin-top:43px;
 }
 
+.order-complete-btn-wrap{
+    width: 30%;
+    margin: 0 auto;
+	margin-top:35px;
+}
+.btn-saladgram-ordercomplete{
+	width:48%;
+    margin: 0;
+	margin-bottom:35px;
+	background:none;
+	border:1px solid #bdd829;
+	border-radius: 25px;
+	color:#bdd829;
+	height: 40px;
+}
+
 @media (max-width: 991px) {
 	.menu-tab{
 		width: 56.3%;
@@ -1348,6 +1364,10 @@
 	.salad-item-in-salad-wrap .overlay-btn-wrap .item-amount{
 		font-size:16px;
 	}
+
+    .order-complete-btn-wrap{
+        width: 40%;
+    }
 }
 @media (max-width: 767px) {
 	.salad-item-in-salad-wrap .overlay-btn-wrap .item-amount{
@@ -1599,6 +1619,9 @@
         padding-top: 78px;
     }
 	
+    .order-complete-btn-wrap{
+        width: 60%;
+    }
 }
 
 @media (max-width: 615px) {
@@ -1631,12 +1654,18 @@
 		font-size:14px;
 	}
 
+    .order-complete-btn-wrap{
+        width: 70%;
+    }
 }
 
 @media (max-width: 470px) {
 	#final_order_info_body .list-group-item .final-item-img{
 		width: 16%;
 	}
+    .order-complete-btn-wrap{
+        width: 80%;
+    }
 }
 @media (max-width: 380px) {
 	.salad-item-in-salad-wrap .overlay-btn-wrap .item-amount{
@@ -1645,4 +1674,7 @@
 	.order-type-tabs-wrap li{
 		height: 100px;
 	}
+    .order-complete-btn-wrap{
+        width: 80%;
+    }
 }
