@@ -210,7 +210,6 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 
 									//modal backdrop reset
 					                $('.modal').on('shown.bs.modal', function(e){
-					                    console.log('aaa');
 					                    $(this).modal('handleUpdate'); //Update backdrop on modal show
 					                    $(this).scrollTop(0); //reset modal to top position
 					                }); 
