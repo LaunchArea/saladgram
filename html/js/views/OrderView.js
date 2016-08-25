@@ -145,7 +145,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 							addr: addrText,
 							hours: window.times.get('hours'),
 							c_hours: currentHour,
-							mins: window.times.get('mins'),
+							mins: window.times.get('mins_pickup'),
 							c_mins: currentMins,
 						}));
 
@@ -210,7 +210,6 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 
 									//modal backdrop reset
 					                $('.modal').on('shown.bs.modal', function(e){
-					                    console.log('aaa');
 					                    $(this).modal('handleUpdate'); //Update backdrop on modal show
 					                    $(this).scrollTop(0); //reset modal to top position
 					                }); 
@@ -282,6 +281,14 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                         swal({
                             title: "휴무 안내",
                             text: "8월12일 ~ 8월15일은 샐러드그램 휴가기간입니다",
+                            confirmButtonClass: "btn-warning",
+                        });
+                    }
+                    // 영업 시간 변경 안내
+                    if (currentDate.getMonth() + 1 == 8 && currentDate.getDate() <= 31) {
+                        swal({
+                            title: "영업시간 변경안내",
+                            text: "8월 29일부터 영업 및 배달시간이 월~금 11:00 ~ 22:00 (L.O. 21:00)로 변경됩니다",
                             confirmButtonClass: "btn-warning",
                         });
                     }

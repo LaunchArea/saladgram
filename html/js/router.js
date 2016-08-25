@@ -24,6 +24,7 @@ define([
       'menu' :    'menu',
       'ourstory': 'ourstory', 
       'store':    'store', 
+      'mypage':   'mypage',
       'order':    'order', 
       'ordercomplete':    'ordercomplete', 
       'ordercomplete?*queryString' : 'ordercomplete',
@@ -48,6 +49,12 @@ define([
           window.storeView = new StoreView();
         }
         window.storeView.render();
+      },
+      mypage:function() {
+          if(typeof window.mainView === "undefined"){
+              window.mainView = new MainView();
+          }
+          window.mainView.render();
       },
       order:function() {
         $('#saladgram_footer').addClass('hidden');
@@ -105,9 +112,11 @@ define([
         }
         $('#btn_order_nav_cancel').addClass('hidden');
         window.orderCompleteView.render();
+        /*
         setTimeout(function () {
           location.href = '/';
         }, 7000);
+        */
       },
       allaction:function() {
         console.log('nopage');

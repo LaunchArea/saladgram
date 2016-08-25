@@ -323,11 +323,17 @@ html,body{height:100%;}
 .carousel .item-03 {
   background-image: url("../img/main_carousel_bg_03.jpg");
 }
+.carousel .item-05 {
+  background-image: url("../img/main_carousel_bg_05.jpg");
+}
+.carousel .item-06 {
+  background-image: url("../img/main_carousel_bg_06.jpg");
+}
 .carousel .item-00 .carousel-desktop{
   position: absolute;
-  top:70%;
-  left:35%;
-  width:30%;
+  top:37%;
+  left:12%;
+  width:26.7;
 }
 .carousel .item-01 .carousel-desktop{
   position: absolute;
@@ -346,6 +352,18 @@ html,body{height:100%;}
   top:28%;
   right:35.5%;
   width:29%;
+}
+.carousel .item-05 .carousel-desktop{
+  position: absolute;
+  top:32%;
+  left:3.5%;
+  width:33.3%;
+}
+.carousel .item-06 .carousel-desktop{
+  position: absolute;
+  top:63.3%;
+  left:58.5%;
+  width:33.7%;
 }
 
 .carousel-inner{
@@ -585,6 +603,12 @@ html,body{height:100%;}
   .carousel .item-03 {
     background-image: url("../img/main_carousel_mo_bg_03.jpg");
   }
+  .carousel .item-05 {
+    background-image: url("../img/main_carousel_mo_bg_05.jpg");
+  }
+  .carousel .item-06 {
+    background-image: url("../img/main_carousel_mo_bg_06.jpg");
+  }
 
   .carousel .item .carousel-desktop{
     display: none;
@@ -594,9 +618,9 @@ html,body{height:100%;}
   }
   .carousel .item-00 .carousel-mobile{
     position: absolute;
-    top:40%;
-    left:12%;
-    width:40%;
+    top:37%;
+    left:6.5%;
+    width:66.7%;
   }
   .carousel .item-01 .carousel-mobile{
     position: absolute;
@@ -615,6 +639,18 @@ html,body{height:100%;}
     top:25%;
     left:15%;
     width:70%;
+  }
+  .carousel .item-05 .carousel-mobile{
+    position: absolute;
+    top:25.8%;
+    left:3.3%;
+    width:60%;
+  }
+  .carousel .item-06 .carousel-mobile{
+    position: absolute;
+    top:71.5%;
+    left:37.2%;
+    width:60%;
   }
   .btn-carousel{
     width: 90%;

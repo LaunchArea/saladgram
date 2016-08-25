@@ -56,7 +56,6 @@ define(['jquery', 'underscore', 'backbone','text!templates/mainNavigationTemplat
             $('#btn_nav_logout').removeClass('hide');
             $('#btn_nav_login').addClass('hide');
             $('#btn_nav_join').addClass('hide');
-            
           }else{
             console.log('no login!');
             $('#btn_nav_mypage').addClass('hide');

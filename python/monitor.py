@@ -16,7 +16,7 @@ def check_5min():
     cursor = connection.cursor()
     now = int(round(time.time()))
     howlong = min * 60
-    cursor.execute("SELECT order_id FROM orders where order_type <= 3 and status = 1 and reservation_time < %s + %s", (now, howlong))
+    cursor.execute("SELECT order_id, order_type FROM orders where order_type <= 3 and status = 1 and reservation_time < %s + %s", (now, howlong))
     orders = cursor.fetchall()
     
     if len(orders) > 0:
@@ -26,7 +26,12 @@ def check_5min():
 
         buf += 'order_id : '
         for order in orders:
-            buf += ('%d,' % (order['order_id']))
+            if order['order_type'] == 1:
+                buf += ('%d(픽업),' % (order['order_id']))
+            elif order['order_type'] == 2:
+                buf += ('%d(배달),' % (order['order_id']))
+            else:
+                buf += ('%d,' % (order['order_id']))
         slack.notify(buf)
 
     cursor.close()

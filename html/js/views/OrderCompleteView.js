@@ -14,6 +14,8 @@ define(['jquery', 'underscore', 'backbone','views/NavigationView'
                 order_id : window.orderInfoModel.get('order_id'),
             });
             console.log(JSON.stringify(window.orderInfoModel));
+            window.orderInfoModel = undefined;
+            window.orderItemsCollection = undefined;
             $('#navbar_order_center_title').html("주문 완료");
 			this.$el.html(template);
         },

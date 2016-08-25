@@ -278,6 +278,9 @@ define(['jquery', 'underscore', 'backbone'
                 window.naviView = new NavigationView();
             }
             window.naviView.render();
+            if (window.location.href.indexOf('#mypage') != -1) {
+                $('#myPageModal').modal('show');
+            }
         },
         memberLogin: function() {
         	console.log('memberLogin');

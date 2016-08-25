@@ -24,7 +24,8 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
         defaults: {
             // hours:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24],
             hours:[],
-            mins:[00,20,40,59]    //20분 단위
+            mins:[00,20,40,59],    //20분 단위
+            mins_pickup:[00,10,20,30,40,50,59]
         },
         isSaturday: function(date) {
             if ( date.getDay() == 6 ) {
@@ -162,12 +163,12 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                             return "오후 2시부터 오후 5시까지는 브레이크타임 입니다";
                         }
                     }
-                    if (((reservationDate.getTime() - currentDate.getTime()) / 60 / 1000) < 20) {
+                    if (((reservationDate.getTime() - currentDate.getTime()) / 60 / 1000) < 10) {
                         if (this.isSaturday(reservationDate) && reservationHour == 9) {
                         } else if (!this.isSaturday(reservationDate) && reservationHour == 7) {
                         } else if (!this.isSaturday(reservationDate) && reservationHour == 17) {
                         } else {
-                            return "20분 이내 주문은 바로주문을 이용해 주세요";
+                            return "10분 이내 주문은 바로주문을 이용해 주세요";
                         }
                     }
                 } else {
