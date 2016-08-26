@@ -278,6 +278,9 @@ html,body{height:100%;}
 
 
 /* Carousel base class */
+.carousel-control {
+    width: 10%;
+}
 .carousel {
   height:100%;
 }
@@ -442,16 +445,23 @@ html,body{height:100%;}
 -------------------------------------------------- */
 
 @media (max-width: 995px) {
-  .navbar-salgram .navbar-nav .pull-cent a{
-    font-size:14px;
-  }
-  .navbar-salgram .navbar-nav .pull-right a{
-    font-size:12px;
-  }
-  .saladgram-footer .footer-copyright{
-    line-height: 150%;
-    font-size: 11.5px;
-  }
+    .carousel-control {
+        width: 12%;
+    }
+    .btn-carousel{
+        width: 90%;
+        background-size: contain;
+    }
+    .navbar-salgram .navbar-nav .pull-cent a{
+        font-size:14px;
+    }
+    .navbar-salgram .navbar-nav .pull-right a{
+        font-size:12px;
+    }
+    .saladgram-footer .footer-copyright{
+        line-height: 150%;
+        font-size: 11.5px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -651,6 +661,9 @@ html,body{height:100%;}
     top:71.5%;
     left:37.2%;
     width:60%;
+  }
+  .carousel-control {
+      width: 15%;
   }
   .btn-carousel{
     width: 90%;
