@@ -1877,8 +1877,16 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			var order_list = window.orderItemsCollection.models;
 			var gross_price = window.orderInfoModel.get('total_price');
 			var orderType = window.orderInfoModel.get('order_type');
+            var addr = window.orderInfoModel.get('addr');
+            var closeBuilding = false;
 			if(orderType === ORDER_TYPE_DELIVERY){ //delivery
-				if(gross_price < mMinDeliveryPrice){
+                var buildingName = addr.split(" ")[0];
+                if (mCloseBuildings.indexOf(buildingName) != -1) {
+                    closeBuilding = true;
+                }
+				if(( closeBuilding && (gross_price < mCloseBuildingMinDeliveryPrice)) || 
+                   (!closeBuilding && (gross_price < mMinDeliveryPrice))
+                  ){
 					swal({
 	                  title: "",
 	                  text: MES_MIN_DELIVERY_PRICE,
@@ -1886,10 +1894,17 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 	                });	
 	                return;
 				}
-                if (gross_price < 8000) {
+                if (closeBuilding && gross_price < mMinDeliveryPrice) {
 					swal({
 	                  title: "",
-	                  text: "8월 이벤트 : <strike>8000원</strike> 5000원 이상 배달 가능!",
+	                  text: "9월 이벤트 : <strike>8000원</strike> 5000원 이상 배달 가능!",
+	                  confirmButtonClass: "btn-warning",
+                      html: true
+	                });
+                } else if (!closeBuilding && gross_price < mFreeDeliveryFee) {
+					swal({
+	                  title: "",
+	                  text: "9월 이벤트 : <strike>20000원</strike> 8000원 이상 배달비 무료!",
 	                  confirmButtonClass: "btn-warning",
                       html: true
 	                });
@@ -1911,7 +1926,11 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 			var discount_cut_price = Math.floor(discount_price/100) * 100;
 
 			var my_point =0;
+            var showDeliveryFee = (orderType === ORDER_TYPE_DELIVERY) && (!closeBuilding && (gross_price < mFreeDeliveryFee));
 			var final_payment_price = discount_cut_price;
+            if (showDeliveryFee) {
+                //final_payment_price += mDeliveryFee;
+            }
 
 			// console.log('timeText : ' + timeText);
 			// console.log('addrText : ' + addrText);
@@ -1934,6 +1953,7 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 				discount_cut_price : discount_cut_price,
 				my_point : my_point,
 				final_payment_price: final_payment_price,
+                show_delivery_fee : showDeliveryFee,
 			});
 	    	this.$el.find('#step_4_wrap').html(template);
 

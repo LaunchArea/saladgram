@@ -5,8 +5,11 @@ var ORDER_TYPE_PICKUP = 1;
 var ORDER_TYPE_DELIVERY = 2;
 var ORDER_TYPE_SUBSCRIBE = 3;
 
-var mMinDeliveryPrice = 5000;
+var mCloseBuildingMinDeliveryPrice = 5000;
+var mMinDeliveryPrice = 8000;
 var mMinPricePerSalad = 3000;
+var mFreeDeliveryFee = 20000;
+var mDeliveryFee = 1000;
 
 //10만원 이상 주문시 10%할인
 var mFirstDiscountMinPrice = 100000;    
@@ -20,6 +23,8 @@ var mThirdDiscountRate = 5;
 
 var mDiscountRateByPickup = 5;
 var mDiscountRateBySubscribe = 5;
+
+var mCloseBuildings = new Array("송파한화오벨리스크", "송파푸르지오시티", "송파아이파크", "래미안갤러리");
 
 //영업시간
 var WEEKDAY_OPEN_HOUR = 11;
