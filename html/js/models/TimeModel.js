@@ -79,7 +79,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                 if (reservationDate != null && currentDate.getDate() != reservationDate.getDate()) {
                     // 내일 예약
                     var reservationHour = reservationDate.getHours();
-                    if (this.isSaturday(reservationDate) || this.isSunday(reservationDate) || is.isHoliday(reservationDate)) {
+                    if (this.isSaturday(reservationDate) || this.isSunday(reservationDate) || this.isHoliday(reservationDate)) {
                         return "토,일요일 및 공휴일은 매장 휴일입니다";
                     } else {
                         if (reservationHour < 11 || reservationHour >= 22) {
