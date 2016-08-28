@@ -41,21 +41,18 @@
 .sub-wrap .sub-page-top-img img{
 	display: none;
 }
-.sub-store-top{
+.sub-store-bottom{
 	text-align: center;
 	padding:6% 0%;
 	margin-bottom:100px;
 }
-.sub-store-top img{
+.sub-store-bottom img{
 	width: 100%;
 	max-width:529px;
 }
 
 .sub-wrap .sub-ourstory-top{
 	background-image: url("../img/main_our_story_01.jpg");
-}
-.sub-wrap .sub-store-top{
-    background-image: url("../img/main_store_01_2x.png");
 }
 .sub-wrap .sub-ourstory-bottom{
 	text-align: center;
@@ -507,9 +504,6 @@
 	.sub-wrap .sub-ourstory-top{
 		background-image: url("../img/main_our_story_mo_01.jpg");
 	}
-	.sub-wrap .sub-store-top{
-		background-image: url("../img/main_store_01_mo_2x.png");
-	}
 	.sub-wrap .sub-menu-top{
 		background-image: url("../img/main_menu_mo_01.png");
 	}
@@ -537,7 +531,7 @@
 		width:100%;
 	}
 	
-	.sub-store-top img{
+	.sub-store-bottom img{
 		width: 90%;
 		margin-top:50px;
 	}
@@ -592,9 +586,6 @@
 	
 	.sub-wrap .sub-ourstory-top{
 		background-image: url("../img/main_our_story_mo_01.jpg");
-	}
-	.sub-wrap .sub-store-top{
-		background-image: url("../img/main_store_01_mo_2x.png");
 	}
 	.sub-wrap .sub-menu-top{
 	    /*background-size:contain;
