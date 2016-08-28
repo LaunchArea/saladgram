@@ -22,7 +22,7 @@ var mDiscountRateByPickup = 5;
 var mDiscountRateBySubscribe = 5;
 
 //영업시간
-var WEEKDAY_OPEN_HOUR = 7;
+var WEEKDAY_OPEN_HOUR = 11;
 var WEEKDAY_CLOSE_HOUR = 22;
 var WEEKDAY_BREAK_START_HOUR = 14;
 var WEEKDAY_BREAK_END_HOUR = 17;

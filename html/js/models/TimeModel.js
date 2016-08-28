@@ -50,9 +50,10 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
             }
         },
         isOffDay:function(date){
+            var isSaturday = this.isSaturday(date);
             var isHoliday = this.isHoliday(date);
             var isSunday = this.isSunday(date);
-            if(isHoliday || isSunday){
+            if (isSaturday || isHoliday || isSunday){
                 return true;
             } else {
                 return false;
@@ -61,6 +62,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
         //영업날짜/시간인지 확인, 가능시 true 리턴, 불가능시 string reason 리턴
         checkOrderTime: function(orderType, currentDate, reservationDate){
             // 휴가 기간 처리
+            /*
             if (reservationDate != null) {
                 if (reservationDate.getMonth() + 1 == 8 && (reservationDate.getDate() == 12 || reservationDate.getDate() == 13)) {
                     return "8월12일 ~ 8월15일은 샐러드그램 휴가기간입니다";
@@ -70,57 +72,60 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                     return "8월12일 ~ 8월15일은 샐러드그램 휴가기간입니다";
                 }
             }
+            */
 
             if (orderType == ORDER_TYPE_DELIVERY) {
                 // 배달 주문
                 if (reservationDate != null && currentDate.getDate() != reservationDate.getDate()) {
                     // 내일 예약
                     var reservationHour = reservationDate.getHours();
-                    if (this.isSaturday(reservationDate)) {
-                        if (reservationHour < 9 || reservationHour >= 14) {
-                            return "토요일 배달 시간은 오전 9시부터 오후 2시까지 입니다";
-                        }
-                    } else if (this.isSunday(reservationDate) || this.isHoliday(reservationDate)) {
-                        return "일요일 및 공휴일은 매장 휴일입니다";
+                    if (this.isSaturday(reservationDate) || this.isSunday(reservationDate) || is.isHoliday(reservationDate)) {
+                        return "토,일요일 및 공휴일은 매장 휴일입니다";
                     } else {
-                        if (reservationHour < 7 || reservationHour >= 14) {
-                            return "평일 배달 시간은 오전 7시부터 오후 2시까지 입니다";
+                        if (reservationHour < 11 || reservationHour >= 22) {
+                            return "배달 가능 시간은 오전 11시부터 오후 10시까지 입니다";
+                        }
+                        if (reservationHour >= 14 && reservationHour < 17) {
+                            return "오후 2시부터 오후 5시까지는 브레이크타임 입니다";
                         }
                     }
                 } else if (reservationDate != null && currentDate.getDate() == reservationDate.getDate()) {
                     // 당일 예약
                     var reservationHour = reservationDate.getHours();
-                    if (this.isSaturday(reservationDate)) {
-                        if (reservationHour < 9 || reservationHour >= 14) {
-                            return "토요일 배달 시간은 오전 9시부터 오후 2시까지 입니다";
-                        }
-                    } else if (this.isSunday(reservationDate) || this.isHoliday(reservationDate)) {
-                        return "일요일 및 공휴일은 매장 휴일입니다";
+                    if (this.isSaturday(reservationDate) || this.isSunday(reservationDate) || this.isHoliday(reservationDate)) {
+                        return "토,일요일 및 공휴일은 매장 휴일입니다";
                     } else {
-                        if (reservationHour < 7 || reservationHour >= 14) {
-                            return "평일 배달 시간은 오전 7시부터 오후 2시까지 입니다";
+                        if (reservationHour < 11 || reservationHour >= 22) {
+                            return "배달 가능 시간은 오전 11시부터 오후 10시까지 입니다";
+                        }
+                        if (currentDate.getHours() >= 21) {
+                            return "웹주문 가능 시간은 오후 9시까지 입니다";
+                        }
+                        if (reservationHour >= 14 && reservationHour < 17) {
+                            return "오후 2시부터 오후 5시까지는 브레이크타임 입니다";
                         }
                     }
                     if (((reservationDate.getTime() - currentDate.getTime()) / 60 / 1000) < 20) {
-                        if (this.isSaturday(reservationDate) && reservationHour == 9) {
-                        } else if (!this.isSaturday(reservationDate) && reservationHour == 7) {
-                        } else if (!this.isSaturday(reservationDate) && reservationHour == 17) {
+                        if (reservationHour == 11 || reservationHour == 17) {
+                            // 오픈 직전 예약 주문 허용
                         } else {
-                            return "20분 이내 주문은 바로주문을 이용해 주세요";
+                            return "20분 이내 배달 주문은 바로주문을 이용해 주세요";
                         }
                     }
                 } else {
                     // 즉시
                     var currentHour = currentDate.getHours();
-                    if (this.isSaturday(currentDate)) {
-                        if (currentHour < 9 || currentHour >= 14) {
-                            return "토요일 배달 시간은 오전 9시부터 오후 2시까지 입니다";
-                        }
-                    } else if (this.isSunday(currentDate) || this.isHoliday(currentDate)) {
-                        return "일요일 및 공휴일은 매장 휴일입니다";
+                    if (this.isSaturday(currentDate) || this.isSunday(currentDate) || this.isHoliday(currentDate)) {
+                        return "토,일요일 및 공휴일은 매장 휴일입니다";
                     } else {
-                        if (currentHour < 7 || currentHour >= 14) {
-                            return "평일 배달 시간은 오전 7시부터 오후 2시까지 입니다";
+                        if (currentHour < 11 || currentHour >= 22) {
+                            return "배달 가능 시간은 오전 11시부터 오후 10시까지 입니다";
+                        }
+                        if (currentHour >= 21) {
+                            return "웹주문 가능 시간은 오후 9시까지 입니다";
+                        }
+                        if (currentHour >= 14 && currentHour < 17) {
+                            return "오후 2시부터 오후 5시까지는 브레이크타임 입니다";
                         }
                     }
                 }
@@ -129,15 +134,11 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                 if (reservationDate != null && currentDate.getDate() != reservationDate.getDate()) {
                     // 내일 예약
                     var reservationHour = reservationDate.getHours();
-                    if (this.isSaturday(reservationDate)) {
-                        if (reservationHour < 9 || reservationHour >= 14) {
-                            return "토요일 영업 시간은 오전 9시부터 오후 2시까지 입니다";
-                        }
-                    } else if (this.isSunday(reservationDate) || this.isHoliday(reservationDate)) {
-                        return "일요일 및 공휴일은 매장 휴일입니다";
+                    if (this.isSaturday(reservationDate) || this.isSunday(reservationDate) || this.isHoliday(reservationDate)) {
+                        return "토,일요일 및 공휴일은 매장 휴일입니다";
                     } else {
-                        if (reservationHour < 7 || reservationHour >= 22) {
-                            return "평일 영업 시간은 오전 7시부터 오후 10시까지 입니다";
+                        if (reservationHour < 11 || reservationHour >= 22) {
+                            return "영업 시간은 오전 11시부터 오후 10시까지 입니다";
                         }
                         if (reservationHour >= 14 && reservationHour < 17) {
                             return "오후 2시부터 오후 5시까지는 브레이크타임 입니다";
@@ -146,46 +147,37 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
                 } else if (reservationDate != null && currentDate.getDate() == reservationDate.getDate()) {
                     // 당일 예약
                     var reservationHour = reservationDate.getHours();
-                    if (this.isSaturday(reservationDate)) {
-                        if (reservationHour < 9 || reservationHour >= 14) {
-                            return "토요일 영업 시간은 오전 9시부터 오후 2시까지 입니다";
-                        }
-                    } else if (this.isSunday(reservationDate) || this.isHoliday(reservationDate)) {
-                        return "일요일 및 공휴일은 매장 휴일입니다";
+                    if (this.isSaturday(reservationDate) || this.isSunday(reservationDate) || this.isHoliday(reservationDate)) {
+                        return "토,일요일 및 공휴일은 매장 휴일입니다";
                     } else {
-                        if (reservationHour < 7 || reservationHour >= 22) {
-                            return "평일 영업 시간은 오전 7시부터 오후 10시까지 입니다";
+                        if (reservationHour < 11 || reservationHour >= 22) {
+                            return "영업 시간은 오전 11시부터 오후 10시까지 입니다";
                         }
                         if (currentDate.getHours() >= 21) {
-                            return "픽업 웹주문 가능 시간은 오후 9시까지 입니다";
+                            return "웹주문 가능 시간은 오후 9시까지 입니다";
                         }
                         if (reservationHour >= 14 && reservationHour < 17) {
                             return "오후 2시부터 오후 5시까지는 브레이크타임 입니다";
                         }
                     }
                     if (((reservationDate.getTime() - currentDate.getTime()) / 60 / 1000) < 10) {
-                        if (this.isSaturday(reservationDate) && reservationHour == 9) {
-                        } else if (!this.isSaturday(reservationDate) && reservationHour == 7) {
-                        } else if (!this.isSaturday(reservationDate) && reservationHour == 17) {
+                        if (reservationHour == 11 || reservationHour == 17) {
+                            // 오픈 직전 예약 주문 허용
                         } else {
-                            return "10분 이내 주문은 바로주문을 이용해 주세요";
+                            return "10분 이내 픽업 주문은 바로주문을 이용해 주세요";
                         }
                     }
                 } else {
                     // 즉시
                     var currentHour = currentDate.getHours();
-                    if (this.isSaturday(currentDate)) {
-                        if (currentHour < 9 || currentHour >= 14) {
-                            return "토요일 영업 시간은 오전 9시부터 오후 2시까지 입니다";
-                        }
-                    } else if (this.isSunday(currentDate) || this.isHoliday(currentDate)) {
-                        return "일요일 및 공휴일은 매장 휴일입니다";
+                    if (this.isSaturday(currentDate) || this.isSunday(currentDate) || this.isHoliday(currentDate)) {
+                        return "토,일요일 및 공휴일은 매장 휴일입니다";
                     } else {
-                        if (currentHour < 7 || currentHour >= 22) {
-                            return "평일 영업 시간은 오전 7시부터 오후 10시까지 입니다";
+                        if (currentHour < 11 || currentHour >= 22) {
+                            return "영업 시간은 오전 11시부터 오후 10시까지 입니다";
                         }
                         if (currentHour >= 21) {
-                            return "픽업 웹주문 가능 시간은 오후 9시까지 입니다";
+                            return "웹주문 가능 시간은 오후 9시까지 입니다";
                         }
                         if (currentHour >= 14 && currentHour < 17) {
                             return "오후 2시부터 오후 5시까지는 브레이크타임 입니다";
@@ -202,23 +194,15 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone) {
             // select 에서 시간 선택이 불가할 때의 에러메시지를 주기 위한 처리
             if (isTomorrow) {
                 currentDate.setDate(currentDate.getDate() + 1);
-                if (this.isSunday(currentDate) || this.isHoliday(currentDate)) {
-                    return "일요일 및 공휴일은 매장 휴일입니다";
+                if (this.isSaturday(currentDate) || this.isSunday(currentDate) || this.isHoliday(currentDate)) {
+                    return "토,일요일 및 공휴일은 매장 휴일입니다";
                 }
             } else {
-                if (this.isSunday(currentDate) || this.isHoliday(currentDate)) {
-                    return "일요일 및 공휴일은 매장 휴일입니다";
-                } else {
+                if (this.isSaturday(currentDate) || this.isSunday(currentDate) || this.isHoliday(currentDate)) {
+                    return "토,일요일 및 공휴일은 매장 휴일입니다";
+                } else if (currentDate.getHours() >= 21) {
                     // 당일 예약 가능 시간이 지난 경우
-                    if (orderType == ORDER_TYPE_PICKUP && !this.isSaturday(currentDate) && currentDate.getHours() >= 21) {
-                        return "픽업 웹주문 가능 시간은 오후 9시까지 입니다";
-                    }
-                    if (this.isSaturday(currentDate) && currentDate.getHours() >= 14) {
-                        return "토요일 영업 시간은 오전 9시부터 오후 2시까지 입니다";
-                    }
-                    if (orderType == ORDER_TYPE_DELIVERY && currentDate.getHours() >= 14) {
-                        return "평일 배달 시간은 오전 7시부터 오후 2시까지 입니다";
-                    }
+                    return "웹주문 가능 시간은 오후 9시까지 입니다";
                 }
             }
             return true;

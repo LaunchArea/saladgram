@@ -40,18 +40,9 @@
 			<%	
 				}else{
 					var disable = true;
-					if(!is_saturday){
-						if(hour >= c_hours && (hour < week_break_start || hour >= week_break_end)){
-							disable = false;
-						}
-                        if (order_type == 'delivery' && hour >= 14) {
-                            disable = true;
-                        }
-					}else{
-						if(hour >= c_hours && (hour >= saturday_open && hour < saturday_end)){
-							disable = false;
-						}
-					}
+                    if(hour >= c_hours && (hour < week_break_start || hour >= week_break_end)){
+                        disable = false;
+                    }
 
 					if(disable){
 		  	%>

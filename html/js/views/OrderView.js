@@ -431,50 +431,35 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 					tomorrowDate.setDate(tomorrowDate.getDate() + 1);
 					var isTodayOffDay = window.times.isOffDay(currentDate);
 					var isTomorrowOffDay = window.times.isOffDay(tomorrowDate);
-					var isTodaySaturday = window.times.isSaturday(currentDate);
-					var isTomorrowSaturday = window.times.isSaturday(tomorrowDate);
 
 					console.log('isTodayOffDay : ' + isTodayOffDay);
 					console.log('isTomorrowOffDay : ' + isTomorrowOffDay);
-					console.log('isTodaySaturday : ' + isTodaySaturday);
-					console.log('isTomorrowSaturday : ' + isTomorrowSaturday);
 					
 					//현재 분이 50분 이상이면 
 					if(currentMins > 50){
 						currentHour = currentHour + 1
 						currentMins = 0;
 					};
-					if(date === 0){ //today
+					if (date === 0) { //today
 						console.log('today');
-						if(isTodayOffDay){
+						if (isTodayOffDay) {
 							hoursOptions.attr('disabled',true);
 							minsOptions.attr('disabled',true);
-						}else{
+						} else {
 							hoursOptions.attr('disabled',false);
-							for(var i=0; i < hoursOptions.length; i++){
+							for (var i=0; i < hoursOptions.length; i++) {
 								var option = hoursOptions.eq(i);
 								var optionVal = parseInt(option.val());
 								var disable = true;
 								console.log('currentHour : ' + currentHour);
 								console.log('hours optionVal : ' + optionVal);
-								if(!isTodaySaturday){
-									if(currentHour <= optionVal && (optionVal < WEEKDAY_BREAK_START_HOUR || optionVal >= WEEKDAY_BREAK_END_HOUR)){
-										disable = false;
-									}
-								}else{
-									if(currentHour <= optionVal && (optionVal >= SATURDAY_OPEN_HOUR && optionVal < SATURDAY_CLOSE_HOUR)){
-										disable = false;
-									}
-								}
-                                if (currentOrderType == 'delivery') {
-                                    if (optionVal >= 14) {
-                                        disable = true;
-                                    }
+                                if (currentHour <= optionVal && (optionVal < WEEKDAY_BREAK_START_HOUR || optionVal >= WEEKDAY_BREAK_END_HOUR)) {
+                                    disable = false;
                                 }
-								if(disable){
+								if (disable) {
 									// console.log('hours optionVal : ' + optionVal);
 									option.attr('disabled',true);
-								}else if(optionVal == currentHour){
+								} else if (optionVal == currentHour) {
 									option.prop({selected: true});
 								}
 							}
@@ -489,32 +474,21 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 								}
 							}*/
 						}
-					}else{	//tomorrow
-						if(isTomorrowOffDay){
+					} else {	//tomorrow
+						if (isTomorrowOffDay) {
 							hoursOptions.attr('disabled',true);
 							minsOptions.attr('disabled',true);
-						}else{
+						} else {
 							hoursOptions.attr('disabled',false);
-							for(var i=0; i < hoursOptions.length; i++){
+							for (var i=0; i < hoursOptions.length; i++) {
 								var option = hoursOptions.eq(i);
 								var optionVal = parseInt(option.val());
 								var disable = true;
 								console.log('hours optionVal : ' + optionVal);
-								if(!isTomorrowSaturday){
-									if(optionVal < WEEKDAY_BREAK_START_HOUR || optionVal >= WEEKDAY_BREAK_END_HOUR){
-										disable = false;
-									}
-								}else{
-									if(optionVal >= SATURDAY_OPEN_HOUR && optionVal < SATURDAY_CLOSE_HOUR){
-										disable = false;
-									}
-								}
-                                if (currentOrderType == 'delivery') {
-                                    if (optionVal >= 14) {
-                                        disable = true;
-                                    }
+                                if (optionVal < WEEKDAY_BREAK_START_HOUR || optionVal >= WEEKDAY_BREAK_END_HOUR) {
+                                    disable = false;
                                 }
-								if(disable){
+								if (disable) {
 									console.log('hours optionVal : ' + optionVal);
 									option.attr('disabled',true);
 								};
