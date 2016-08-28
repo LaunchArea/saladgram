@@ -285,7 +285,10 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
                         });
                     }
                     // 영업 시간 변경 안내
-                    if (currentDate.getMonth() + 1 == 8 && currentDate.getDate() <= 31) {
+                    var buildingName = addr.split(" ")[0];
+                    var closeBuilding = mCloseBuildings.indexOf(buildingName) != -1;
+                    console.log('가까운빌딩 : ' + closeBuilding + '. addr:' + addr);
+                    if (closeBuilding && (currentDate.getMonth() + 1 == 8 && currentDate.getDate() <= 31)) {
                         swal({
                             title: "영업시간 변경안내",
                             text: "8월 29일부터 영업 및 배달시간이 월~금 11:00 ~ 22:00 (L.O. 21:00)로 변경됩니다",
