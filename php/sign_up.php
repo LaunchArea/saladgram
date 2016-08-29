@@ -88,7 +88,7 @@ if (!$result) {
 }
 
 $hash = password_hash($password, PASSWORD_DEFAULT);
-$query = "insert into users values('$id', '$phone', '$hash', '$name', '$addr', 3000)";
+$query = "insert into users values('$id', '$phone', '$hash', '$name', '$addr', 3000, $time)";
 $result = mysqli_query($db_conn, "$query");
 if (!$result) {
     $array = array();

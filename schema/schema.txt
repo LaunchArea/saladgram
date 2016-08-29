@@ -5,6 +5,7 @@ create table users (
     name varchar(32) not null,
     addr varchar(128) not null,
     reward int not null,
+    signup_time int not null,
     primary key(id)
 );
 
