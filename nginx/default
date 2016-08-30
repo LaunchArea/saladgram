@@ -49,6 +49,10 @@ server {
 	location /key {
 	   return 404;
 	}
+
+	location /cookie {
+		try_files $uri $uri/ =404;
+	}
 	# Only for nginx-naxsi used with nginx-naxsi-ui : process denied requests
 	#location /RequestDenied {
 	#	proxy_pass http://127.0.0.1:8080;
