@@ -2015,10 +2015,40 @@ define(['jquery', 'underscore', 'backbone','text!templates/order/orderTimeSelect
 		/****************************************STEP 3****************************************/
 		//주문 결제 타입을 온라인(카드결제)로 변경
         checkOrderTypeOnline: function(e){
-			$('#check_order_type_online').addClass('active');
-			$('#check_order_type_offline').removeClass('active');
-			var orderType = window.orderInfoModel.get('order_type');
-            window.orderInfoModel.set({payment_type: 7});
+            if(navigator.userAgent.match(/iP(hone|od|ad)/)) {
+                var receiveMessage = function (evt) {
+                    if (evt.data === 'MM:3PCunsupported') {
+                        swal({
+                            title: "",
+                            text: "설정->사파리->쿠키 차단->항상 허용 으로 설정하셔야 결제가 가능합니다",
+                            confirmButtonClass: "btn-warning",
+                        });
+                        window.removeEventListener("message", receiveMessage);
+                        var el = top.document.getElementById('cookie_test');
+                        el.parentNode.removeChild(el);
+                    } else if (evt.data === 'MM:3PCsupported') {
+                        $('#check_order_type_online').addClass('active');
+                        $('#check_order_type_offline').removeClass('active');
+                        var orderType = window.orderInfoModel.get('order_type');
+                        window.orderInfoModel.set({payment_type: 7});
+                        window.removeEventListener("message", receiveMessage);
+                        var el = top.document.getElementById('cookie_test');
+                        el.parentNode.removeChild(el);
+                    }
+                };
+                window.addEventListener("message", receiveMessage, false);
+
+                var iframe = document.createElement('iframe');
+                iframe.style.display = "none";
+                iframe.src = "https://launcharea.github.io/cookie_test/start.html";
+                iframe.id = "cookie_test";
+                document.body.appendChild(iframe);
+            } else {
+                $('#check_order_type_online').addClass('active');
+                $('#check_order_type_offline').removeClass('active');
+                var orderType = window.orderInfoModel.get('order_type');
+                window.orderInfoModel.set({payment_type: 7});
+            }
 		},
 		//주문 결제 타입을 오프라인(직접결제)로 변경
 		checkOrderTypeOffline: function(e){
