@@ -25,7 +25,7 @@
             android:id="@+id/time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/id"
             android:layout_alignParentRight="true"
             />
         <TextView
@@ -35,7 +35,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginTop="2dp"
             android:layout_toRightOf="@+id/id"
-            android:layout_below="@+id/id"
+            android:layout_below="@+id/time"
             />
         <TextView
             android:id="@+id/user_id"

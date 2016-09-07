@@ -17,6 +17,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.SortedList;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -32,6 +33,7 @@ import com.google.gson.reflect.TypeToken;
 import com.saladgram.model.MenuItem;
 import com.saladgram.model.Order;
 import com.saladgram.model.OrderItem;
+import com.saladgram.model.SaladItem;
 import com.saladgram.model.SaleItem;
 
 import org.json.JSONArray;
@@ -42,15 +44,18 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.lang.annotation.Target;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -136,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onItemLongClick(View view, int position) {
-                Order item = mOrderList.get(position);
+                final Order item = mOrderList.get(position);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 try {
                     builder.setMessage(item.json.toString(2));
@@ -144,6 +149,12 @@ public class MainActivity extends AppCompatActivity {
                     builder.setMessage(e.getMessage());
                     e.printStackTrace();
                 }
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        confirmCancel(item.id);
+                    }
+                });
                 builder.show();
             }
         };
@@ -182,6 +193,139 @@ public class MainActivity extends AppCompatActivity {
                 setReservationTime();
             }
         });
+
+        findViewById(R.id.show_ingredients_button).setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                showIngredients();
+            }
+        });
+    }
+
+    private void showIngredients() {
+        Map<String, Map<String, Integer>> map = new HashMap<>();
+        map.put("재료", new HashMap<String,Integer>());
+        map.put("드레싱", new HashMap<String,Integer>());
+        map.put("스프", new HashMap<String,Integer>());
+        map.put("아더", new HashMap<String,Integer>());
+
+        for(Order order : mOrderList) {
+            for(OrderItem item : order.orderItems) {
+                String key;
+                Map<String, Integer> m;
+                int amount;
+
+                m = null;
+                key = "unknown";
+                amount = 1;
+
+                switch(item.type) {
+                    case SALAD:
+                        for (SaladItem sItem : item.saladItems) {
+                            if (sItem.type == SaladItem.Type.DRESSINGS) {
+                                m = map.get("드레싱");
+                                key = sItem.name + sItem.amount;
+                                amount = 1 * item.quantity;
+                            } else {
+                                m = map.get("재료");
+                                key = sItem.name;
+                                amount = Integer.parseInt(sItem.amount.replace("g","")) * item.quantity;
+                            }
+                            if(!m.containsKey(key)) {
+                                m.put(key, 0);
+                            }
+                            m.put(key, (Integer)m.get(key) + amount);
+                        }
+                        break;
+                    case SOUP:
+                        m = map.get("스프");
+                        key = item.name;
+                        amount = Integer.parseInt(item.amount.replace("g", "")) * item.quantity;
+                        if(!m.containsKey(key)) {
+                            m.put(key, 0);
+                        }
+                        m.put(key, (Integer)m.get(key) + amount);
+                        break;
+                    case OTHERS:
+                        m = map.get("아더");
+                        key = item.name;
+                        amount = item.quantity;
+                        if(!m.containsKey(key)) {
+                            m.put(key, 0);
+                        }
+                        m.put(key, (Integer)m.get(key) + amount);
+                        break;
+                }
+            }
+        }
+
+        String buf = "";
+        buf += "\n드레싱\n";
+        buf += mapToSortedString(map.get("드레싱"));
+        buf += "\n재료\n";
+        buf += mapToSortedString(map.get("재료"));
+        buf += "\n아더\n";
+        buf += mapToSortedString(map.get("아더"));
+        buf += "\n스프\n";
+        buf += mapToSortedString(map.get("스프"));
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(buf);
+        builder.show();
+    }
+
+    private String mapToSortedString(Map<String, Integer> m) {
+        List<String> l = new LinkedList<>();
+        for(Map.Entry<String,Integer> e : m.entrySet()) {
+            String s = e.getKey() + " : " + e.getValue();
+            l.add(s);
+        }
+        Collections.sort(l);
+        StringBuffer buf = new StringBuffer();
+        for(String s : l) {
+            buf.append(s);
+            buf.append("\n");
+        }
+        return buf.toString();
+    }
+
+    private void confirmCancel(final int order_id) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(""+order_id+" 번 주문을 취소합니까?");
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setRawInputType(Configuration.KEYBOARD_12KEY);
+        input.setHint("취소하려면 12를 입력");
+        alert.setView(input);
+        alert.setPositiveButton("canel_order", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                //Put actions for OK button here
+                if(input.getText().length() > 0) {
+                    int onetwo = Integer.parseInt(input.getText().toString());
+                    if (onetwo == 12) {
+                        CancelOrder(order_id);
+                    } else {
+                        Toast.makeText(MainActivity.this, "취소를 취소함", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        alert.show();
+    }
+
+    private void CancelOrder(int order_id) {
+        CancelOrderTask task = new CancelOrderTask(this, order_id) {
+            @Override
+            protected void onPostExecute(Integer code) {
+                super.onPostExecute(code);
+                if(code == 200) {
+                    refreshUI();
+                } else {
+                    Toast.makeText(getActivity(), "error" + code, Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        task.execute();
     }
 
     private void setReservationTime() {
@@ -357,7 +501,71 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    class CancelOrderTask extends ProgressAsyncTask<Void, Void, Integer> {
+        final MediaType JSON
+                = MediaType.parse("application/json; charset=utf-8");
+        private final int order_id;
 
+        public CancelOrderTask(Context context, int order_id) {
+            super(context);
+            this.order_id = order_id;
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            OkHttpClient client = new OkHttpClient();
+
+            try {
+                JSONObject signInJson = new JSONObject();
+
+                signInJson.put("id", "saladgram");
+                signInJson.put("password", "saladgramadmin1!");
+                RequestBody body = RequestBody.create(JSON, signInJson.toString());
+
+                String url = "https://saladgram.com/api/sign_in.php";
+                Request request = new Request.Builder()
+                        .url(url)
+                        .post(body)
+                        .build();
+
+                Response response = null;
+                response = client.newCall(request).execute();
+                if (response.code() != 200) {
+                    return response.code();
+                }
+                String jwt = new JSONObject(response.body().string()).getString("jwt");
+
+                request = new Request.Builder()
+                        .url("https://www.saladgram.com/api/cancel_order.php?id=saladgram&order_id=" + order_id)
+                        .header("jwt", jwt)
+                        .build();
+
+                Log.d("yns", request.url().toString());
+                Log.d("yns", request.headers().toString());
+
+                response = client.newCall(request).execute();
+                Log.d("yns", response.body().string());
+                if (response.code() == 200) {
+                    try {
+                        Service.update();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        Toast.makeText(getActivity(), e.getMessage() + " at cancel_order", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                return response.code();
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return -1;
+        }
+    }
+
+
+    @TargetApi(16)
     private void doNotification() {
             Notification.Builder builder = new Notification.Builder(this);
 

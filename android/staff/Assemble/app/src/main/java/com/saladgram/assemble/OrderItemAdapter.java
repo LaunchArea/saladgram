@@ -3,6 +3,9 @@ package com.saladgram.assemble;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -104,6 +107,8 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
         OrderItem item = mList.get(position);
         holder.name.setBackgroundColor(Color.WHITE);
 
+        List<String> dressingNames = new LinkedList<>();
+
         holder.name.setText(item.name);
         holder.type.setText(item.type.name().toLowerCase());
         holder.quantity.setText("x " + item.quantity);
@@ -149,18 +154,26 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
                         } else {
                             details[0] += (" \n");
                         }
-                        details[1] += (each.name + "\n");
+                        if (each.type == SaladItem.Type.DRESSINGS) {
+                            details[1] += ("<font color=#ff4265>"+each.name+"</font><br>");
+                        } else {
+                            details[1] += (each.name + "<br>");
+                        }
                         details[2] += ("" + each.amount + "\n");
                         details[3] += ("x" + amountTypeToMultiplier(each.amount_type) + "\n");
+
                     }
                     for(int i = 0; i < details.length; i++) {
                         details[i] = details[i].substring(0, details[i].length()-1);
                     }
                     holder.detail0.setText(details[0]);
-                    holder.detail1.setText(details[1]);
+                    holder.detail1.setText(Html.fromHtml(details[1]));
                     holder.detail2.setText(details[2]);
                     holder.detail3.setText(details[3]);
 
+                    for(String dressing : dressingNames) {
+                        setColor(holder.detail1, details[1], dressing, Color.YELLOW);
+                    }
 
                     break;
                 case SOUP:
@@ -188,6 +201,12 @@ public class OrderItemAdapter extends RecyclerView.Adapter<OrderItemAdapter.Simp
             default:
                 return "?";
         }
+    }
+    private void setColor(TextView view, String fulltext, String subtext, int color) {
+        view.setText(fulltext, TextView.BufferType.SPANNABLE);
+        Spannable str = (Spannable) view.getText();
+        int i = fulltext.indexOf(subtext);
+        str.setSpan(new BackgroundColorSpan(color), i, i + subtext.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
 
 
