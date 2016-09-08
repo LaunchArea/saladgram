@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.saladgram.assemble.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:padding="4dp"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        >
+    <TextView
+        android:id="@+id/orderSummary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        />
+        <TextView
+            android:id="@+id/selected_order_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/colorPrimary"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/selected_order_id"
+            android:text="주문번호:"
+            />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/controls"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/header"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/ready_button"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="READY"
+            />
+    </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/order_list"
+            android:background="@android:color/darker_gray"
+            android:scrollbars="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/controls"
+            android:layout_width="240dp"
+            android:layout_height="match_parent" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/order_list"
+        android:layout_below="@id/controls"
+        android:background="@android:color/darker_gray"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/item_list"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/reservation_time_set_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        />
+    <Button
+        android:id="@+id/show_ingredients_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@+id/reservation_time_set_button"
+        android:layout_alignParentBottom="true"
+        />
+
+</RelativeLayout>
